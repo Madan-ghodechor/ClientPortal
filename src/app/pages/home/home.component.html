@@ -1,0 +1,197 @@
+<div class="container-fluid" >
+    <!-- <div class="change-tap btn" >
+        {{div.name}}
+    </div> -->
+
+    <div class="row w-100 background-img-home">
+        <div class="content">
+            <div class="type-tabs shadow">
+                <div class="tabs text-center" *ngFor="let div of divs"
+                    (click)="toggleDiv(div.id); setActiveButton(div.id)" [class.active]="div.active">
+                    {{ div.name }}
+                </div>
+            </div>
+            <div [ngSwitch]="true" class="tabs pb-3">
+
+                <div *ngSwitchCase="divs[0].show">
+                    <form [formGroup]="localRentalForm" (submit)="submitLocalRent()" >
+                        <div class="row p-4">
+
+                            <div class="col-4">
+                                <mat-label class="input-labels">Pickup City</mat-label>
+                                <mat-form-field class="example-full-width w-100 foe" >
+                                    <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                                        [matAutocomplete]="auto" required>
+                                    <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let city of filteredCities | async" [value]="city.Name">
+                                            {{ city.Name }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error>please choose pickup city</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-label class="input-labels">Pickup Date</mat-label>
+                                <mat-form-field class="example-full-width w-100">
+                                    <input matInput [matDatepicker]="localPickupDate" formControlName="pickupDate" placeholder="Pickup Date"
+                                        (focus)="localPickupDate.open()" (click)="localPickupDate.open()" [min]="TodaysDate" (dateChange)="generateTimes('localRentalForm')"  >
+                                    <mat-datepicker #localPickupDate></mat-datepicker>
+                                    <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                    <mat-error>please choose pickup date</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-label class="input-labels">Pickup Time</mat-label>
+                                <mat-form-field class="example-full-width w-100" >
+                                    <mat-select formControlName="pickupTime"  placeholder="Pickup Time">
+                                    <mat-option *ngIf="timesData==''" disabled> Please Change the Date </mat-option>
+                                    @for(time of timesData; track time){
+                                        <mat-option [value]="time"> {{ time }}</mat-option>
+                                    }
+                                    </mat-select>
+                                    <mat-error>please choose pickup time</mat-error>
+                                  </mat-form-field>
+                            </div>
+
+                            <div class="col-4 text-end mt-4"></div>
+                            <div class="col-4 text-end mt-4"></div>
+                            <div class="col-4 text-end mt-4" style="margin-bottom: 20px;">
+                                <button type="submit" class="btn btn-search-cab w-100">Search Cabs</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div *ngSwitchCase="divs[1].show">
+                    <form [formGroup]="outstationForm" (submit)="submitLocalRent()" >
+                        <div class="row p-4">
+
+                            <div class="col-4">
+                                <mat-label class="input-labels">Pickup City</mat-label>
+                                <mat-form-field class="example-full-width w-100 foe" >
+                                    <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                                        [matAutocomplete]="auto" required>
+                                    <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let city of filteredCities | async" [value]="city.Name">
+                                            {{ city.Name }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error>please choose pickup city</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-label class="input-labels">Pickup Date</mat-label>
+                                <mat-form-field class="example-full-width w-100">
+                                    <input matInput [matDatepicker]="outstationPickupdate" formControlName="pickupDate" placeholder="Pickup Date"
+                                        (focus)="outstationPickupdate.open()" (click)="outstationPickupdate.open()" [min]="TodaysDate" (dateChange)="generateTimes('outstationForm')"  >
+                                    <mat-datepicker #outstationPickupdate></mat-datepicker>
+                                    <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                    <mat-error>please choose pickup date</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-label class="input-labels">Pickup Time</mat-label>
+                                <mat-form-field class="example-full-width w-100" >
+                                    <mat-select formControlName="pickupTime"  placeholder="Pickup Time">
+                                    <mat-option *ngIf="timesData==''" disabled> Please Change the Date </mat-option>
+                                    @for(time of timesData; track time){
+                                        <mat-option [value]="time"> {{ time }}</mat-option>
+                                    }
+                                    </mat-select>
+                                    <mat-error>please choose pickup time</mat-error>
+                                  </mat-form-field>
+                            </div>
+                            <div class="col-4">
+                                <mat-label class="input-labels">Return City</mat-label>
+                                <mat-form-field class="example-full-width w-100 foe" >
+                                    <input matInput formControlName="returnCity" placeholder="Return City"
+                                        [matAutocomplete]="auto" required>
+                                    <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let city of filteredCities | async" [value]="city.Name">
+                                            {{ city.Name }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error>please choose return city</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-label class="input-labels">Return Date</mat-label>
+                                <mat-form-field class="example-full-width w-100">
+                                    <input matInput [matDatepicker]="outstationReturnDate" formControlName="returnDate" placeholder="Return Date"
+                                        (focus)="outstationReturnDate.open()" (click)="outstationReturnDate.open()" [min]="TodaysDate">
+                                    <mat-datepicker #outstationReturnDate></mat-datepicker>
+                                    <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                    <mat-error>please choose return date</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-4 mt-4 text-end" style="margin-bottom: 20px;">
+                                <button type="submit" class="btn btn-search-cab w-100" >Search Cabs</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div *ngSwitchCase="divs[2].show">
+                    <form [formGroup]="localRentalForm" (submit)="submitLocalRent()" >
+                        <div class="row p-4">
+
+                            <div class="col-4">
+                                <mat-label class="input-labels">Pickup City</mat-label>
+                                <mat-form-field class="example-full-width w-100 foe" >
+                                    <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                                        [matAutocomplete]="auto" required>
+                                    <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let city of filteredCities | async" [value]="city.Name">
+                                            {{ city.Name }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error>please choose pickup city</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-label class="input-labels">Pickup Date</mat-label>
+                                <mat-form-field class="example-full-width w-100">
+                                    <input matInput [matDatepicker]="picker" formControlName="pickupDate" placeholder="Pickup Date"
+                                        (focus)="picker.open()" (click)="picker.open()" [min]="TodaysDate" (dateChange)="generateTimes($event)"  >
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                    <mat-error>please choose date</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-4">
+                                <mat-label class="input-labels">Pickup Time</mat-label>
+                                <mat-form-field class="example-full-width w-100" >
+                                    <mat-select formControlName="pickupTime"  placeholder="Pickup Time">
+                                    <mat-option *ngIf="timesData==''" disabled> Please Change the Date </mat-option>
+                                    @for(time of timesData; track time){
+                                        <mat-option [value]="time"> {{ time }}</mat-option>
+                                    }
+                                    </mat-select>
+                                    <mat-error>please choose time</mat-error>
+                                  </mat-form-field>
+                            </div>
+
+                            <div class="col-4 text-end mt-4"></div>
+                            <div class="col-4 text-end mt-4"></div>
+                            <div class="col-4 text-end mt-4" style="margin-bottom: 20px;">
+                                <button type="submit" class="btn btn-search-cab w-100">Search Cabs</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</div>
