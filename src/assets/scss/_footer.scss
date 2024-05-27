@@ -135,4 +135,21 @@
     .footer .link {
         text-shadow: none;
     }
+    .payment-partners li {
+        display: inline-block;
+        margin-left: 10px;
+    }
+    
+    .payment-partners li img {
+        height: 30px;
+    }
+    .shadow-side
+    {
+        padding-left: 0px;
+    }
+    .footerLast ul
+    {
+        padding: 0px !important;
+        margin: 0px !important;
+    }
 }

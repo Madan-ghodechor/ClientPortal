@@ -1,9 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, startWith, map } from 'rxjs';
-import { DateAdapter } from '@angular/material/core';
 import Swal from 'sweetalert2';
-import { NgSwitchCase } from '@angular/common';
+import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
   selector: 'app-home',
@@ -60,6 +59,14 @@ export class HomeComponent {
     });
     // End Outstation form
 
+    // Multicity Form
+    this.multicityForm = this.formBuilder.group({
+      pickupDate: ['', Validators.required],
+      pickupTime: ['', Validators.required],
+      returnDate: ['', Validators.required]
+    });
+    // End Multicity form
+
     // After Api Call The Data Initialize
     this.citiesData = [
       { "id": 1, "Name": "Ahmednagar" },
@@ -78,8 +85,10 @@ export class HomeComponent {
 
   // Variables
   filteredCities: Observable<any[]> | undefined;
+  
   localRentalForm: FormGroup;
   outstationForm: FormGroup;
+  multicityForm: FormGroup;
 
 
   ngOnInit() {
@@ -176,6 +185,8 @@ export class HomeComponent {
         }
         break;
       case 'outstationForm':
+        this.outstationForm.controls['returnDate'].reset();
+        // this.outstationForm.value.pickupDate.reset();
         if (this.TodaysDate.toLocaleDateString() === this.outstationForm.value.pickupDate.toLocaleDateString()) {
 
           if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '00:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '07:00:00') {
@@ -236,7 +247,7 @@ export class HomeComponent {
 
         }
         break;
-      case 'localRentalForm':
+      case 'multicityForm':
         alert('hello');
         break;
     }
@@ -269,8 +280,57 @@ export class HomeComponent {
 
 
 
+  slidesStore:any=[
+    {
+      id:1,
+      src:'https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-260nw-2227567913.jpg',
+      alt:'slider 1',
+      title:'slider'
+    },
+    {
+      id:2,
+      src:'https://st2.depositphotos.com/2001755/8564/i/450/depositphotos_85647140-stock-photo-beautiful-landscape-with-birds.jpg',
+      alt:'slider 1',
+      title:'slider'
+    },
+    {
+      id:3,
+      src:'https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-260nw-2227567913.jpg',
+      alt:'slider 1',
+      title:'slider'
+    },
+    {
+      id:4,
+      src:'https://st2.depositphotos.com/2001755/8564/i/450/depositphotos_85647140-stock-photo-beautiful-landscape-with-birds.jpg',
+      alt:'slider 1',
+      title:'slider'
+    },
+    ];
 
-
+  customOptions: OwlOptions = {
+    loop: true,
+    mouseDrag: true,
+    touchDrag: true,
+    pullDrag: false,
+    dots: false,
+    navSpeed: 100,
+    navText: ['', ''],
+    responsive: {
+      0: {
+        items: 3
+      },
+      400: {
+        items: 3
+      },
+      740: {
+        items: 3
+      },
+      940: {
+        items: 3
+      }
+    },
+    nav: true
+  }
 
 
 
@@ -368,8 +428,5 @@ export class HomeComponent {
   }
 
 
-}
-function AND(arg0: boolean) {
-  throw new Error('Function not implemented.');
 }
 

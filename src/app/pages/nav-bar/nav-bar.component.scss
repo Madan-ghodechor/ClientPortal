@@ -1,0 +1,31 @@
+@import "../../../assets/scss/theme_variables.scss";
+@media (max-width:767px) {
+    .nav-container {
+        z-index: 99999;
+        margin: 0px;
+        padding: 15px;
+        position: sticky !important;
+        top: 0px;
+    }
+
+    .container-fluid {
+        background-color: white !important;
+    }
+
+    .collapse,
+    #navbarSupportedContent {
+        background-color: white !important;
+    }
+
+}
+
+.navbar {
+    position: sticky !important;
+    top: 0px;
+    z-index: 9;
+    background-color: rgb(241, 242, 243) !important;
+}
+.container-fluid{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
