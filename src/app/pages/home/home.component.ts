@@ -24,6 +24,7 @@ export class HomeComponent {
   ];
 
   toggleDiv(id: number) {
+    window.scrollTo(0, 0);
     this.divs.forEach(div => {
       div.show = div.id === id;
     });
@@ -250,7 +251,6 @@ export class HomeComponent {
         }
         break;
       case 'multicityForm':
-        alert('hello');
         break;
     }
 
@@ -285,27 +285,24 @@ export class HomeComponent {
   slidesStore: any = [
     {
       id: 1,
-      src: 'https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-260nw-2227567913.jpg',
-      alt: 'slider 1',
-      title: 'slider'
+      src: 'https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg',
+      alt: 'local rental',
+      title: 'Local Car Rental',
+      discription: 'Depending on the needs of the traveler, we provide multiple car rental choices. You may select a package based on your needs, such as 4 hours/40 kilometers, 8 hours/80 kilometers, or 12 hours/120 kilometers, and the vehicle is all yours. Choose the best package for you to ensure a trouble-free trip.',
     },
     {
       id: 2,
-      src: 'https://st2.depositphotos.com/2001755/8564/i/450/depositphotos_85647140-stock-photo-beautiful-landscape-with-birds.jpg',
-      alt: 'slider 1',
-      title: 'slider'
+      src: 'https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg',
+      alt: 'Round Car Rental',
+      title: 'Round Car Rental',
+      discription: 'Our premium roundtrip cab service lets you enjoy the best of both worlds. With us, you may enjoy everything from a secure classroom setting to an incredibly comfortable trip and back to your front door. With our knowledgeable travel companions, you can have the luckiest of days as we make your trip unique by being perceptive and communicatively astute.',
     },
     {
       id: 3,
-      src: 'https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-260nw-2227567913.jpg',
-      alt: 'slider 1',
-      title: 'slider'
-    },
-    {
-      id: 4,
-      src: 'https://st2.depositphotos.com/2001755/8564/i/450/depositphotos_85647140-stock-photo-beautiful-landscape-with-birds.jpg',
-      alt: 'slider 1',
-      title: 'slider'
+      src: 'https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Multicity.svg',
+      alt: 'Multicity Car Rental',
+      title: 'Multicity Car Rental',
+      discription: 'We care about your needs as much as you do, and our multicity package will take you everywhere you want to travel in India. We provide numerous alternatives based on your travel preferences: adventure or luxury, beach or desert, modern or traditional, North or South India has you covered.',
     },
   ];
   ngAfterViewInit() {
@@ -313,11 +310,11 @@ export class HomeComponent {
       items: 3,
       loop: true,
       margin: 10,
-      nav: true,
+      // nav: true,
       autoplay: true,
       dotsEach: false,
       autoplaySpeed: 1050,
-      autoplayTimeout: 2000,
+      autoplayTimeout: 3000,
       autoplayHoverPause: true,
       responsive: {
         0: {

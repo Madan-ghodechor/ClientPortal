@@ -1,0 +1,155 @@
+@import "./theme_variables.scss";
+
+// Footer Code
+.footer {
+    // background-image: url("./assets/taxis/taxi1.jpg");
+    background-image: url("../taxis/taxi1.jpg");
+    background-size: 60% 100%;
+    background-position: 100% 50%;
+    background-repeat: no-repeat;
+}
+
+.apply-background-img {
+    background-image: linear-gradient(170deg, rgba(70, 70, 70, 0.174) 10%, rgba(0, 0, 0, 0.429) 60%, rgba(221, 55, 81, 0.585) 100%);
+    // background-color: rgba(16, 33, 58, 0.813);
+    background-color: $theme-color;
+    opacity: 0.813;
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.footer .footer-h1 {
+    font-weight: 700;
+    font-size: 16px;
+    color: $footerTextColor;
+}
+
+.footer .footer-h2 {
+    font-weight: 500;
+    font-size: 14px;
+    color: $footerTextColor;
+}
+
+.footer .footer-h3 {
+    font-weight: 400;
+    font-size: 14px;
+    color: $footerTextColor;
+}
+
+.footer .link {
+    // padding: 0px;
+    // margin: px;
+    color: $footerTextColor;
+}
+
+.footer .link:hover {
+    cursor: pointer;
+    color: $footerTextHoverColor;
+    //  text-shadow: 1px 1px $footerTextHoverShadowColor;
+}
+
+.footer ul {
+    list-style: none;
+}
+
+.footer .icon-box {
+    border: 2px solid $footerTextColor;
+    height: 40px;
+    width: 45px;
+    color: $footerTextColor;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+    margin: 4px;
+    border-radius: 4px;
+}
+
+.footer .icon-box:hover {
+    color: $footerTextHoverColor;
+    border: 2px solid $footerTextHoverColor;
+}
+
+.footer .imp-links {
+    display: flex;
+}
+
+.footer .imp-links .list-icons {
+    width: 30px;
+}
+
+.footer .footer-h1,
+.footer .footer-h2,
+.footer .footer-h3,
+.footer .link {
+    text-shadow: 1px 1px 2px $footerTextShadowColor;
+}
+
+.shadow-side {
+    border-left: 1px solid rgba(255, 255, 255, 0.482);
+}
+
+.copyrighttext {
+    font-size: 15px;
+    color: white;
+}
+
+.copyfleet247 {
+    color: white;
+    //  text-shadow: 1px 1px rgba(255, 255, 255, 0.471);
+}
+
+.payment-partners li {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.payment-partners li img {
+    height: 30px;
+}
+
+// Media queries for mobile devices
+@media screen and (max-width: 767px) {
+    .footer {
+        background-image: url("../taxis/taxi1.jpg");
+        background-size: auto;
+        background-position: 30% 100%;
+        background-repeat: no-repeat;
+    }
+
+    .apply-background-img {
+        background-image: linear-gradient(170deg, rgba(70, 70, 70, 0.174) 10%, rgba(0, 0, 0, 0.429) 60%, rgba(221, 55, 81, 0.585) 100%);
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+
+    .footer .link:hover {
+        cursor: pointer;
+        //  color: white;
+        text-shadow: none;
+    }
+
+    .footer .footer-h1,
+    .footer .footer-h2,
+    .footer .footer-h3,
+    .footer .link {
+        text-shadow: none;
+    }
+    .payment-partners li {
+        display: inline-block;
+        margin-left: 10px;
+    }
+    
+    .payment-partners li img {
+        height: 30px;
+    }
+    .shadow-side
+    {
+        padding-left: 0px;
+    }
+    .footerLast ul
+    {
+        padding: 0px !important;
+        margin: 0px !important;
+    }
+}

@@ -1,4 +1,4 @@
-<div class="container-fluid homeInputSection">
+<div class="container-fluid homeInputSection shadow">
     <!-- <div class="change-tap btn" >
         {{div.name}}
     </div> -->
@@ -200,27 +200,59 @@
     </div>
 
 </div>
-<div class="container-fluid owl-carousel-container" >
-    <div class="owl-carousel owl-theme">
-        <div class="item">
-            <img src="https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg"
-                style="height: 90%; width: 100%;">
-            <p class="carousel-heading">Local Car Rental</p>
+<div class="container-fluid  my-3 p-5 shadow pt-3 mt-0" style="border-radius: 30px;">
+    <h3 class="text-center m-2">Make Your Travel Easy With Fleet24x7</h3>
+
+    <div class="owl-carousel owl-theme p-4">
+        <div class="item" *ngFor="let data of slidesStore;">
+            <div class="contentBox">
+                <img [src]="data.src">
+                <p class="carousel-heading "> {{ data.title }} </p>
+                <div class="hoveredtext">
+                    <p> {{ data.discription }}
+                        <button class="goToBtn btn mt-2" (click)="toggleDiv(data.id); setActiveButton(data.id)"
+                            [class.active]="data.active"> Book Now </button>
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="item">
-            <img src="https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg"
-                style="height: 90%; width: 100%;">
-            <p class="carousel-heading">Local Car Rental</p>
+    </div>
+</div>
+
+<div class="container-fluid  my-3">
+    <h3 class="text-center m-2"> Why Choose Us ? </h3>
+    <p class="text-center">We offer competitive rates, hotels picked according to your needs, and different options
+        available depending on what you're looking for.</p>
+    <div class="row m-5 p-5 mt-0 pt-0">
+        <div class="col-md-4">
+            <div class="card whToChooseUs">
+                <div class="card-header text-center p-md-4">
+                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/safety-8.png">
+                </div>
+                <div class="card-body text-center">
+                    <h3>Safety</h3>
+                </div>
+            </div>
         </div>
-        <div class="item">
-            <img src="https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg"
-                style="height: 90%; width: 100%;">
-            <p class="carousel-heading">Local Car Rental</p>
+        <div class="col-md-4">
+            <div class="card whToChooseUs">
+                <div class="card-header text-center p-md-4">
+                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/privacy-8.png" alt="">
+                </div>
+                <div class="card-body text-center">
+                    <h3>Privacy</h3>
+                </div>
+            </div>
         </div>
-        <div class="item">
-            <img src="https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg"
-                style="height: 90%; width: 100%;">
-            <p class="carousel-heading">Local Car Rental</p>
+        <div class="col-md-4">
+            <div class="card whToChooseUs">
+                <div class="card-header text-center p-md-4">
+                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/budget-8.png" alt="">
+                </div>
+                <div class="card-body text-center">
+                    <h3>Budget friendly</h3>
+                </div>
+            </div>
         </div>
     </div>
 </div>

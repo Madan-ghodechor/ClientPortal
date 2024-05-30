@@ -1,0 +1,119 @@
+// Navigation Code 
+
+
+.nav-container {
+    // background-image: linear-gradient(-30deg, rgba(250, 236, 38, 0) 20%, rgba(250, 236, 38, 0) 40%, rgba(250, 236, 38, 0) 50%, rgba(255, 221, 0, 0) 80%);
+    box-sizing: border-box;
+    padding-left: 5%;
+    padding-right: 5%;
+    background-color: rgba(245, 222, 179, 0) !important;
+}
+
+// Apply SCSS
+.navbar-toggler {
+    border-color: $theme-color;
+}
+
+.fa-bars {
+    color: $theme-color !important;
+}
+
+#navbarSupportedContent {
+    justify-content: end;
+}
+
+.navItem {
+    height: 40px;
+    min-width: 170px;
+}
+
+.navItem .logo {
+    height: 100%;
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    float: left;
+}
+
+.navItem .logo .circle {
+    height: 100%;
+    width: 60%;
+    border-radius: 50%;
+    border: 1px solid $theme-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navItem i {
+    color: $theme-color;
+    font-size: 18px !important;
+}
+
+.navItem .tab {
+    float: left;
+    height: 100%;
+    width: 60%;
+}
+
+.navItem .upper,
+.navItem .lower {
+    height: 50%;
+    width: 100%;
+}
+
+.navItem .upper p {
+    font-size: 14px;
+    font-weight: 700;
+    color: $theme-color;
+}
+
+.navItem .lower p {
+    font-size: 11px;
+}
+
+.navItem .middle {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.navItem .middle p {
+    margin: 0px;
+    font-size: 14px;
+    font-weight: 700;
+    color: $theme-color;
+}
+
+// Media queries for mobile devices
+@media screen and (max-width: 767px) {
+    .navItem {
+        margin: 3px;
+    }
+
+    .navItem .logo {
+        height: 40px;
+        width: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        float: left;
+    }
+
+    .navItem .logo .circle {
+        height: 100%;
+        width: 70%;
+        border-radius: 50%;
+        border: 1px solid $theme-color;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+// Media queries for medium-sized devices
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    /* Your styles for medium-sized devices go here */
+}

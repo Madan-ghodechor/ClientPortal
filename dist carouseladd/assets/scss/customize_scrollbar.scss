@@ -1,0 +1,9 @@
+@import "./theme_variables.scss";
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-thumb {
+    background: $theme-color;
+    border-radius: 8px;
+}

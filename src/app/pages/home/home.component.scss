@@ -127,3 +127,24 @@ mat-error {
         margin-top: 10px;
     }
 }
+
+
+
+// Why to Choose Us
+.whToChooseUs .card-header, .whToChooseUs .card-body h3{
+    border: none;
+    font-weight: 300 !important;
+}
+.whToChooseUs
+{
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+    transition: 0.5s ease-in-out;
+}
+.whToChooseUs:hover
+{
+    transition: 0.5s ease-in-out;
+    background-image: linear-gradient(170deg, rgba(70, 70, 70, 0) 10%, rgb(252, 243, 243) 60%, rgba( $theme-color, 0.322) 100%);
+    background-color: white;
+    
+}

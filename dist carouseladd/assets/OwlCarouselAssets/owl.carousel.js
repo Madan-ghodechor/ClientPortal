@@ -2963,11 +2963,11 @@
 	Navigation.Defaults = {
 		nav: false,
 		navText: [
-			'<i class="fa-solid fa-less-than"></i>',
-			'<i class="fa-solid fa-greater-than"></i>'
+			'<span aria-label="' + 'Previous' + '">&#x2039;</span>',
+			'<span aria-label="' + 'Next' + '">&#x203a;</span>'
 		],
 		navSpeed: false,
-		navElement: 'div type="button" role="presentation"',
+		navElement: 'a type="button" role="presentation"',
 		navContainer: false,
 		navContainerClass: 'owl-nav',
 		navClass: [
