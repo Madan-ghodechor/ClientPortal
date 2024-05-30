@@ -1,6 +1,6 @@
-@import "./assets/scss/all_imports.scss";
-@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
-@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+@import './assets/scss/all_imports.scss';
+@import '../node_modules/ngx-owl-carousel-2/lib/styles/scss/owl.carousel.scss';
+@import '../node_modules/ngx-owl-carousel-2/lib/styles/scss/owl.theme.default.scss';
 
 * {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif

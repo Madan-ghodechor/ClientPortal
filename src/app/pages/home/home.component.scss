@@ -1,7 +1,7 @@
 @import '../../../assets/scss/theme_variables.scss';
 
 
-.container-fluid {
+.homeInputSection {
     height: 550px;
     max-height: auto;
     width: 100%;
@@ -104,7 +104,7 @@ mat-error {
         padding: 0px !important;
     }
 
-    .container-fluid {
+    .homeInputSection {
         height: auto;
         min-height: auto;
         max-height: auto;

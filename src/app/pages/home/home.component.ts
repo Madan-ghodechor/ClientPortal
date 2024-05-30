@@ -2,7 +2,9 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, startWith, map } from 'rxjs';
 import Swal from 'sweetalert2';
-import { OwlOptions } from 'ngx-owl-carousel-o';
+import { OwlOptions } from 'ngx-owl-carousel-2';
+
+declare var $: any;
 
 @Component({
   selector: 'app-home',
@@ -85,7 +87,7 @@ export class HomeComponent {
 
   // Variables
   filteredCities: Observable<any[]> | undefined;
-  
+
   localRentalForm: FormGroup;
   outstationForm: FormGroup;
   multicityForm: FormGroup;
@@ -280,56 +282,55 @@ export class HomeComponent {
 
 
 
-  slidesStore:any=[
+  slidesStore: any = [
     {
-      id:1,
-      src:'https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-260nw-2227567913.jpg',
-      alt:'slider 1',
-      title:'slider'
+      id: 1,
+      src: 'https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-260nw-2227567913.jpg',
+      alt: 'slider 1',
+      title: 'slider'
     },
     {
-      id:2,
-      src:'https://st2.depositphotos.com/2001755/8564/i/450/depositphotos_85647140-stock-photo-beautiful-landscape-with-birds.jpg',
-      alt:'slider 1',
-      title:'slider'
+      id: 2,
+      src: 'https://st2.depositphotos.com/2001755/8564/i/450/depositphotos_85647140-stock-photo-beautiful-landscape-with-birds.jpg',
+      alt: 'slider 1',
+      title: 'slider'
     },
     {
-      id:3,
-      src:'https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-260nw-2227567913.jpg',
-      alt:'slider 1',
-      title:'slider'
+      id: 3,
+      src: 'https://image.shutterstock.com/image-vector/dotted-spiral-vortex-royaltyfree-images-260nw-2227567913.jpg',
+      alt: 'slider 1',
+      title: 'slider'
     },
     {
-      id:4,
-      src:'https://st2.depositphotos.com/2001755/8564/i/450/depositphotos_85647140-stock-photo-beautiful-landscape-with-birds.jpg',
-      alt:'slider 1',
-      title:'slider'
+      id: 4,
+      src: 'https://st2.depositphotos.com/2001755/8564/i/450/depositphotos_85647140-stock-photo-beautiful-landscape-with-birds.jpg',
+      alt: 'slider 1',
+      title: 'slider'
     },
-    ];
-
-  customOptions: OwlOptions = {
-    loop: true,
-    mouseDrag: true,
-    touchDrag: true,
-    pullDrag: false,
-    dots: false,
-    navSpeed: 100,
-    navText: ['', ''],
-    responsive: {
-      0: {
-        items: 3
-      },
-      400: {
-        items: 3
-      },
-      740: {
-        items: 3
-      },
-      940: {
-        items: 3
+  ];
+  ngAfterViewInit() {
+    $('.owl-carousel').owlCarousel({
+      items: 3,
+      loop: true,
+      margin: 10,
+      nav: true,
+      autoplay: true,
+      dotsEach: false,
+      autoplaySpeed: 1050,
+      autoplayTimeout: 2000,
+      autoplayHoverPause: true,
+      responsive: {
+        0: {
+          items: 1
+        },
+        460: {
+          items: 2
+        },
+        768: {
+          items: 3
+        }
       }
-    },
-    nav: true
+    });
   }
 
 

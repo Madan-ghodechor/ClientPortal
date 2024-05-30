@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid homeInputSection">
     <!-- <div class="change-tap btn" >
         {{div.name}}
     </div> -->
@@ -199,17 +199,28 @@
         </div>
     </div>
 
-    <div class="row w-100">
-        <div>Some tags before</div>
-        <owl-carousel-o [options]="customOptions">
-      
-          <ng-container *ngFor="let slide of slidesStore">
-            <ng-template carouselSlide [id]="slide.id">
-              <img [src]="slide.src" [alt]="slide.alt" [title]="slide.title" class="w-100">
-            </ng-template>
-          </ng-container>
-      
-        </owl-carousel-o>
-        <div>Some tags after</div>
+</div>
+<div class="container-fluid owl-carousel-container" >
+    <div class="owl-carousel owl-theme">
+        <div class="item">
+            <img src="https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg"
+                style="height: 90%; width: 100%;">
+            <p class="carousel-heading">Local Car Rental</p>
+        </div>
+        <div class="item">
+            <img src="https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg"
+                style="height: 90%; width: 100%;">
+            <p class="carousel-heading">Local Car Rental</p>
+        </div>
+        <div class="item">
+            <img src="https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg"
+                style="height: 90%; width: 100%;">
+            <p class="carousel-heading">Local Car Rental</p>
+        </div>
+        <div class="item">
+            <img src="https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg"
+                style="height: 90%; width: 100%;">
+            <p class="carousel-heading">Local Car Rental</p>
+        </div>
     </div>
 </div>
