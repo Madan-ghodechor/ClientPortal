@@ -1,10 +1,10 @@
-<div class="container-fluid homeInputSection shadow">
+<div class="container-fluid homeInputSection ">
     <!-- <div class="change-tap btn" >
         {{div.name}}
     </div> -->
 
     <div class="row w-100 background-img-home">
-        <div class="content w-md-100">
+        <div class="content w-md-100 shadow">
             <div class="type-tabs shadow">
                 <div class="tabs text-center" *ngFor="let div of divs"
                     (click)="toggleDiv(div.id); setActiveButton(div.id)" [class.active]="div.active">
@@ -200,7 +200,9 @@
     </div>
 
 </div>
-<div class="container-fluid  my-3 p-5 shadow pt-3 mt-0" style="border-radius: 30px;">
+
+
+<div class="container-fluid  my-4 p-md-5 shadow pt-3 mt-0" style="border-radius: 30px;">
     <h3 class="text-center m-2">Make Your Travel Easy With Fleet24x7</h3>
 
     <div class="owl-carousel owl-theme p-4">
@@ -219,11 +221,11 @@
     </div>
 </div>
 
-<div class="container-fluid  my-3">
+<div class="container-fluid  my-3 shadow whyUs">
     <h3 class="text-center m-2"> Why Choose Us ? </h3>
     <p class="text-center">We offer competitive rates, hotels picked according to your needs, and different options
         available depending on what you're looking for.</p>
-    <div class="row m-5 p-5 mt-0 pt-0">
+    <div class="row m-5 p-5 mt-0 pt-0 pb-0">
         <div class="col-md-4">
             <div class="card whToChooseUs">
                 <div class="card-header text-center p-md-4">
@@ -252,6 +254,69 @@
                 <div class="card-body text-center">
                     <h3>Budget friendly</h3>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid my-3 shadow FleetFeatures">
+    <div class="backgroundWallah"> <br>
+        <h1 class="text-center">Fleet24x7 Features</h1>
+        <div class="features-tab">
+            <div class="row">
+                <div class="col-md-2 cards">
+                    <div class="img h-50 w-100 ">
+                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Transparent%20Pricing.png">
+                    </div>
+                    <div class="text h-50 w-100">
+                        <p>Transparent Pricing</p>
+                    </div>
+                </div>
+                <div class="col-md-2 cards">
+                    <div class="img h-50 w-100 ">
+                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Dedicated%20Relationship%20Manager.png">
+                    </div>
+                    <div class="text h-50 w-100">
+                        Dedicated Relationship Manager
+                    </div>
+                </div>
+                
+                <div class="col-md-2 cards">
+                    <div class="img h-50 w-100 ">
+                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Quality%20Vehicles.png">
+                    </div>
+                    <div class="text h-50 w-100">
+                        <p>Quality Vehicles</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-2 cards">
+                    <div class="img h-50 w-100 ">
+                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/24x7%20Support.png">
+                    </div>
+                    <div class="text h-50 w-100">
+                        <p>Support</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-2 cards">
+                    <div class="img h-50 w-100 ">
+                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Countrywide%20Reach.png">
+                    </div>
+                    <div class="text h-50 w-100">
+                        <p>Countrywide Reach</p>
+                    </div>
+                </div>
+                
+                <div class="col-md-2 cards">
+                    <div class="img h-50 w-100 ">
+                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/ProffesionallyTrained%20Drivers.png">
+                    </div>
+                    <div class="text h-50 w-100">
+                        <p>Professionally Trained Drivers</p>
+                    </div>
+                </div>
+                
             </div>
         </div>
     </div>
