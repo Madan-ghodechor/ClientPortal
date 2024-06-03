@@ -279,8 +279,38 @@ export class HomeComponent {
   }
 
 
-
-
+  FleetFeatures: any = [
+    {
+      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Transparent%20Pricing.png",
+      name: "Transparent",
+      name2: "Pricing"
+    },
+    {
+      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Dedicated%20Relationship%20Manager.png",
+      name: "Dedicated Relationship ",
+      name2: "Manager"
+    },
+    {
+      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Quality%20Vehicles.png",
+      name: "Quality ",
+      name2:"Vehicles"
+    },
+    {
+      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/24x7%20Support.png",
+      name: "24 X 7 ",
+      name2: "Support"
+    },
+    {
+      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Countrywide%20Reach.png",
+      name: "Countrywide ",
+      name2: "Reach"
+    },
+    {
+      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/ProffesionallyTrained%20Drivers.png",
+      name: "Professionally  ",
+      name2: "Trained Drivers"
+    }
+  ]
 
   slidesStore: any = [
     {

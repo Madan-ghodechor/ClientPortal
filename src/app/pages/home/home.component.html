@@ -239,7 +239,8 @@
         <div class="col-md-4">
             <div class="card whToChooseUs">
                 <div class="card-header text-center p-md-4">
-                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/privacy-8.png" alt="">
+                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/privacy-8.png"
+                        alt="">
                 </div>
                 <div class="card-body text-center">
                     <h3>Privacy</h3>
@@ -249,7 +250,8 @@
         <div class="col-md-4">
             <div class="card whToChooseUs">
                 <div class="card-header text-center p-md-4">
-                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/budget-8.png" alt="">
+                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/budget-8.png"
+                        alt="">
                 </div>
                 <div class="card-body text-center">
                     <h3>Budget friendly</h3>
@@ -260,64 +262,78 @@
 </div>
 
 <div class="container-fluid my-3 shadow FleetFeatures">
-    <div class="backgroundWallah"> <br>
-        <h1 class="text-center">Fleet24x7 Features</h1>
-        <div class="features-tab">
-            <div class="row">
-                <div class="col-md-2 cards">
-                    <div class="img h-50 w-100 ">
-                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Transparent%20Pricing.png">
-                    </div>
-                    <div class="text h-50 w-100">
-                        <p>Transparent Pricing</p>
-                    </div>
-                </div>
-                <div class="col-md-2 cards">
-                    <div class="img h-50 w-100 ">
-                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Dedicated%20Relationship%20Manager.png">
-                    </div>
-                    <div class="text h-50 w-100">
-                        Dedicated Relationship Manager
+    <div class="backgroundWallah">
+        <div class="w-100">
+            <h2 class="text-center">Fleet24x7 Features</h2>
+            <div class="features-tab">
+                <div class="row">
+                    <div class="col-md-2 cards" *ngFor="let da of FleetFeatures;">
+                        <div class="img w-100 ">
+                            <img [src]="da.img">
+                        </div>
+                        <div class="text w-100 text-center">
+                            <div class="w-100 h-100">
+                                <span> {{ da.name }} </span> <br>
+                                <span> {{ da.name2 }} </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                
-                <div class="col-md-2 cards">
-                    <div class="img h-50 w-100 ">
-                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Quality%20Vehicles.png">
-                    </div>
-                    <div class="text h-50 w-100">
-                        <p>Quality Vehicles</p>
-                    </div>
-                </div>
-                
-                <div class="col-md-2 cards">
-                    <div class="img h-50 w-100 ">
-                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/24x7%20Support.png">
-                    </div>
-                    <div class="text h-50 w-100">
-                        <p>Support</p>
-                    </div>
-                </div>
-                
-                <div class="col-md-2 cards">
-                    <div class="img h-50 w-100 ">
-                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Countrywide%20Reach.png">
-                    </div>
-                    <div class="text h-50 w-100">
-                        <p>Countrywide Reach</p>
-                    </div>
-                </div>
-                
-                <div class="col-md-2 cards">
-                    <div class="img h-50 w-100 ">
-                        <img src="https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/ProffesionallyTrained%20Drivers.png">
-                    </div>
-                    <div class="text h-50 w-100">
-                        <p>Professionally Trained Drivers</p>
-                    </div>
-                </div>
-                
             </div>
         </div>
+    </div>
+</div>
+
+<div class="container-fluid my-5 mt-2 shadow getInTouch ">
+    <div class="row mx-md-5 py-md-3">
+        <div class="col-md-12">
+            <h2 class="text-center">Get In Touch</h2>
+        </div>
+        <div class="col-md-6 ">
+            <div class="card p-md-3">
+                <div class="card-body">
+                    <span>Any Questions ? </span>
+                    <img
+                        src="https://www.fleet247.in/retail_assets/images/fleet-assets/get-in-touch-assets/Any%20Questions%20SCREEN%203-01.svg">
+                </div>
+                <div class="card-footer">
+                    <div class="row m-0 p-0">
+
+                        <div class="col-md-8">
+                            <p class="headline">Any Questions ?</p>
+                            <span class="paragraph">Check out the common questions about our Platform</span>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn cardBtn"> Read Our FAQ </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="col-md-6 ">
+            <div class="card p-md-3">
+                <div class="card-body">
+                    <span>Lets  connect </span>
+                    <img
+                        src="https://www.fleet247.in/retail_assets/images/fleet-assets/get-in-touch-assets/Lets%20Connect%20SCREEN%20SVG%203-01.svg">
+                </div>
+                <div class="card-footer">
+                    <div class="row m-0 p-0">
+
+                        <div class="col-md-8">
+                            <p class="headline">Let's Connect</p>
+                            <span class="paragraph">Ask us anything about Fleet24x7 or just say Hello !! </span>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn cardBtn"> Contact Us </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
