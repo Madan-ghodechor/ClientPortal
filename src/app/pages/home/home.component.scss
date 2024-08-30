@@ -97,6 +97,41 @@ mat-error {
     font-size: 11px;
     font-weight: 500;
 }
+.footer-link{
+    a{
+        font-size: 12px;
+        // font-weight: 100;
+        text-decoration: none;
+        cursor: pointer;
+        color: blue;
+    }
+}
+
+.outstation-tabs{
+    width: auto;
+    float: left;
+    border: 1px solid rgb(228, 228, 228);
+    border-radius: 3px;
+    .tabs{
+        float: left;
+        margin: 1px;
+        font-size: 12px;
+        padding: 2px;
+        cursor: pointer;
+        font-weight: 600;
+        color: rgb(77, 77, 77);
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 3px;
+    }
+}
+.outstation-tabs .active {
+    background-color: $theme-color;
+    color: white;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 3px;
+}
 
 @media (max-width:767px) {
     .row {
@@ -127,6 +162,7 @@ mat-error {
         margin-top: 10px;
     }
 }
+
 
 
 

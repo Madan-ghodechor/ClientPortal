@@ -11,23 +11,23 @@
                     {{ div.name }}
                 </div>
             </div>
-            <div [ngSwitch]="true" class="tabs pb-md-3">
+            <div [ngSwitch]="true" class="tabs">
 
                 <div *ngSwitchCase="divs[0].show">
                     <form [formGroup]="localRentalForm" (submit)="submitLocalRent()">
-                        <div class="row p-md-4">
+                        <div class="row px-md-4 pt-md-3">
                             <div class="col-md-4">
                                 <mat-label class="input-labels">Pickup City</mat-label>
                                 <mat-form-field class="example-full-width w-100 foe">
                                     <input matInput formControlName="pickupCity" placeholder="Pickup City"
-                                        [matAutocomplete]="auto" required>
+                                        [matAutocomplete]="localPickCityAuto" required>
                                     <mat-icon matSuffix class="fa fa-search"> </mat-icon>
-                                    <mat-autocomplete #auto="matAutocomplete">
-                                        <mat-option *ngFor="let city of filteredCities | async" [value]="city.Name">
-                                            {{ city.Name }}
+                                    <mat-autocomplete #localPickCityAuto="matAutocomplete" >
+                                        <mat-option *ngFor="let city of localPickupCities | async" [value]="city.city_name">
+                                            {{ city.city_name }}
                                         </mat-option>
                                     </mat-autocomplete>
-                                    <mat-error>please choose pickup city</mat-error>
+                                    <mat-error>please select pickup city</mat-error>
                                 </mat-form-field>
                             </div>
 
@@ -37,10 +37,10 @@
                                     <input matInput [matDatepicker]="localPickupDate" formControlName="pickupDate"
                                         placeholder="Pickup Date" (focus)="localPickupDate.open()"
                                         (click)="localPickupDate.open()" [min]="TodaysDate"
-                                        (dateChange)="generateTimes('localRentalForm')">
+                                        (dateChange)="getTime('local_rental')">
                                     <mat-datepicker #localPickupDate></mat-datepicker>
                                     <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
-                                    <mat-error>please choose pickup date</mat-error>
+                                    <mat-error>please select pickup date</mat-error>
                                 </mat-form-field>
                             </div>
 
@@ -53,7 +53,7 @@
                                         <mat-option [value]="time"> {{ time }}</mat-option>
                                         }
                                     </mat-select>
-                                    <mat-error>please choose pickup time</mat-error>
+                                    <mat-error>please select pickup time</mat-error>
                                 </mat-form-field>
                             </div>
 
@@ -67,13 +67,238 @@
                 </div>
 
                 <div *ngSwitchCase="divs[1].show">
-                    <form [formGroup]="outstationForm" (submit)="submitLocalRent()">
-                        <div class="row p-md-4">
+                    <div class="row px-md-4 pt-md-2">
+                        <div class="col-md-12">
+                            <div class="outstation-tabs">
+                                <div class="tabs" *ngFor="let div of outstationTabs"
+                                    (click)="toggleForms(div.id); setActiveForm(div.id)" [class.active]="div.active">
+                                    {{ div.name }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngSwitchCase="outstationTabs[0].show">
+                        <form [formGroup]="onewayForm" (submit)="submitOneWay()">
+                            <div class="row px-md-4 pt-md-1">
+
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Pickup City</mat-label>
+                                    <mat-form-field class="example-full-width w-100 foe">
+                                        <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                                            [matAutocomplete]="oneWayPickCityAuto" required>
+                                        <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                        <mat-autocomplete #oneWayPickCityAuto="matAutocomplete">
+                                            <mat-option *ngFor="let city of oneWayPickupCities | async" [value]="city.Name">
+                                                {{ city.Name }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-error>please select pickup city</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Drop City</mat-label>
+                                    <mat-form-field class="example-full-width w-100 foe">
+                                        <input matInput formControlName="dropCity" placeholder="Pickup City"
+                                            [matAutocomplete]="OneWayDropCityAuto" required>
+                                        <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                        <mat-autocomplete #OneWayDropCityAuto="matAutocomplete">
+                                            <mat-option *ngFor="let city of oneWayDropCities | async" [value]="city.Name">
+                                                {{ city.Name }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-error>please select drop city</mat-error>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Pickup Date</mat-label>
+                                    <mat-form-field class="example-full-width w-100">
+                                        <input matInput [matDatepicker]="OneWayPickUpDate"
+                                            formControlName="pickupDate" placeholder="Pickup Date"
+                                            (focus)="OneWayPickUpDate.open()" (click)="OneWayPickUpDate.open()"
+                                            [min]="TodaysDate" (dateChange)="getTime('one_way')">
+                                        <mat-datepicker #OneWayPickUpDate></mat-datepicker>
+                                        <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                        <mat-error>please select pickup date</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Pickup Time</mat-label>
+                                    <mat-form-field class="example-full-width w-100">
+                                        <mat-select formControlName="pickupTime" placeholder="Pickup Time">
+                                            <mat-option *ngIf="timesData==''" disabled> Please Change the Date
+                                            </mat-option>
+                                            @for(time of timesData; track time){
+                                            <mat-option [value]="time"> {{ time }}</mat-option>
+                                            }
+                                        </mat-select>
+                                        <mat-error>please select pickup time</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4 mt-md-4 text-end" style="margin-bottom: 20px;">
+                                    <button type="submit" class="btn btn-search-cab w-100">Search Cabs</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div *ngSwitchCase="outstationTabs[1].show">
+                        <form [formGroup]="roundtripForm" (submit)="submitRoundTrip()">
+                            <div class="row px-md-4 pt-md-1">
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Pickup City</mat-label>
+                                    <mat-form-field class="example-full-width w-100 foe">
+                                        <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                                            [matAutocomplete]="RoundTripPickupCityAuto" required>
+                                        <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                        <mat-autocomplete #RoundTripPickupCityAuto="matAutocomplete">
+                                            <mat-option *ngFor="let city of RoundTripPickupCities | async" [value]="city.Name">
+                                                {{ city.Name }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-error>please select pickup city</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Pickup Date</mat-label>
+                                    <mat-form-field class="example-full-width w-100">
+                                        <input matInput [matDatepicker]="RoundTripPickupDate"
+                                            formControlName="pickupDate" placeholder="Pickup Date"
+                                            (focus)="RoundTripPickupDate.open()" (click)="RoundTripPickupDate.open()"
+                                            [min]="TodaysDate" (dateChange)="getTime('round_trip')">
+                                        <mat-datepicker #RoundTripPickupDate></mat-datepicker>
+                                        <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                        <mat-error>please select pickup date</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Pickup Time</mat-label>
+                                    <mat-form-field class="example-full-width w-100">
+                                        <mat-select formControlName="pickupTime" placeholder="Pickup Time">
+                                            <mat-option *ngIf="timesData==''" disabled> Please Change the Date
+                                            </mat-option>
+                                            @for(time of timesData; track time){
+                                            <mat-option [value]="time"> {{ time }}</mat-option>
+                                            }
+                                        </mat-select>
+                                        <mat-error>please select pickup time</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Return City</mat-label>
+                                    <mat-form-field class="example-full-width w-100 foe">
+                                        <input matInput formControlName="returnCity" placeholder="Return City"
+                                            [matAutocomplete]="RoundTripReturnCityAuto" required>
+                                        <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                        <mat-autocomplete #RoundTripReturnCityAuto="matAutocomplete">
+                                            <mat-option *ngFor="let city of RoundTripDropCities | async" [value]="city.Name">
+                                                {{ city.Name }}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                        <mat-error>please choose return city</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Return Date</mat-label>
+                                    <mat-form-field class="example-full-width w-100">
+                                        <input matInput [matDatepicker]="outstationReturnDate"
+                                            formControlName="returnDate" placeholder="Return Date"
+                                            (focus)="outstationReturnDate.open()" (click)="outstationReturnDate.open()"
+                                            [min]="outstationForm.value.pickupDate">
+                                        <mat-datepicker #outstationReturnDate></mat-datepicker>
+                                        <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                        <mat-error>please choose return date</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4 mt-md-4 text-end" style="margin-bottom: 20px;">
+                                    <button type="submit" class="btn btn-search-cab w-100">Search Cabs</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div *ngSwitchCase="outstationTabs[2].show">
+                        <form [formGroup]="multicityForm" (submit)="submitMultiCity()">
+                            <div class="row px-md-4 pt-md-1">
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Pickup Date</mat-label>
+                                    <mat-form-field class="example-full-width w-100">
+                                        <input matInput [matDatepicker]="multiCityPickupDateAuto"
+                                            formControlName="pickupDate" placeholder="Pickup Date"
+                                            (focus)="multiCityPickupDateAuto.open()" (click)="multiCityPickupDateAuto.open()"
+                                            [min]="TodaysDate" (dateChange)="getTime('multi_city')">
+                                        <mat-datepicker #multiCityPickupDateAuto></mat-datepicker>
+                                        <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                        <mat-error>please select pickup date</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Pickup Time</mat-label>
+                                    <mat-form-field class="example-full-width w-100">
+                                        <mat-select formControlName="pickupTime" placeholder="Pickup Time">
+                                            <mat-option *ngIf="timesData==''" disabled> Please Change the Date
+                                            </mat-option>
+                                            @for(time of timesData; track time){
+                                            <mat-option [value]="time"> {{ time }}</mat-option>
+                                            }
+                                        </mat-select>
+                                        <mat-error>please select pickup time</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-label class="input-labels">Return Date</mat-label>
+                                    <mat-form-field class="example-full-width w-100">
+                                        <input matInput [matDatepicker]="multiCityReturnDate"
+                                            formControlName="returnDate" placeholder="Return Date"
+                                            (focus)="multiCityReturnDate.open()" (click)="multiCityReturnDate.open()"
+                                            [min]="outstationForm.value.pickupDate">
+                                        <mat-datepicker #multiCityReturnDate></mat-datepicker>
+                                        <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                        <mat-error>please choose return date</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4 mt-md-4 text-end" style="margin-bottom: 20px;">
+                                    <button type="submit" class="btn btn-search-cab w-100">Search Cabs</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div *ngSwitchCase="divs[2].show">
+                    <form [formGroup]="airportForm" (submit)="submitAirport()">
+                        <div class="row px-md-4 pt-md-3">
 
                             <div class="col-md-4">
-                                <mat-label class="input-labels">Pickup City</mat-label>
+                                <mat-label class="input-labels">Trip Type</mat-label>
+                                <mat-form-field class="example-full-width w-100">
+                                    <mat-select formControlName="trip_type" placeholder="Trip Type">
+                                        <mat-option value="pickup_from_airport"> Pickup From Airport </mat-option>
+                                        <mat-option value="drop_to_airport"> Drop To Airport </mat-option>
+                                    </mat-select>
+                                    <mat-error>please choose time</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-label class="input-labels">Pickup Airport</mat-label>
                                 <mat-form-field class="example-full-width w-100 foe">
-                                    <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                                    <input matInput formControlName="pickup_airport" placeholder="Select Airport"
+                                        [matAutocomplete]="auto" required>
+                                    <mat-icon matSuffix class="fa fa-plane"> </mat-icon>
+                                    <mat-autocomplete #auto="matAutocomplete">
+                                        <mat-option *ngFor="let city of filteredCities | async" [value]="city.Name">
+                                            {{ city.Name }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error>please choose pickup city</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <mat-label class="input-labels">Drop Location</mat-label>
+                                <mat-form-field class="example-full-width w-100 foe">
+                                    <input matInput formControlName="drop_location" placeholder="Drop Location"
                                         [matAutocomplete]="auto" required>
                                     <mat-icon matSuffix class="fa fa-search"> </mat-icon>
                                     <mat-autocomplete #auto="matAutocomplete">
@@ -88,73 +313,11 @@
                             <div class="col-md-4">
                                 <mat-label class="input-labels">Pickup Date</mat-label>
                                 <mat-form-field class="example-full-width w-100">
-                                    <input matInput [matDatepicker]="outstationPickupdate" formControlName="pickupDate"
-                                        placeholder="Pickup Date" (focus)="outstationPickupdate.open()"
-                                        (click)="outstationPickupdate.open()" [min]="TodaysDate"
-                                        (dateChange)="generateTimes('outstationForm')">
-                                    <mat-datepicker #outstationPickupdate></mat-datepicker>
-                                    <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
-                                    <mat-error>please choose pickup date</mat-error>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="col-md-4">
-                                <mat-label class="input-labels">Pickup Time</mat-label>
-                                <mat-form-field class="example-full-width w-100">
-                                    <mat-select formControlName="pickupTime" placeholder="Pickup Time">
-                                        <mat-option *ngIf="timesData==''" disabled> Please Change the Date </mat-option>
-                                        @for(time of timesData; track time){
-                                        <mat-option [value]="time"> {{ time }}</mat-option>
-                                        }
-                                    </mat-select>
-                                    <mat-error>please choose pickup time</mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-4">
-                                <mat-label class="input-labels">Return City</mat-label>
-                                <mat-form-field class="example-full-width w-100 foe">
-                                    <input matInput formControlName="returnCity" placeholder="Return City"
-                                        [matAutocomplete]="auto" required>
-                                    <mat-icon matSuffix class="fa fa-search"> </mat-icon>
-                                    <mat-autocomplete #auto="matAutocomplete">
-                                        <mat-option *ngFor="let city of filteredCities | async" [value]="city.Name">
-                                            {{ city.Name }}
-                                        </mat-option>
-                                    </mat-autocomplete>
-                                    <mat-error>please choose return city</mat-error>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="col-md-4">
-                                <mat-label class="input-labels">Return Date</mat-label>
-                                <mat-form-field class="example-full-width w-100">
-                                    <input matInput [matDatepicker]="outstationReturnDate" formControlName="returnDate"
-                                        placeholder="Return Date" (focus)="outstationReturnDate.open()"
-                                        (click)="outstationReturnDate.open()" [min]="outstationForm.value.pickupDate">
-                                    <mat-datepicker #outstationReturnDate></mat-datepicker>
-                                    <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
-                                    <mat-error>please choose return date</mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-4 mt-md-4 text-end" style="margin-bottom: 20px;">
-                                <button type="submit" class="btn btn-search-cab w-100">Search Cabs</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-
-                <div *ngSwitchCase="divs[2].show">
-                    <form [formGroup]="multicityForm" (submit)="submitLocalRent()">
-                        <div class="row p-md-4">
-
-                            <div class="col-md-4">
-                                <mat-label class="input-labels">Pickup Date</mat-label>
-                                <mat-form-field class="example-full-width w-100">
-                                    <input matInput [matDatepicker]="multicityPickup" formControlName="pickupDate"
-                                        placeholder="Pickup Date" (focus)="multicityPickup.open()"
-                                        (click)="multicityPickup.open()" [min]="TodaysDate"
-                                        (dateChange)="generateTimes('multicityForm')">
-                                    <mat-datepicker #multicityPickup></mat-datepicker>
+                                    <input matInput [matDatepicker]="airportPickupDate" formControlName="pickupDate"
+                                        placeholder="Pickup Date" (focus)="airportPickupDate.open()"
+                                        (click)="airportPickupDate.open()" [min]="TodaysDate"
+                                        (dateChange)="getTime('airport')">
+                                    <mat-datepicker #airportPickupDate></mat-datepicker>
                                     <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
                                     <mat-error>please choose date</mat-error>
                                 </mat-form-field>
@@ -172,22 +335,6 @@
                                     <mat-error>please choose time</mat-error>
                                 </mat-form-field>
                             </div>
-
-
-                            <div class="col-md-4">
-                                <mat-label class="input-labels">Pickup Date</mat-label>
-                                <mat-form-field class="example-full-width w-100">
-                                    <input matInput [matDatepicker]="picker" formControlName="returnDate"
-                                        placeholder="Pickup Date" (focus)="picker.open()" (click)="picker.open()"
-                                        [min]="TodaysDate" (dateChange)="generateTimes('multicityForm')">
-                                    <mat-datepicker #picker></mat-datepicker>
-                                    <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
-                                    <mat-error>please choose date</mat-error>
-                                </mat-form-field>
-                            </div>
-
-                            <div class="col-md-4 d-none d-md-block mt-4"></div>
-                            <div class="col-md-4 d-none d-md-block mt-4"></div>
                             <div class="col-md-4 text-end mt-4" style="margin-bottom: 20px;">
                                 <button type="submit" class="btn btn-search-cab w-100">Search Cabs</button>
                             </div>
@@ -195,6 +342,11 @@
                     </form>
                 </div>
 
+            </div>
+            <div class="footer-link pb-md-2">
+                <div class="row px-md-4">
+                    <a>Can't find what you need ? </a>
+                </div>
             </div>
         </div>
     </div>
@@ -229,7 +381,7 @@
         <div class="col-md-4">
             <div class="card whToChooseUs">
                 <div class="card-header text-center p-md-4">
-                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/safety-8.png">
+                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/Safety.png">
                 </div>
                 <div class="card-body text-center">
                     <h3>Safety</h3>
@@ -239,7 +391,7 @@
         <div class="col-md-4">
             <div class="card whToChooseUs">
                 <div class="card-header text-center p-md-4">
-                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/privacy-8.png"
+                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/Privacy.png"
                         alt="">
                 </div>
                 <div class="card-body text-center">
@@ -250,7 +402,7 @@
         <div class="col-md-4">
             <div class="card whToChooseUs">
                 <div class="card-header text-center p-md-4">
-                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/budget-8.png"
+                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/budget.png"
                         alt="">
                 </div>
                 <div class="card-body text-center">
@@ -311,11 +463,11 @@
                 </div>
             </div>
         </div>
-    
+
         <div class="col-md-6 ">
             <div class="card p-md-3">
                 <div class="card-body">
-                    <span>Lets  connect </span>
+                    <span>Lets connect </span>
                     <img
                         src="https://www.fleet247.in/retail_assets/images/fleet-assets/get-in-touch-assets/Lets%20Connect%20SCREEN%20SVG%203-01.svg">
                 </div>
