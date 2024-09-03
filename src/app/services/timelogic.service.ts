@@ -30,7 +30,7 @@ export class TimelogicService {
 
     switch ("localRentalForm") {
       case 'localRentalForm':
-        if (this.TodaysDate.toLocaleDateString() === data.pickupDate ) {
+        if (this.TodaysDate.toLocaleDateString() === data.pickupDate) {
 
           if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '00:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '07:00:00') {
             for (let i = 0; i < 96; i++) {
@@ -43,7 +43,7 @@ export class TimelogicService {
 
             }
           } else if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) >= '20:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '23:59:59') {
-            
+
           } else {
 
             for (let i = 0; i < 96; i++) {
@@ -158,6 +158,17 @@ export class TimelogicService {
     }
     return this.timesData
 
+  }
+  convertDateString(inputDate: string): string {
+    // Split the input date by the hyphen (-)
+    const [year, month, day] = inputDate.split('-');
+
+    // Convert month and day to numbers to remove any leading zeros
+    const formattedMonth = Number(month);
+    const formattedDay = Number(day);
+
+    // Return the date in M/D/YYYY format
+    return `${formattedMonth}/${formattedDay}/${year}`;
   }
 
   private roundTimeQuarterHour(time: any) {

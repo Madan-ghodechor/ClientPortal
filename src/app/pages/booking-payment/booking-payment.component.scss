@@ -1,0 +1,235 @@
+@import '../../../assets/scss/theme_variables.scss';
+
+.main-content{
+    width: 75%;
+    margin: auto !important;
+    padding-top: 40px !important;
+}
+.content {
+    height: auto;
+    width: 65%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 2px;
+    padding: 0px !important;
+    // margin-top: 8%;
+    // box-shadow: rgba(0, 0, 0, 0.263) 1.95px 1.95px 2.6px;
+    border: 1px solid rgb(223, 223, 223);
+
+
+    .type-tabs {
+        margin: 0px;
+        padding: 0px;
+        height: auto;
+        width: 100%;
+        border-radius: 2px 2px 0px 0px;
+        display: flex;
+        box-sizing: border-box;
+    }
+
+    .type-tabs .tabs {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 5px;
+        flex-grow: 1;
+        min-width: 0;
+        box-sizing: border-box;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        border-left: 1px solid rgba(185, 185, 185, 0.694);
+        border-bottom: 1px solid rgb(85, 185, 185, 0.694);
+        box-sizing: border-box;
+
+    }
+
+    .type-tabs .active {
+        background-image: linear-gradient(28deg, $gradient-color1 35%, $gradient-color2);
+        color: white;
+    }
+
+    .type-tabs .tabs:first-child {
+        border-radius: 2px 0px 0px 0px;
+        border-bottom: 1px solid rgb(85, 185, 185, 0.694);
+
+    }
+
+    .type-tabs .tabs:last-child {
+        border-radius: 0px 2px 0px 0px;
+        border-left: 1px solid rgb(85, 185, 185, 0.694);
+    }
+
+    .input-labels {
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .btn-search-cab {
+        // background-color: $theme-color;
+        background-image: linear-gradient(28deg, $gradient-color1 35%, $gradient-color2);
+        color: white;
+        font-size: 12px !important;
+    }
+
+    mat-error {
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    .footer-link {
+        a {
+            font-size: 12px;
+            // font-weight: 100;
+            text-decoration: none;
+            cursor: pointer;
+            color: blue;
+        }
+    }
+
+    .loginDesign {
+        padding: 30px 140px 50px 140px !important;
+        box-shadow: none;
+    }
+
+    .login-tabs {
+        padding: 0px;
+        width: 100%;
+        float: left;
+        border: 1px solid rgb(228, 228, 228);
+        border-radius: 2px;
+
+        .tabs {
+            width: 50%;
+            float: left;
+            font-size: 13px;
+            padding: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            color: rgb(77, 77, 77);
+            padding-left: 10px;
+            padding-right: 10px;
+            box-sizing: border-box;
+        }
+    }
+
+    .login-tabs .active {
+        background-image: linear-gradient(28deg, $gradient-color1 35%, $gradient-color2);
+        color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 2px;
+    }
+    .login-btn{
+        background-image: linear-gradient(28deg, $gradient-color1 35%, $gradient-color2);
+        color: white;
+        width: 100%;
+    }
+}
+.booking-details{
+    background-color: rgb(255, 255, 255);
+    float: left;
+    width: 35%;
+    height: auto;
+
+    .heading{
+        background-image: linear-gradient(28deg, $gradient-color1 35%, $gradient-color2);
+        height: auto;
+        padding: 10px;
+        color: white;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+        border-radius: 4px 4px 0px 0px;
+    } 
+    .content{
+        height: 300px;
+        background-color: rgb(255, 255, 255);
+        width: 100%;
+        box-shadow: none;
+        border-radius: 0px 0px 4px 4px;
+        padding: 20px !important;
+
+        p{
+            font-size: 12px ;
+            margin-bottom: 0px;
+            padding: 4px;
+            b{
+                color: rgb(106, 106, 106);
+            }
+        }
+
+        .maal{
+            .estimated-cost{
+                .fs-5{
+                    font-size: 17px !important;
+                    font-weight: 700;
+                    color: rgb(101, 101, 101);
+                    padding: 0px;
+                }
+                .rupee{
+                    font-size: 15px;
+                    padding: 0px;
+                    font-weight: 500;
+                    color: rgb(0, 191, 0);
+                }
+                .include{
+                    font-size: 12px;
+                    padding: 0px;
+                    font-weight: 500;
+                    color: rgb(100, 100, 100);
+                }
+            }
+        }
+    }
+}
+
+
+
+.dropdown-container {
+    position: relative;
+    width: 200px;
+  }
+  
+  .dropdown-header {
+    padding: 10px;
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .arrow {
+    transition: transform 0.3s ease;
+  }
+  
+  .arrow.open {
+    transform: rotate(180deg);
+  }
+  
+  .dropdown-list {
+    position: absolute;
+    width: auto;
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    margin: 0;
+    margin-top: -22px !important;
+    padding: 0;
+    list-style: none;
+    z-index: 1000;
+  }
+  
+  .dropdown-list li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .dropdown-list li:hover,
+  .dropdown-list li.selected {
+    background-color: #f1f1f1;
+  }
+  

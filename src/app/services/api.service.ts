@@ -6,23 +6,27 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
 
-  constructor(private http:HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  base_url:string = "https://testretail.fleet247.in/api/v4/";
-  getCityForSearch(){
-    const data = new FormData()
-    data.append("tour_type_id", "0")
-    return this.http.post(this.base_url+"getCityForSearch", data);
+  base_url: string = "https://testretail.fleet247.in/api/v4/";
+  getCityForSearch(data) {
+    return this.http.post(this.base_url + "getCityForSearch", data);
+  }
+  getOneWayDropDownCity(data) {
+    return this.http.post(this.base_url + "getOnewayDropCities", data)
   }
 
-  // base_url:string = "https://testretail.fleet247.in/api/v5/";
-  // getCityForSearch(){
+  searchTaxiRoutes(data: any) {
+    const da = new FormData()
+    da.append("tour_type_id", "0")
+    return this.http.post(this.base_url + "getCityForSearch", da);
+  }
 
-  //   const data = new FormData()
-  //   data.append("username", "sonalimagar0110@gmail.com")
-  //   data.append("password", "test123")
-
-  //   return this.http.post(this.base_url+"login", data);
-  // }
+  getTaxis(data: any) {
+    return this.http.post(this.base_url + "searchTaxis", data)
+  }
+  getTaxisOneWay(data:any){
+    return this.http.post(this.base_url+"searchOnewayTaxis", data)
+  }
 
 }

@@ -1,0 +1,362 @@
+<div class="containers-fluid p-md-2 pt-1 mt-0 ">
+
+    <div class="searchData p-2 w-100" *ngIf="cabsFullData">
+        <div class="search-form">
+            <div class="content">
+                Pickup City : <br>
+                <b>{{ cabsFullData.google_city_name }}</b>
+            </div>
+            <div class="content">
+                Pickup Date : <br>
+                <b> {{ formData.pickupDate | date : "dd, MMM YYYY" }} </b>
+            </div>
+            <div class="content" *ngIf="cabsFullData.package">
+                Package : <br>
+                <b> Local | {{ cabsFullData.package[0] }} </b>
+            </div>
+            <div class="content" *ngIf="formData.type_of_tour == 1">
+                Pickup Time : <br>
+                <b> {{ formData.pickupTime }} </b>
+            </div>
+            <div class="content" *ngIf="formData.type_of_tour == 1">
+                Travel To : <br>
+                <b> {{ formData.dropCity }} </b>
+            </div>
+        </div>
+        <div class="modify-btn-p">
+            <button class="btn btn-info grad-btn" (click)="isCollapsed = !isCollapsed"> Modify Search </button>
+        </div>
+
+        <div class="search-form bg-white w-100 mt-3" [collapse]="isCollapsed" *ngIf="formData.type_of_tour == 0">
+            <form [formGroup]="modifyLocalRentalForm" class="w-100">
+                <div class="row w-100 pt-2">
+                    <div class="col-md-10 row">
+                        <div class="col-md-4 pb-1 ps-4">
+                            <mat-label class="input-labels">Pickup City</mat-label>
+                            <mat-form-field class="example-full-width w-100 ">
+                                <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                                    [matAutocomplete]="localPickCityAuto" required (blur)="validate_selected_city($event, 'local')" >
+                                <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                <mat-autocomplete #localPickCityAuto="matAutocomplete" >
+                                    <mat-option *ngFor="let city of localPickupCities | async" [value]="city.city" (click)="select_city_by_click(city, 'local')" >
+                                        {{ city.city }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error>please select pickup city</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4 pb-1 ps-4">
+                            <mat-label class="input-labels">Pickup Date</mat-label>
+                            <mat-form-field class="example-full-width w-100">
+                                <input matInput [matDatepicker]="localPickupDate" formControlName="pickupDate"
+                                    placeholder="Pickup Date" (focus)="localPickupDate.open()"
+                                    (click)="localPickupDate.open()" [min]="TodaysDate"
+                                    (dateChange)="getTime('local_rental')">
+                                <mat-datepicker #localPickupDate></mat-datepicker>
+                                <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                <mat-error>please select pickup date</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-4 pb-1 ps-4">
+                            <mat-label class="input-labels">Pickup Time</mat-label>
+                            <mat-form-field class="example-full-width w-100">
+                                <mat-select formControlName="pickupTime" placeholder="Pickup Time">
+                                    <mat-option *ngIf="timesData==''" disabled> Please Change the Date </mat-option>
+                                    @for(time of timesData; track time){
+                                    <mat-option [value]="time"> {{ time }}</mat-option>
+                                    }
+                                </mat-select>
+                                <mat-error>please select pickup time</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex justify-content-end">
+                        <button class="btn grad-btn mt-2">Search Cabs</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="search-form bg-white w-100 mt-3" [collapse]="isCollapsed" *ngIf="formData.type_of_tour == 1">
+            <form [formGroup]="modifyOnewayForm" class="w-100">
+                <div class="row w-100 pt-2">
+                    <div class="col-md-10 row">
+                        
+                        <div class="col-md-3 pb-1 ps-4">
+                            <mat-label class="input-labels">Pickup City</mat-label>
+                            <mat-form-field class="example-full-width w-100 foe">
+                                <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                                    [matAutocomplete]="oneWayPickCityAuto" required (blur)="validate_selected_city($event, 'oneway_pickup');"  >
+                                <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                <mat-autocomplete #oneWayPickCityAuto="matAutocomplete">
+                                    <mat-option *ngFor="let city of oneWayPickupCities | async" [value]="city.city" (click)="select_city_by_click(city, 'oneway_pickup'); getOnewayDropcities()" >
+                                        {{ city.city }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error>please select pickup city</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3 pb-1 ps-4">
+                            <mat-label class="input-labels">Drop City</mat-label>
+                            <mat-form-field class="example-full-width w-100 foe">
+                                <input matInput formControlName="dropCity" placeholder="Pickup City"
+                                    [matAutocomplete]="OneWayDropCityAuto" required (blur)="validate_selected_city($event, 'oneway_drop')">
+                                <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                <mat-autocomplete #OneWayDropCityAuto="matAutocomplete">
+                                    <mat-option *ngFor="let city of oneWayDropCities | async" [value]="city.city" (click)="select_city_by_click(city, 'oneway_drop')">
+                                        {{ city.city }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error>please select drop city</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3 pb-1 ps-4">
+                            <mat-label class="input-labels">Pickup Date</mat-label>
+                            <mat-form-field class="example-full-width w-100">
+                                <input matInput [matDatepicker]="OneWayPickUpDate"
+                                    formControlName="pickupDate" placeholder="Pickup Date"
+                                    (focus)="OneWayPickUpDate.open()" (click)="OneWayPickUpDate.open()"
+                                    [min]="TodaysDate" (dateChange)="getTime('one_way')">
+                                <mat-datepicker #OneWayPickUpDate></mat-datepicker>
+                                <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                <mat-error>please select pickup date</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-3 pb-1 ps-4">
+                            <mat-label class="input-labels">Pickup Time</mat-label>
+                            <mat-form-field class="example-full-width w-100">
+                                <mat-select formControlName="pickupTime" placeholder="Pickup Time">
+                                    <mat-option *ngIf="timesData==''" disabled> Please Change the Date
+                                    </mat-option>
+                                    @for(time of timesData; track time){
+                                    <mat-option [value]="time"> {{ time }}</mat-option>
+                                    }
+                                </mat-select>
+                                <mat-error>please select pickup time</mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-2 d-flex justify-content-end">
+                        <button class="btn grad-btn mt-2">Search Cabs</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+    <div class="packages pt-3 w-100" *ngIf="cabsFullData.package" >
+        <div class="package px-3">
+            {{ cabsFullData.package[0] }}
+        </div>
+    </div>
+
+    <!-- <div class="row w-100">
+        <div class="col-md-6 p-2" *ngFor="let cab of cabs">
+            <div class="cabs1 mb-4">
+                <div class="cab-card mt-2 pt-3 mt-0">
+                    <div class="car-and-name">
+                        <div class="name"> {{ cab.taxi_type_name }} ( {{ cab.description }} ) </div>
+                        <img [src]="cab.image" width="100%" class="p-3">
+                    </div>
+                    <div class="content-part ">
+                        <div class="content">
+                            <span>
+                                <p> <i class="fa fa-user-circle"> </i> {{cab.no_of_seats}} Passengers</p>
+                                <p> <i><img src="https://testretail.fleet247.in/retail_assets/images/fleet-assets/resultpageicon-asets/ac.png"
+                                            width="14px"></i> AC</p>
+                                <p> <i class="fa fa-gas-pump"> </i> {{ cab.fuel_type }} </p>
+                                <p> <i class="fa fa-suitcase"> </i> {{ cab.luggage_no }} </p>
+                                <p> <i class="fa fa-tachometer-alt"> </i> Extra Km Charges - &#8377;
+                                    {{cab.rate_per_km}}/KM</p>
+                            </span>
+                        </div>
+                        <div class="content buttons">
+                            <span>
+                                <p class="amount"> &#8377; {{cab.base_fare}} </p>
+                                <p><a class="button" (click)="openFareDetails(fareDetails, cab)">Fare Details</a> </p>
+                                <button class="btn btn-info">Select Cab</button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+    <div class="row m-0 p-0 w-100">
+        <div class="col-md-12 p-2" *ngFor="let cab of cabs">
+            <div class="cabs2 mb-4">
+                <div class="cab-card mt-2 pt-3 mt-0">
+                    <div class="car-and-name">
+                        <img [src]="cab.image" width="100%" class="p-3">
+                    </div>
+                    <div class="content-part ">
+                        <div class="name"> {{ cab.taxi_type_name }} ( {{ cab.description }} ) </div>
+                        <div class="content">
+                            <ul>
+                                <li>
+                                    <p class="m-0"> <i class="pas-1 fa fa-user-circle"> </i> {{cab.no_of_seats}}
+                                        Passengers</p>
+                                </li>
+                                <li>
+                                    <p class="m-0"> | <i class="ps-1"><img
+                                                src="https://testretail.fleet247.in/retail_assets/images/fleet-assets/resultpageicon-asets/ac.png"
+                                                width="14px"></i> AC</p>
+                                </li>
+                                <li>
+                                    <p class="m-0"> | <i class="ps-1 fa fa-gas-pump"> </i> {{ cab.fuel_type }} </p>
+                                </li>
+                                <li>
+                                    <p class="m-0"> | <i class="ps-1 fa fa-suitcase"> </i> {{ cab.luggage_no }} </p>
+                                </li>
+                                <li>
+                                    <p class="m-0"> | <i class=" ps-1 fa fa-tachometer-alt"> </i> Extra Km Charges -
+                                        &#8377; {{cab.rate_per_km}}/KM</p>
+                                </li>
+                            </ul>
+                            <ul>
+                                <li>
+                                    <p class="m-0 fs-5 text-success"> &#8377; {{cab.base_fare}} </p>
+                                </li>
+                                <li> <a class="button" (click)="openFareDetails(fareDetails, cab)">Fare Details</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="book-btn">
+                        <button class="btn btn-info">Book Now</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Fare Details Modal -->
+    <ng-template #fareDetails let-modal>
+        <div class="modal-header p-2 ps-4 pe-4">
+            <h6 class="modal-title" id="myLargeModalLabel"> Fare Details </h6>
+            <h6 type="button" (click)="modalRef?.hide()" class="btn-close"></h6>
+        </div>
+        <div class="modal-body fareDetails">
+            <table class="table table-bordered">
+                <tr *ngIf="formData.type_of_tour == 0 || formData.type_of_tour == 1 ">
+                    <td>
+                        <p>Vehicle Type</p>
+                    </td>
+                    <td>
+                        <p><b> {{ FareDetails.taxi_model ? FareDetails.taxi_model : FareDetails.taxi_type_name }} </b></p>
+                    </td>
+                </tr>
+                <tr *ngIf="formData.type_of_tour == 1" >
+                    <td>
+                        <p>Chargable Distance (In Kms) </p>
+                    </td>
+                    <td>
+                        <p> <b> {{ FareDetails.estimated_distance }} </b> </p>
+                    </td>
+                </tr>
+                <tr *ngIf="formData.type_of_tour == 1">
+                    <td>
+                        <p>Base Fare </p>
+                    </td>
+                    <td>
+                        <p> <b> {{ FareDetails.base_fare | currency : 'INR' }} </b> </p>
+                    </td>
+                </tr>
+                
+                <tr *ngIf="formData.type_of_tour == 1">
+                    <td>
+                        <p>Extra Charge Per Km </p>
+                    </td>
+                    <td>
+                        <p> <b> {{ FareDetails.per_km_charge | currency : 'INR' }} </b> </p>
+                    </td>
+                </tr>
+                <tr *ngIf="formData.type_of_tour == 0">
+                    <td>
+                        <p> Package Fare </p>
+                    </td>
+                    <td>
+                        <p> <b> ₹2100 </b> </p>
+                    </td>
+                </tr>
+                <tr *ngIf="formData.type_of_tour == 0">
+                    <td>
+                        <p> Extra Hour Charge (To be charged after 8 Hours of Usage) </p>
+                    </td>
+                    <td>
+                        <p> <b> ₹125 </b> </p>
+                    </td>
+                </tr>
+                <tr *ngIf="formData.type_of_tour == 0">
+                    <td>
+                        <p> Extra Kms Charge (To be charged after 80 Kms of Usage) </p>
+                    </td>
+                    <td>
+                        <p> <b> ₹13 </b> </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="pt-4"> <p> <b style="color: rgb(31, 31, 31);"> Additional Charges To Be Charged Extra </b> <p> </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>GST </p>
+                    </td>
+                    <td>
+                        <p> <b> To be Charged 5% on applicable fare </b> </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p> Toll Tax/State Tax/Parking </p>
+                    </td>
+                    <td>
+                        <p> <b> Charged on actual basis </b> </p>
+                    </td>
+                </tr>
+                <tr *ngIf="formData.type_of_tour == 1">
+                    <td>
+                        <p> State Permit </p>
+                    </td>
+                    <td>
+                        <p> <b>On actual basis whenever enter new state</b> </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <h6 class="m-0">Note:</h6>
+                        <span class="p-0">
+                            <ul>
+                                <li>
+                                    <p> Please note that the fare provided is an estimate and may vary based on
+                                        actual travel conditions. </p>
+                                </li>
+                                <li>
+                                    <p> Night charges, where applicable, will be added to your total fare. </p>
+                                </li>
+                                <li>
+                                    <p> The operator initially determines the fares, which are subject to change at
+                                        the operator's discretion. </p>
+                                </li>
+                                <li>
+                                    <p> All distances and times are calculated from the garage's location at the
+                                        start of the journey to its return. </p>
+                                </li>
+                            </ul>
+                        </span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <!-- <div class="modal-footer">
+            <div class="row w-100">
+                <div class="col-12 text-end">
+                    <button class="btn btn-danger" type="button" (click)="modalRef?.hide()">Close</button>
+                </div>
+            </div>
+        </div> -->
+    </ng-template>

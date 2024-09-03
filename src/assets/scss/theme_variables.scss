@@ -1,5 +1,11 @@
 $theme-color: rgb(39,160,165);
 
+$gradient-color1: rgb(28,121,172);
+$gradient-color2: rgb(50,202,155);
+
+$gradient-color-faint1: rgba(28, 122, 172);
+$gradient-color-faint2: rgba(50, 202, 154);
+
 // $theme-color: rgb(250, 235, 38);
 // $theCabYello: rgb(250, 235, 38);
 
@@ -13,3 +19,17 @@ $footerTextHoverShadowColor: rgba(255, 255, 255, 0.518);
 
 // Input Feild Variables
 $MatInputFontSize: 13px;
+
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
+    border-color: $theme-color !important;
+    background-color: $theme-color !important;
+}
+
+.mdc-checkbox__ripple{
+    background-color: transparent !important;
+}
+.mdc-checkbox .mdc-checkbox__native-control:focus:checked~.mdc-checkbox__ripple{
+    background-color: transparent !important;
+}

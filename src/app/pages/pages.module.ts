@@ -20,13 +20,23 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import {MatSelectModule} from '@angular/material/select';
+import { SearchResultsComponent } from './search-results/search-results.component';
+
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { BookingPaymentComponent } from './booking-payment/booking-payment.component';
+
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
     HomeComponent,
     NavBarComponent,
     FooterComponent,
-    ContentComponent
+    ContentComponent,
+    SearchResultsComponent,
+    BookingPaymentComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +51,10 @@ import {MatSelectModule} from '@angular/material/select';
     MatDatepickerModule,
     MatButtonModule,
     MatSelectModule,
+    BsDropdownModule,
+    CollapseModule.forRoot(),
+    ModalModule.forRoot(),
+    MatCheckboxModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

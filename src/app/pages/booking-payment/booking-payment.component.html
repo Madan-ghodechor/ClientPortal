@@ -1,0 +1,190 @@
+<div class="container-fluid p-0 m-0">
+
+    <div class="row p-3 pe-2 m-0 main-content shadow ">
+        <div class="content ">
+            <div class="type-tabs shadow">
+                <div class="tabs text-center" *ngFor="let div of divs"
+                    (click)="toggleDiv(div.id); setActiveButton(div.id)" [class.active]="div.active">
+                    {{ div.name }}
+                </div>
+            </div>
+            <div [ngSwitch]="true" class="tabs">
+
+                <div *ngSwitchCase="divs[0].show">
+                    <div class="row pt-md-2 loginDesign">
+                        <div class="col-md-12 login-tabs">
+                            <div class="tabs text-center" *ngFor="let div of loginMethods"
+                                (click)="toggleLogin(div.id); setActiveLogin(div.id)" [class.active]="div.active">
+                                {{ div.name }}
+                            </div>
+                        </div>
+                        <div [ngSwitch]="true" class="tabs">
+                            <div *ngSwitchCase="loginMethods[0].show">
+                                <div class="row pt-3">
+                                    <div class="col-md-12 mt-2">
+                                        <!-- <mat-label class="input-labels">EMAIL/USERNAME</mat-label> -->
+                                        <mat-form-field class="example-full-width w-100 mt-1">
+                                            <input matInput placeholder="EMAIL/USERNAME">
+                                            <mat-icon matPrefix class="fa fa-envelope"> </mat-icon>
+                                            <mat-error>please enter username</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-12 mt-2">
+                                        <!-- <mat-label class="input-labels">PASSWORD</mat-label> -->
+                                        <mat-form-field class="example-full-width w-100 mt-1">
+                                            <input [type]="inputType" matInput placeholder="PASSWORD">
+                                            <mat-icon matPrefix class="fa fa-lock"> </mat-icon>
+                                            <mat-icon *ngIf="showPass" (click)="showPassword()" style="cursor: pointer;"
+                                                matSuffix class="fa fa-eye"> </mat-icon>
+                                            <mat-icon *ngIf="!showPass" (click)="showPassword()"
+                                                style="cursor: pointer;" matSuffix class="fa fa-eye-slash"> </mat-icon>
+                                            <mat-error>please enter password</mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-12 mt-0 mb-0 d-flex">
+                                        <mat-checkbox class="example-margin"></mat-checkbox>
+                                        <p style="font-size: 13px; margin-top: 9px;">I accept all the <a href="">Terms
+                                                and Conditions</a> and <a href="">Cancellation Policy.</a></p>
+                                    </div>
+                                    <div class="col-md-12 mt-0 mb-0 pt-0">
+                                        <p style="font-size: 13px;"> &nbsp;&nbsp; <a href="">Forget Password ?</a></p>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <button class="btn login-btn">Login</button>
+                                    </div>
+                                    <div class="col-md-12 mt-0 mb-0 pt-2 text-center">
+                                        <p style="font-size: 14px;"><a href="">Create New Account</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="loginMethods[1].show">
+                                <mat-form-field class="example-full-width w-100 mt-1">
+                                    <!-- <span matTextPrefix>+1 &nbsp;</span> -->
+                                    <span matTextPrefix style="cursor: pointer;" (click)="toggleDropdown()">
+                                        {{selectedOption}} &nbsp; </span>
+                                    <input matInput placeholder="Enter Your Contact No">
+                                    <mat-error>please enter contact number</mat-error>
+                                </mat-form-field>
+                                <ul class="dropdown-list" *ngIf="isDropdownOpen">
+                                    <li> <input placeholder="Enter country code" #countryInput value="+" (keyup)="selectOption2(countryInput.value)" maxlength="3" /> </li>
+                                    <li *ngFor="let code of countries"
+                                        (click)="selectOption(code.idd.root+code.idd.suffixes)">
+                                        @if (code.name.common=='United States') {
+                                            {{ code.name.common + " " + code.idd.root }}
+                                        } @else {
+                                            {{ code.name.common + " " + code.idd.root+code.idd.suffixes }}
+                                        }
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <form [formGroup]="localRentalForm" (submit)="submitLocalRent()">
+                        <div class="row px-md-4 pt-md-3">
+                            <div class="col-md-4">
+                                <mat-label class="input-labels">Pickup City</mat-label>
+                                <mat-form-field class="example-full-width w-100 ">
+                                    <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                                        [matAutocomplete]="localPickCityAuto" required (blur)="validate_selected_city($event, 'local')" >
+                                    <mat-icon matSuffix class="fa fa-search"> </mat-icon>
+                                    <mat-autocomplete #localPickCityAuto="matAutocomplete" >
+                                        <mat-option *ngFor="let city of localPickupCities | async" [value]="city.city" (click)="select_city_by_click(city, 'local')" >
+                                            {{ city.city }}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                    <mat-error>please select pickup city</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4">
+                                <mat-label class="input-labels">Pickup Date</mat-label>
+                                <mat-form-field class="example-full-width w-100">
+                                    <input matInput [matDatepicker]="localPickupDate" formControlName="pickupDate"
+                                        placeholder="Pickup Date" (focus)="localPickupDate.open()"
+                                        (click)="localPickupDate.open()" [min]="TodaysDate"
+                                        (dateChange)="getTime('local_rental')">
+                                    <mat-datepicker #localPickupDate></mat-datepicker>
+                                    <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
+                                    <mat-error>please select pickup date</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4">
+                                <mat-label class="input-labels">Pickup Time</mat-label>
+                                <mat-form-field class="example-full-width w-100">
+                                    <mat-select formControlName="pickupTime" placeholder="Pickup Time">
+                                        <mat-option *ngIf="timesData==''" disabled> Please Change the Date </mat-option>
+                                        @for(time of timesData; track time){
+                                        <mat-option [value]="time"> {{ time }}</mat-option>
+                                        }
+                                    </mat-select>
+                                    <mat-error>please select pickup time</mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-4 d-none d-md-block"></div>
+                            <div class="col-md-4 d-none d-md-block"></div>
+                            <div class="col-md-4 text-end mt-4" style="margin-bottom: 20px;">
+                                <button type="submit" class="btn btn-search-cab w-100">Search Cabs</button>
+                            </div>
+                        </div>
+                    </form> -->
+                </div>
+
+                <div *ngSwitchCase="divs[1].show">
+                    <h3>Passenger Details</h3>
+                </div>
+                <div *ngSwitchCase="divs[2].show">
+                    <h3>Pickup and GST Details</h3>
+                </div>
+                <div *ngSwitchCase="divs[3].show">
+                    <h3>Payment Information</h3>
+                </div>
+
+            </div>
+        </div>
+        <div class="booking-details">
+            <div class="heading">
+                Booking Details
+            </div>
+            <div class="content h-auto">
+                <!-- <div class="maal">
+                    <table class="table w-100 table-bordered" >
+                        <tr>
+                            <td colspan="2"> <p> <b>Sedan | Local, 8 Hours 80 Kms</b> </p> </td>
+                        </tr>
+                        <tr>
+                            <td> <p>Pickup:</p> </td>
+                            <td> <p> <b> 3 Sep' 24 | 07 : 45 PM</b></p> </td>
+                        </tr>
+                        <tr>
+                            <td> <p>Pickup City : </p> </td>
+                            <td> <p> <b>Pune, Maharashtra </b> </p> </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"> <p class="mt-3">Fare Breakdown</p> </td>
+                        </tr>
+                        <tr>
+                            <td> <p>Base Fare:</p> </td>
+                            <td> <p> <b>₹ 2,100.00 </b> </p> </td>
+                        </tr>
+                        <tr>
+                            <td> <p>GST Charge $5%:</p> </td>
+                            <td> <p> <b>₹ 105.00</b> </p> </td>
+                        </tr>
+                    </table>
+                    <div class="estimated-cost text-center">
+                            <p class="fs-5"> Estimated Trip Cost </p>
+                            <p class="rupee"> ₹ 2,205.00 </p>
+                            <p class="include"> ( inclusive of All Taxes )</p>
+                    </div>
+                    <div class="img">
+                        <img class="w-100" src="https://testretail.fleet247.in/retail_assets/images/fleet-assets/Razorpay-bookingfor-assets/PAYMENT%20METHOD.svg" alt="">
+                    </div>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+<br><br>

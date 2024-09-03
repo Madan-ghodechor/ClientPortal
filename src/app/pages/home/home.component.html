@@ -18,13 +18,13 @@
                         <div class="row px-md-4 pt-md-3">
                             <div class="col-md-4">
                                 <mat-label class="input-labels">Pickup City</mat-label>
-                                <mat-form-field class="example-full-width w-100 foe">
+                                <mat-form-field class="example-full-width w-100 ">
                                     <input matInput formControlName="pickupCity" placeholder="Pickup City"
-                                        [matAutocomplete]="localPickCityAuto" required>
+                                        [matAutocomplete]="localPickCityAuto" required (blur)="validate_selected_city($event, 'local')" >
                                     <mat-icon matSuffix class="fa fa-search"> </mat-icon>
                                     <mat-autocomplete #localPickCityAuto="matAutocomplete" >
-                                        <mat-option *ngFor="let city of localPickupCities | async" [value]="city.city_name">
-                                            {{ city.city_name }}
+                                        <mat-option *ngFor="let city of localPickupCities | async" [value]="city.city" (click)="select_city_by_click(city, 'local')" >
+                                            {{ city.city }}
                                         </mat-option>
                                     </mat-autocomplete>
                                     <mat-error>please select pickup city</mat-error>
@@ -85,11 +85,11 @@
                                     <mat-label class="input-labels">Pickup City</mat-label>
                                     <mat-form-field class="example-full-width w-100 foe">
                                         <input matInput formControlName="pickupCity" placeholder="Pickup City"
-                                            [matAutocomplete]="oneWayPickCityAuto" required>
+                                            [matAutocomplete]="oneWayPickCityAuto" required (blur)="validate_selected_city($event, 'oneway_pickup');"  >
                                         <mat-icon matSuffix class="fa fa-search"> </mat-icon>
                                         <mat-autocomplete #oneWayPickCityAuto="matAutocomplete">
-                                            <mat-option *ngFor="let city of oneWayPickupCities | async" [value]="city.Name">
-                                                {{ city.Name }}
+                                            <mat-option *ngFor="let city of oneWayPickupCities | async" [value]="city.city" (click)="select_city_by_click(city, 'oneway_pickup'); getOnewayDropcities()" >
+                                                {{ city.city }}
                                             </mat-option>
                                         </mat-autocomplete>
                                         <mat-error>please select pickup city</mat-error>
@@ -100,11 +100,11 @@
                                     <mat-label class="input-labels">Drop City</mat-label>
                                     <mat-form-field class="example-full-width w-100 foe">
                                         <input matInput formControlName="dropCity" placeholder="Pickup City"
-                                            [matAutocomplete]="OneWayDropCityAuto" required>
+                                            [matAutocomplete]="OneWayDropCityAuto" required (blur)="validate_selected_city($event, 'oneway_drop')">
                                         <mat-icon matSuffix class="fa fa-search"> </mat-icon>
                                         <mat-autocomplete #OneWayDropCityAuto="matAutocomplete">
-                                            <mat-option *ngFor="let city of oneWayDropCities | async" [value]="city.Name">
-                                                {{ city.Name }}
+                                            <mat-option *ngFor="let city of oneWayDropCities | async" [value]="city.city" (click)="select_city_by_click(city, 'oneway_drop')">
+                                                {{ city.city }}
                                             </mat-option>
                                         </mat-autocomplete>
                                         <mat-error>please select drop city</mat-error>
@@ -150,11 +150,11 @@
                                     <mat-label class="input-labels">Pickup City</mat-label>
                                     <mat-form-field class="example-full-width w-100 foe">
                                         <input matInput formControlName="pickupCity" placeholder="Pickup City"
-                                            [matAutocomplete]="RoundTripPickupCityAuto" required>
+                                            [matAutocomplete]="RoundTripPickupCityAuto" required (blur)="validate_selected_city($event, 'round_pickup')">
                                         <mat-icon matSuffix class="fa fa-search"> </mat-icon>
                                         <mat-autocomplete #RoundTripPickupCityAuto="matAutocomplete">
-                                            <mat-option *ngFor="let city of RoundTripPickupCities | async" [value]="city.Name">
-                                                {{ city.Name }}
+                                            <mat-option *ngFor="let city of RoundTripPickupCities | async" [value]="city.city" (click)="select_city_by_click(city, 'round_pickup')">
+                                                {{ city.city }}
                                             </mat-option>
                                         </mat-autocomplete>
                                         <mat-error>please select pickup city</mat-error>
@@ -188,15 +188,8 @@
                                 <div class="col-md-4">
                                     <mat-label class="input-labels">Return City</mat-label>
                                     <mat-form-field class="example-full-width w-100 foe">
-                                        <input matInput formControlName="returnCity" placeholder="Return City"
-                                            [matAutocomplete]="RoundTripReturnCityAuto" required>
-                                        <mat-icon matSuffix class="fa fa-search"> </mat-icon>
-                                        <mat-autocomplete #RoundTripReturnCityAuto="matAutocomplete">
-                                            <mat-option *ngFor="let city of RoundTripDropCities | async" [value]="city.Name">
-                                                {{ city.Name }}
-                                            </mat-option>
-                                        </mat-autocomplete>
-                                        <mat-error>please choose return city</mat-error>
+                                        <input matInput formControlName="returnCity" placeholder="Return City" required id="HomeRoundReturnCity"   #HomeRoundReturnCity (keypress)="callExternalFunction(HomeRoundReturnCity)" (blur)="getResponse('HomeRoundReturnCity')" >
+                                        <mat-error>please select return city</mat-error>
                                     </mat-form-field>
                                 </div>
                                 <div class="col-md-4">
@@ -205,7 +198,7 @@
                                         <input matInput [matDatepicker]="outstationReturnDate"
                                             formControlName="returnDate" placeholder="Return Date"
                                             (focus)="outstationReturnDate.open()" (click)="outstationReturnDate.open()"
-                                            [min]="outstationForm.value.pickupDate">
+                                            [min]="roundtripForm.value.pickupDate">
                                         <mat-datepicker #outstationReturnDate></mat-datepicker>
                                         <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
                                         <mat-error>please choose return date</mat-error>
@@ -251,7 +244,7 @@
                                         <input matInput [matDatepicker]="multiCityReturnDate"
                                             formControlName="returnDate" placeholder="Return Date"
                                             (focus)="multiCityReturnDate.open()" (click)="multiCityReturnDate.open()"
-                                            [min]="outstationForm.value.pickupDate">
+                                            [min]="multicityForm.value.pickupDate">
                                         <mat-datepicker #multiCityReturnDate></mat-datepicker>
                                         <mat-icon matSuffix class="fa fa-calendar"> </mat-icon>
                                         <mat-error>please choose return date</mat-error>
@@ -275,8 +268,8 @@
                                 <mat-label class="input-labels">Trip Type</mat-label>
                                 <mat-form-field class="example-full-width w-100">
                                     <mat-select formControlName="trip_type" placeholder="Trip Type">
-                                        <mat-option value="pickup_from_airport"> Pickup From Airport </mat-option>
-                                        <mat-option value="drop_to_airport"> Drop To Airport </mat-option>
+                                        <mat-option value="0"> Pickup From Airport </mat-option>
+                                        <mat-option value="1"> Drop To Airport </mat-option>
                                     </mat-select>
                                     <mat-error>please choose time</mat-error>
                                 </mat-form-field>

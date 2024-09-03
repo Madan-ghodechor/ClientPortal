@@ -6,6 +6,12 @@ import { OwlOptions } from 'ngx-owl-carousel-2';
 import { TimelogicService } from '../../services/timelogic.service';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { ApiService } from '../../services/api.service';
+import moment from 'moment';
+import { HelpersService } from '../../services/helpers.service';
+import { Router } from '@angular/router';
+
+declare const CallMaps: any;
+declare const MapsReturn: any;
 
 declare var $: any;
 
@@ -58,14 +64,22 @@ export class HomeComponent implements AfterViewInit {
 
   // Dependency Injection 
   formBuilder = inject(FormBuilder);
-  // End Dependency Injection 
-
   timeLogic = inject(TimelogicService)
   api = inject(ApiService)
+  helper = inject(HelpersService)
+  router = inject(Router)
+  // End Dependency Injection 
 
-  constructor() {}
+  constructor() { }
 
   // Datas Variables
+  LocalCitiesData: any = [];
+  onewayCitiesData: any = [];
+  onewayReturnCitiesData: any = [];
+  roundCitiesData: any = [];
+  multiCitiesData: any = [];
+  airportCitiesData: any = [];
+
   citiesData: any = [];
   timesData: any = [];
 
@@ -80,34 +94,30 @@ export class HomeComponent implements AfterViewInit {
 
 
   localRentalForm: FormGroup;
-  outstationForm: FormGroup;
   onewayForm: FormGroup;
   roundtripForm: FormGroup;
   multicityForm: FormGroup;
   airportForm: FormGroup;
 
-
-
-
   ngOnInit() {
+    const local = new FormData(); local.append("tour_type_id", "0");
+    const oneway = new FormData(); oneway.append("tour_type_id", "1");
+    const round = new FormData(); round.append("tour_type_id", "2");
+    // const multi = new FormData(); multi.append("tour_type_id", "2");
+    const airport = new FormData(); airport.append("tour_type_id", "4");
+    
+    this.api.getCityForSearch(local).subscribe((res: any) => { this.LocalCitiesData = res.data; })
+    this.api.getCityForSearch(oneway).subscribe((res: any) => { this.onewayCitiesData = res.data; })
+    this.api.getCityForSearch(round).subscribe((res: any) => { this.roundCitiesData = res.data; this.multiCitiesData = res.data; })
+    // this.api.getCityForSearch(multi).subscribe((res: any) => { this.multiCitiesData = res.data; })
+    this.api.getCityForSearch(airport).subscribe((res: any) => { this.airportCitiesData = res.data; this.afterApiHits() })
 
-    this.api.getCityForSearch().subscribe((res: any) => {
-      this.citiesData = res.data
-      console.log(res)
-      if(res.success =="true"){
-        this.afterApiHits()
-      }
-    })
 
-    // Rental Local Forms
     this.localRentalForm = this.formBuilder.group({
       pickupCity: ['', Validators.required],
       pickupDate: ['', Validators.required],
       pickupTime: ['', Validators.required]
     });
-    // End Rental Local Forms
-
-    // Outstation Form
     this.onewayForm = this.formBuilder.group({
       pickupCity: ['', Validators.required],
       dropCity: ['', Validators.required],
@@ -128,207 +138,72 @@ export class HomeComponent implements AfterViewInit {
     });
 
     this.airportForm = this.formBuilder.group({
-      trip_type: ['', Validators.required],
+      trip_type: ['0', Validators.required],
       pickup_airport: ['', Validators.required],
       drop_location: ['', Validators.required],
       pickupDate: ['', Validators.required],
       pickupTime: ['', Validators.required],
     })
 
-    this.outstationForm = this.formBuilder.group({
-      pickupCity: ['', Validators.required],
-      pickupDate: ['', Validators.required],
-      pickupTime: ['', Validators.required],
-      returnCity: ['', Validators.required],
-      returnDate: ['', Validators.required]
-    });
-    // End Outstation form
-
   }
-
+  getOnewayDropcities() {
+    const da = new FormData()
+    da.append("pickup_city", this.onewayForm.value.pickupCity);
+    this.api.getOneWayDropDownCity(da).subscribe((res: any) => {
+      this.onewayReturnCitiesData = res.data;
+      this.afterApiHits()
+    })
+  }
   afterApiHits() {
     this.localPickupCities = this.localRentalForm.get('pickupCity')!.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterCity(value || ''))
+      map(value => this._filterLocalCity(value || ''))
     );
     this.oneWayPickupCities = this.onewayForm.get('pickupCity')!.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterCity(value || ''))
+      map(value => this._filterOnewayCity(value || ''))
     );
     this.oneWayDropCities = this.onewayForm.get('dropCity')!.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterCity(value || ''))
+      map(value => this._filterOnewayDropCity(value || ''))
     );
     this.RoundTripPickupCities = this.roundtripForm.get('pickupCity')!.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterCity(value || ''))
+      map(value => this._filterRoundCity(value || ''))
     );
     this.RoundTripDropCities = this.roundtripForm.get('returnCity')!.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterCity(value || ''))
+      map(value => this._filterAirportCity(value || ''))
     );
   }
 
   // Filter Functions
-  private _filterCity(value: any) {
+  private _filterLocalCity(value: any) {
     const filterValue = value.toLowerCase();
-    return this.citiesData.filter((option: any) => option.city_name.toLowerCase().includes(filterValue));
+    return this.LocalCitiesData.filter((option: any) => option.city.toLowerCase().includes(filterValue));
+  }
+  private _filterOnewayCity(value: any) {
+    const filterValue = value.toLowerCase();
+    return this.onewayCitiesData.filter((option: any) => option.city.toLowerCase().includes(filterValue));
+  }
+  private _filterOnewayDropCity(value: any) {
+    const filterValue = value.toLowerCase();
+    return this.onewayReturnCitiesData.filter((option: any) => option.city.toLowerCase().includes(filterValue));
+  }
+  private _filterRoundCity(value: any) {
+    const filterValue = value.toLowerCase();
+    return this.roundCitiesData.filter((option: any) => option.city.toLowerCase().includes(filterValue));
+  }
+  private _filterMultiCity(value: any) {
+    const filterValue = value.toLowerCase();
+    return this.multiCitiesData.filter((option: any) => option.city.toLowerCase().includes(filterValue));
+  }
+  private _filterAirportCity(value: any) {
+    const filterValue = value.toLowerCase();
+    return this.airportCitiesData.filter((option: any) => option.city.toLowerCase().includes(filterValue));
   }
   // End Filter Functions
 
-
-  // generateTimes(formName: any) {
-
-
-
-  //   this.timesData.splice(0, this.timesData.length);    // It Will Clear All The Time Arrays Data.
-
-  //   let BookingTime = this.roundTimeQuarterHour(new Date());    // this will RoundUp To the time if 11:53 then it will 11:45 
-  //   BookingTime.setMinutes(BookingTime.getMinutes() + 240);     // to add 4 hours later
-
-  //   let NextDayBookingTime1stCond = this.roundTimeQuarterHour(new Date());
-  //   NextDayBookingTime1stCond.setHours(7);
-  //   NextDayBookingTime1stCond.setMinutes(0);
-
-  //   // Next Day Bookings
-  //   let NextDayBookingTime = this.roundTimeQuarterHour(new Date());
-  //   NextDayBookingTime.setHours(10);
-  //   NextDayBookingTime.setMinutes(0);
-
-  //   switch (formName) {
-  //     case 'localRentalForm':
-  //       if (this.TodaysDate.toLocaleDateString() === this.localRentalForm.value.pickupDate.toLocaleDateString()) {
-
-  //         if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '00:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '07:00:00') {
-  //           for (let i = 0; i < 96; i++) {
-  //             BookingTime.setMinutes(BookingTime.getMinutes() + 15);
-  //             let Time = BookingTime.toLocaleTimeString();
-
-  //             if (BookingTime.getHours() == 0)
-  //               break;
-  //             this.timesData.push(Time)
-
-  //           }
-  //         } else if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) >= '20:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '23:59:59') {
-  //           this.TimeNotAvl()
-  //         } else {
-
-  //           for (let i = 0; i < 96; i++) {
-
-
-  //             if (BookingTime.getHours() == 0)
-  //               break;
-  //             let Time = BookingTime.toLocaleTimeString();
-
-  //             BookingTime.setMinutes(BookingTime.getMinutes() + 15);
-  //             this.timesData.push(Time)
-  //             console.log
-  //           }
-  //         }
-
-
-  //       } else {
-  //         let NdayDate = new Date();
-  //         NdayDate.setDate(NdayDate.getDate() + 1);
-  //         let selectedDate = this.getPreviousDate(this.localRentalForm.value.pickupDate.toLocaleDateString())
-  //         let currentDate = this.getPreviousDateCheck(this.TodaysDate.toLocaleDateString())
-
-  //         if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '20:00:00' && currentDate == selectedDate) {
-  //           for (let i = 0; i < 68; i++) {
-
-  //             if (this.timesData > '11:45:00 PM' && this.timesData < '07:00:00 AM')
-  //               break;
-
-  //             let Time = NextDayBookingTime1stCond.toLocaleTimeString();
-  //             NextDayBookingTime1stCond.setMinutes(NextDayBookingTime1stCond.getMinutes() + 15);
-  //             this.timesData.push(Time)
-  //           }
-
-  //         } else {
-  //           NextDayBookingTime1stCond.setHours(0);
-  //           NextDayBookingTime1stCond.setMinutes(0);
-  //           for (let i = 0; i < 96; i++) {
-
-  //             let Time = NextDayBookingTime1stCond.toLocaleTimeString();
-  //             NextDayBookingTime1stCond.setMinutes(NextDayBookingTime1stCond.getMinutes() + 15);
-  //             this.timesData.push(Time)
-  //           }
-  //         }
-
-  //       }
-  //       break;
-  //     case 'outstationForm':
-  //       this.outstationForm.controls['returnDate'].reset();
-  //       // this.outstationForm.value.pickupDate.reset();
-  //       if (this.TodaysDate.toLocaleDateString() === this.outstationForm.value.pickupDate.toLocaleDateString()) {
-
-  //         if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '00:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '07:00:00') {
-  //           for (let i = 0; i < 96; i++) {
-  //             BookingTime.setMinutes(BookingTime.getMinutes() + 15);
-  //             let Time = BookingTime.toLocaleTimeString();
-
-  //             if (BookingTime.getHours() == 0)
-  //               break;
-  //             this.timesData.push(Time)
-
-  //           }
-  //         } else if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) >= '20:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '23:59:59') {
-  //           this.TimeNotAvl()
-  //         } else {
-
-  //           for (let i = 0; i < 96; i++) {
-
-
-  //             if (BookingTime.getHours() == 0)
-  //               break;
-  //             let Time = BookingTime.toLocaleTimeString();
-
-  //             BookingTime.setMinutes(BookingTime.getMinutes() + 15);
-  //             this.timesData.push(Time)
-  //             console.log
-  //           }
-  //         }
-
-
-  //       } else {
-  //         let NdayDate = new Date();
-  //         NdayDate.setDate(NdayDate.getDate() + 1);
-  //         let selectedDate = this.getPreviousDate(this.outstationForm.value.pickupDate.toLocaleDateString())
-  //         let currentDate = this.getPreviousDateCheck(this.TodaysDate.toLocaleDateString())
-
-  //         if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '20:00:00' && currentDate == selectedDate) {
-  //           for (let i = 0; i < 68; i++) {
-
-  //             if (this.timesData > '11:45:00 PM' && this.timesData < '07:00:00 AM')
-  //               break;
-
-  //             let Time = NextDayBookingTime1stCond.toLocaleTimeString();
-  //             NextDayBookingTime1stCond.setMinutes(NextDayBookingTime1stCond.getMinutes() + 15);
-  //             this.timesData.push(Time)
-  //           }
-
-  //         } else {
-  //           NextDayBookingTime1stCond.setHours(0);
-  //           NextDayBookingTime1stCond.setMinutes(0);
-  //           for (let i = 0; i < 96; i++) {
-
-  //             let Time = NextDayBookingTime1stCond.toLocaleTimeString();
-  //             NextDayBookingTime1stCond.setMinutes(NextDayBookingTime1stCond.getMinutes() + 15);
-  //             this.timesData.push(Time)
-  //           }
-  //         }
-
-  //       }
-  //       break;
-  //     case 'multicityForm':
-  //       break;
-  //   }
-
-
-  //   if (this.timesData == '') {
-  //     this.TimeNotAvl()
-  //   }
-  // }
 
   getTime(formName: any) {
     if (formName == "local_rental") {
@@ -370,39 +245,21 @@ export class HomeComponent implements AfterViewInit {
   }
 
 
-  // Local Rental Form Submission
-  submitLocalRent() {
+  //------------------------ Google Places AutoComple ------------------------//
+  roundTripReturnCity
+  callExternalFunction(da: any) {
+    CallMaps(da);
+  }
+  getResponse(id:string) {
+    setTimeout(() => {
+      this.roundTripReturnCity = MapsReturn(id)
+      console.log(this.roundTripReturnCity)
+      this.roundtripForm.controls['returnCity'].setValue(this.roundTripReturnCity.formatted_address)
+    }, 500)
+  }
+  //------------------------ Google Places AutoComple ------------------------//
 
-    // Getting Services Id
-    var selectedServiceId: any;
-    const selectedService = this.localRentalForm.value.pickupCity;
-    const selectedServiceObject = this.citiesData.find((service: any) => service.Name === selectedService);
-    if (selectedServiceObject) {
-      selectedServiceId = selectedServiceObject.id;
-      console.log("service Id " + selectedServiceId)
-    }
 
-    console.log(this.localRentalForm.value)
-    if (this.localRentalForm.valid)
-      this.FormSubmitAlert();
-  }
-
-  submitOneWay() {
-    console.log(this.onewayForm.value)
-  }
-  submitRoundTrip() {
-    console.log(this.roundtripForm.value)
-  }
-  submitMultiCity() {
-    console.log(this.multicityForm.value)
-  }
-  submitAirport() {
-    const obj = {
-      "drop_location": this.airportForm.value.drop_location,
-      "pickupDate": this.airportForm.value.pickupDate,
-    }
-    console.log(this.airportForm.value)
-  }
 
 
   FleetFeatures: any = [
@@ -504,17 +361,8 @@ export class HomeComponent implements AfterViewInit {
       confirmButtonText: 'Ok'
     })
   }
-  FormSubmitAlert() {
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Your work has been saved",
-      showConfirmButton: false,
-      timer: 1500
-    })
-  }
 
-  
+
   private formatDate(datestring: any) {
 
     const yyyy = datestring.getFullYear();
@@ -527,6 +375,165 @@ export class HomeComponent implements AfterViewInit {
     const formattedToday = dd + '/' + mm + '/' + yyyy;
     return formattedToday
   }
+
+
+  // ------------------ Selected City Logic ------------------ //
+  selected_local_pickupCity: string;
+  selected_oneway_pickupCity: string;
+  selected_oneway_dropCity: string;
+  selected_round_pickupCity: string;
+  selected_round_dropCity: string;
+
+  select_city_by_click(evt: any, name: string) {
+    if (name == 'local') {
+      this.selected_local_pickupCity = evt.city;
+      this.localRentalForm.controls['pickupCity'].setValue(evt.city)
+    }
+    if (name == 'oneway_pickup') {
+      this.selected_oneway_pickupCity = evt.city;
+      this.onewayForm.controls['pickupCity'].setValue(evt.city)
+    }
+    if (name == 'oneway_drop') {
+      this.selected_oneway_dropCity = evt.city;
+      this.onewayForm.controls['dropCity'].setValue(evt.city)
+    }
+    if (name == 'round_pickup') {
+      this.selected_round_pickupCity = evt.city;
+      this.roundtripForm.controls['pickupCity'].setValue(evt.city)
+    }
+    if (name == 'round_return') {
+      this.selected_round_dropCity = evt.city;
+      this.roundtripForm.controls['returnCity'].setValue(evt.city)
+    }
+  }
+  validate_selected_city(evt, name: string) {
+    if (name == 'local') {
+      setTimeout(() => {
+        if (this.selected_local_pickupCity != evt.target.value) {
+          this.localRentalForm.controls['pickupCity'].setValue("")
+        }
+      }, 200)
+    }
+    if (name == "oneway_pickup") {
+      setTimeout(() => {
+        if (this.selected_oneway_pickupCity != evt.target.value) {
+          this.onewayForm.controls['pickupCity'].setValue("")
+        }
+      }, 200)
+    }
+    if (name == "oneway_drop") {
+      setTimeout(() => {
+        if (this.selected_oneway_dropCity != evt.target.value) {
+          this.onewayForm.controls['dropCity'].setValue("")
+        }
+      }, 200)
+    }
+    if (name == "round_pickup") {
+      setTimeout(() => {
+        if (this.selected_round_pickupCity != evt.target.value) {
+          this.roundtripForm.controls['pickupCity'].setValue("")
+        }
+      }, 200)
+    }
+    if (name == "round_return") {
+      setTimeout(() => {
+        if (this.selected_round_dropCity != evt.target.value) {
+          this.roundtripForm.controls['returnCity'].setValue("")
+        }
+      }, 200)
+    }
+  }
+  // ------------------ End Selected City Logic ------------------ //
+
+
+  // ------------------ Submit Forms ------------------ //
+  submitLocalRent() {
+    if (this.localRentalForm.valid) {
+      const data = new FormData();
+      data.append("pickupCity", this.localRentalForm.value.pickupCity);
+      data.append("pickupDate", moment(this.localRentalForm.value.pickupDate).format("YYYY-MM-DD"));
+      data.append("pickupTime", this.localRentalForm.value.pickupTime);
+      data.append("type_of_tour", "0")
+
+      let obj: { [key: string]: any } = {};
+      data.forEach((val, index) => {
+        obj[index] = val;  // Use the index as the key
+      });
+
+      localStorage.setItem("SearchForm", JSON.stringify(obj));
+      this.router.navigate(['/search-result'])
+
+      // this.api.searchTaxiRoutes(data).subscribe((res: any) => {
+      //   if (res.success == "true")
+      //     this.helper.autoHideSweetAlert("success", "Form Submitted")
+      // })
+    }
+  }
+  submitOneWay() {
+    if (this.onewayForm.valid) {
+      const data = new FormData();
+      data.append("pickupCity", this.onewayForm.value.pickupCity);
+      data.append("dropCity", this.onewayForm.value.dropCity);
+      data.append("pickupDate", moment(this.onewayForm.value.pickupDate).format("YYYY-MM-DD"));
+      data.append("pickupTime", this.onewayForm.value.pickupTime);
+      data.append("pickDay", "Monday");
+      data.append("type_of_tour", "1")
+
+      let obj: { [key: string]: any } = {};
+      data.forEach((val, index) => {
+        obj[index] = val;  // Use the index as the key
+      });
+
+      localStorage.setItem("SearchForm", JSON.stringify(obj));
+      this.router.navigate(['/search-result'])
+    }
+  }
+  submitRoundTrip() {
+    if (this.roundtripForm.valid) {
+      const data = new FormData();
+      data.append("pickupCity", this.roundtripForm.value.pickupCity);
+      data.append("pickupDate", moment(this.roundtripForm.value.pickupDate).format("YYYY-MM-DD"));
+      data.append("pickupTime", this.roundtripForm.value.pickupTime);
+      data.append("returnCity", this.roundtripForm.value.returnCity);
+      data.append("returnDate", moment(this.roundtripForm.value.returnDate).format("YYYY-MM-DD"));
+      data.append("type_of_tour", "2")
+
+      let obj: { [key: string]: any } = {};
+      data.forEach((val, index) => {
+        obj[index] = val;  // Use the index as the key
+      });
+
+      localStorage.setItem("SearchForm", JSON.stringify(obj));
+      this.router.navigate(['/search-result'])
+    }
+    // console.log(this.roundtripForm.value)
+  }
+  submitMultiCity() {
+    if (this.multicityForm.valid) {
+      const data = new FormData();
+      data.append("pickupDate", moment(this.multicityForm.value.pickupDate).format("YYYY-MM-DD"));
+      data.append("pickupTime", this.multicityForm.value.pickupTime);
+      data.append("returnDate", moment(this.multicityForm.value.returnDate).format("YYYY-MM-DD"));
+      data.append("type_of_tour", "3")
+
+      let obj: { [key: string]: any } = {};
+      data.forEach((val, index) => {
+        obj[index] = val;  // Use the index as the key
+      });
+
+      localStorage.setItem("SearchForm", JSON.stringify(obj));
+      this.router.navigate(['/search-result'])
+    }
+    // console.log(this.multicityForm.value)
+  }
+  submitAirport() {
+    const obj = {
+      "drop_location": this.airportForm.value.drop_location,
+      "pickupDate": this.airportForm.value.pickupDate,
+    }
+    console.log(this.airportForm.value)
+  }
+
 
 }
 
