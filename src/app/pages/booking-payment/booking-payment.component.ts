@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { HelpersService } from '../../services/helpers.service';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-booking-payment',
   templateUrl: './booking-payment.component.html',
   styleUrl: './booking-payment.component.scss'
 })
-export class BookingPaymentComponent implements OnInit {
+export class BookingPaymentComponent implements OnInit, AfterViewInit {
 
   // ------------------ Designing Method's ------------------ //
   divs = [
@@ -41,6 +42,7 @@ export class BookingPaymentComponent implements OnInit {
     });
   }
   setActiveLogin(id: number) {
+    this.hideShowOtpForm = false;
     this.loginMethods.forEach(div => {
       div.active = div.id === id;
     });
@@ -123,11 +125,87 @@ export class BookingPaymentComponent implements OnInit {
 
   http = inject(HttpClient);
   helpers = inject(HelpersService);
+  fb = inject(FormBuilder)
+
+
+
+  // ------------------ Form Group's ------------------ //
+  LoginForm: FormGroup;
+  LoginWithOtp: FormGroup;
+  ConfirmOtpForm: FormGroup;
+  resetPassword: FormGroup;
+  signupUserForm: FormGroup;
+
+  userDetailsForm: FormGroup;
+
   ngOnInit() {
-    this.http.get("https://restcountries.com/v3.1/all").subscribe((res: any) => {
-      this.countries = res
+    this.userDetails = JSON.parse(sessionStorage.getItem('user_details'));
+
+
+    this.LoginForm = this.fb.group({
+      username: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$')]],
+      password: ['', [Validators.required]],
+      terms_and_cond: ['', [Validators.required]],
+    });
+    this.LoginWithOtp = this.fb.group({
+      mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+    });
+    this.ConfirmOtpForm = this.fb.group({
+      otp: ['', Validators.required]
     })
+    this.resetPassword = this.fb.group({
+      username: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$')]], 
+    })
+    this.signupUserForm = this.fb.group({
+      first_name: ['', [Validators.required]],
+      last_name: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$')]],
+      contact_no: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      password: ['', [Validators.required]],
+      confirm: ['', [Validators.required]],
+    })
+    this.userDetailsForm = this.fb.group({
+      full_name : ['', Validators.required],
+      phone : ['', Validators.required],
+      email : ['', Validators.required],
+    })
+
+  }
+  userDetails:any = null;
+  ngAfterViewInit() {
+    // sessionStorage.setItem("user_details",JSON.stringify({"user":"madan", "access_token":"1234567890987654321"}))
+    // this.userDetails = JSON.parse(sessionStorage.getItem('user_details'));
+    // console.log(this.userDetails)
   }
 
+
+  // ------------------ Form Submissions ------------------ //
+  submitLoginForm(){
+    if(this.LoginForm.valid){
+      console.log(this.LoginForm.value)
+    }
+  }
+  hideShowOtpForm: boolean = false
+  submitLoginWithOtp(){
+    if(this.LoginWithOtp.valid){
+      this.hideShowOtpForm = true;
+      console.log(this.LoginWithOtp.value)
+    }
+  }
+  submitConfirmOtp(){
+    if(this.ConfirmOtpForm.valid){
+      console.log(this.ConfirmOtpForm.value)
+    }
+  }
+  submitResetPasswordForm(){
+    if(this.resetPassword.valid){
+      console.log(this.resetPassword.value)
+    }
+  }
+  submitSignUpForm(){
+    if(this.signupUserForm.valid){
+      console.log(this.signupUserForm.value)
+    }
+  }
 
 }
