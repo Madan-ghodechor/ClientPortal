@@ -218,7 +218,7 @@
                                                     required>
                                                 <mat-icon matPrefix class="fa fa-user"> </mat-icon>
                                                 <mat-error
-                                                    *ngIf="LoginWithOtp.get('mobileNumber').hasError('required') || LoginWithOtp.get('mobileNumber').touched">
+                                                    *ngIf="signupUserForm.get('last_name').hasError('required') || signupUserForm.get('last_name').touched">
                                                     Please enter last name
                                                 </mat-error>
                                             </mat-form-field>
@@ -281,7 +281,7 @@
                                                     (click)="showPassword('new_user_pass')" style="cursor: pointer;"
                                                     matSuffix class="fa fa-eye-slash"> </mat-icon>
                                                 <mat-error
-                                                    *ngIf="LoginWithOtp.get('Password').hasError('required') || LoginWithOtp.get('Password').touched">
+                                                    *ngIf="signupUserForm.get('password').hasError('required') || signupUserForm.get('password').touched">
                                                     Please enter password
                                                 </mat-error>
                                             </mat-form-field>
