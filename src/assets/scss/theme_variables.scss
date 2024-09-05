@@ -36,9 +36,8 @@ $MatInputFontSize: 13px;
 
 .mdc-switch:enabled .mdc-switch__track::after {
     background: $theme-color !important;
-
-    .mdc-switch__icons{
-        background-color: $theme-color !important;
-        border-radius: 50% !important;
-    }
+}
+.mdc-switch__icons{
+    background-color: $theme-color !important;
+    border-radius: 50% !important;
 }

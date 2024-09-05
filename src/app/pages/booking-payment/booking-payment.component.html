@@ -436,41 +436,49 @@
                         <form [formGroup]="userDetailsForm">
                             <div class="w-100 px-5">
                                 <div class="row px-4 pt-2">
-                                    <div class="col-md-12 mt-3">
+                                    <div class="col-md-6 mt-3">
                                         <mat-label class="input-labels" style="font-size: 15px;">Pickup City</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
                                             <input matInput formControlName="full_name" required>
-                                            <mat-icon matPrefix class="fa fa-user"> </mat-icon>
+                                            <mat-icon matPrefix class="fa fa-map-marker"> </mat-icon>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-6 mt-0">
+                                    <div class="col-md-6 mt-3">
                                         <mat-label class="input-labels" style="font-size: 15px;">Pickup Location</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
                                             <input matInput formControlName="phone" required>
-                                            <mat-icon matPrefix class="fa fa-phone"> </mat-icon>
+                                            <mat-icon matPrefix class="fa fa-location"> </mat-icon>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-6 mt-0">
-                                        <mat-slide-toggle class="my-slide"> Slide Toggle Checked</mat-slide-toggle>
+                                    <div class="col-md-12 mt-0">
+                                        <mat-label class="input-labels" style="font-size: 15px;">GST</mat-label> <br>
+                                        <mat-slide-toggle class="m-2" labelPosition="before"> </mat-slide-toggle>
                                     </div>
-                                    <div class="col-md-6 mt-0">
-                                        <mat-label class="input-labels" style="font-size: 15px;">Email</mat-label>
+
+                                    <div class="col-md-12 mt-2">
+                                        <mat-label class="input-labels" style="font-size: 15px;">Pickup Location</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="email" required>
-                                            <mat-icon matPrefix class="fa fa-envelope"> </mat-icon>
+                                            <input matInput formControlName="phone" required>
+                                            <mat-icon matPrefix class="fa fa-location"> </mat-icon>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-6 mt-0">
-                                        <mat-label class="input-labels" style="font-size: 15px;">Special
-                                            Request</mat-label>
-                                        <textarea matInput class="w-100" style="    border: none;
-                                        border-bottom: 1px solid #9b9b9b;
-                                        outline: none;
-                                        font-weight: 360;
-                                        font-size: 13px;
-                                        padding: 4px; padding-bottom: 5px; letter-spacing: 1px;
-                                        " rows="1"></textarea>
+
+                                    <div class="col-md-12 mt-0">
+                                        <mat-label class="input-labels" style="font-size: 15px;">Pickup Location</mat-label>
+                                        <mat-form-field class="example-full-width w-100 ">
+                                            <input matInput formControlName="phone" required>
+                                            <mat-icon matPrefix class="fa fa-location"> </mat-icon>
+                                        </mat-form-field>
                                     </div>
+
+                                    <div class="col-md-12 mt-0">
+                                        <mat-label class="input-labels" style="font-size: 15px;">Pickup Location</mat-label>
+                                        <mat-form-field class="example-full-width w-100 ">
+                                            <input matInput formControlName="phone" required>
+                                            <mat-icon matPrefix class="fa fa-location"> </mat-icon>
+                                        </mat-form-field>
+                                    </div>
+
                                     <div class="col-md-6 mt-md-3">
                                         <button class="btn login-btn" type="button"> <i
                                                 class="fa fa-caret-left "></i>&nbsp;&nbsp; Go Back </button>
