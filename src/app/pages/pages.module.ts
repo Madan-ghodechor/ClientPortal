@@ -27,7 +27,8 @@ import { ModalModule } from 'ngx-bootstrap/modal';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BookingPaymentComponent } from './booking-payment/booking-payment.component';
 
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     MatCheckboxModule,
+    MatSlideToggleModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

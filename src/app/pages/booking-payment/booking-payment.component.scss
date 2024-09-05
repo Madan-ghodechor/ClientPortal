@@ -238,3 +238,11 @@
     cursor: pointer;
     text-decoration: none;
   }
+
+  .userDetailsPaymentBooking{
+      .mat-mdc-form-field-subscript-wrapper{
+        display: none !important;
+      }
+    }
+
+

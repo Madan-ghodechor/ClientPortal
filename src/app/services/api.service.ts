@@ -29,4 +29,22 @@ export class ApiService {
     return this.http.post(this.base_url+"searchOnewayTaxis", data)
   }
 
+
+
+  // ------------------    Booking Details Api's    ------------------ //
+  getLoggedIn(da:any){
+    return this.http.post(this.base_url+"/login", da);
+  }
+  getOtp(da:any){
+    return this.http.post(this.base_url+"/getOtp", da);
+  }
+  getVerifyOtp(da:any){
+    return this.http.post(this.base_url+"/verifyLoginOtp", da);
+  }
+  getForgetPassword(da:any){
+    return this.http.post(this.base_url+"/forgetPassword", da);
+  }
+  getSignUp(da:any){
+    return this.http.post(this.base_url+"/addUser", da);
+  }
 }

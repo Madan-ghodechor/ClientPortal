@@ -2,13 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { HelpersService } from '../../services/helpers.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from '../../services/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-booking-payment',
   templateUrl: './booking-payment.component.html',
   styleUrl: './booking-payment.component.scss'
 })
-export class BookingPaymentComponent implements OnInit, AfterViewInit {
+export class BookingPaymentComponent implements OnInit {
 
   // ------------------ Designing Method's ------------------ //
   divs = [
@@ -122,10 +124,12 @@ export class BookingPaymentComponent implements OnInit, AfterViewInit {
     this.closeDropdown();
   }
 
-
+  // ------------------ Dependency Injections ------------------ //
   http = inject(HttpClient);
   helpers = inject(HelpersService);
-  fb = inject(FormBuilder)
+  fb = inject(FormBuilder);
+  api = inject(ApiService);
+  router = inject(Router)
 
 
 
@@ -138,8 +142,13 @@ export class BookingPaymentComponent implements OnInit, AfterViewInit {
 
   userDetailsForm: FormGroup;
 
+  userDetails: any = null;
+  
   ngOnInit() {
-    this.userDetails = JSON.parse(sessionStorage.getItem('user_details'));
+    const da = JSON.parse(localStorage.getItem('user_details'));
+    this.userDetails = da.user
+    const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!$%^&*()_+[\]{}|;:,.<>?])(?!.*\s).{8,}$/;
+    const contactNoPattern = /^[0-9]{10}$/;
 
 
     this.LoginForm = this.fb.group({
@@ -148,63 +157,127 @@ export class BookingPaymentComponent implements OnInit, AfterViewInit {
       terms_and_cond: ['', [Validators.required]],
     });
     this.LoginWithOtp = this.fb.group({
-      mobileNumber: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      mobileNumber: ['', [Validators.required, Validators.pattern(contactNoPattern)]],
     });
     this.ConfirmOtpForm = this.fb.group({
       otp: ['', Validators.required]
     })
     this.resetPassword = this.fb.group({
-      username: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$')]], 
+      username: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$')]],
     })
     this.signupUserForm = this.fb.group({
       first_name: ['', [Validators.required]],
       last_name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.pattern('^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}$')]],
-      contact_no: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      password: ['', [Validators.required]],
-      confirm: ['', [Validators.required]],
+      contact_no: ['', [Validators.required, Validators.pattern(contactNoPattern)]],
+      password: ['', [Validators.required, Validators.pattern(passwordPattern)]],
+      confirm: ['', [Validators.required, Validators.pattern(passwordPattern)]],
+      check: ['', [Validators.required]],
     })
     this.userDetailsForm = this.fb.group({
-      full_name : ['', Validators.required],
-      phone : ['', Validators.required],
-      email : ['', Validators.required],
+      full_name: ['Madan Ghodechor', Validators.required],
+      phone: ['9309804106', Validators.required],
+      email: ['madan.ghodechor@taxivaxi.com', Validators.required],
     })
 
   }
-  userDetails:any = null;
-  ngAfterViewInit() {
-    // sessionStorage.setItem("user_details",JSON.stringify({"user":"madan", "access_token":"1234567890987654321"}))
-    // this.userDetails = JSON.parse(sessionStorage.getItem('user_details'));
-    // console.log(this.userDetails)
+
+  // ------------------ Password Match ------------------ //
+  passwordMissMatch = false;
+  getPasswordMatched() {
+    if (this.signupUserForm.value.password == this.signupUserForm.value.confirm) {
+      this.passwordMissMatch = false;
+    }
+    else {
+      this.passwordMissMatch = true;
+    }
   }
 
 
   // ------------------ Form Submissions ------------------ //
-  submitLoginForm(){
-    if(this.LoginForm.valid){
+  submitLoginForm() {
+    if (this.LoginForm.valid) {
+      const data = new FormData();
+      data.append("email", this.LoginForm.value.username);
+      data.append("password", this.LoginForm.value.password);
       console.log(this.LoginForm.value)
+
+      this.api.getLoggedIn(data).subscribe((res: any) => {
+        if (res.success == "true") {
+          console.log(res)
+          localStorage.setItem("user_details", JSON.stringify(res.data));
+          localStorage.setItem("Access_Token", JSON.stringify(res.data.access_token));
+          this.ngOnInit()
+          this.helpers.autoHideSweetAlert("success", "Logged In Successfully")
+        }
+      })
     }
   }
   hideShowOtpForm: boolean = false
-  submitLoginWithOtp(){
-    if(this.LoginWithOtp.valid){
+  submitLoginWithOtp() {
+    if (this.LoginWithOtp.valid) {
       this.hideShowOtpForm = true;
+      const data = new FormData();
+      data.append("contact_no", this.LoginWithOtp.value.mobileNumber);
       console.log(this.LoginWithOtp.value)
+
+      this.api.getOtp(data).subscribe((res: any) => {
+        if (res.success == "true") {
+          console.log(res)
+          this.helpers.autoHideSweetAlert("success", "Otp Sent Successfully")
+        }
+      })
     }
   }
-  submitConfirmOtp(){
-    if(this.ConfirmOtpForm.valid){
+  submitConfirmOtp() {
+    if (this.ConfirmOtpForm.valid) {
       console.log(this.ConfirmOtpForm.value)
+      const data = new FormData()
+      data.append("contact_no", this.LoginWithOtp.value.mobileNumber);
+      data.append("otp", this.ConfirmOtpForm.value.otp);
+
+      this.api.getVerifyOtp(data).subscribe((res: any) => {
+        if (res.success == "true") {
+          console.log(res)
+          localStorage.setItem("user_details", JSON.stringify(res.data));
+          localStorage.setItem("Access_Token", JSON.stringify(res.data.access_token));
+          this.helpers.autoHideSweetAlert("success", "Otp Verified Successfully")
+          this.ngOnInit()
+        }
+      })
     }
   }
-  submitResetPasswordForm(){
-    if(this.resetPassword.valid){
+  submitResetPasswordForm() {
+    if (this.resetPassword.valid) {
       console.log(this.resetPassword.value)
+
+      const data = new FormData()
+      data.append("email", this.resetPassword.value.username);
+
+      this.api.getForgetPassword(data).subscribe((res: any) => {
+        if (res.success == "true") {
+          console.log(res)
+          this.helpers.autoHideSweetAlert("success", "Send Has Been Sent On Email")
+        }
+      })
     }
   }
-  submitSignUpForm(){
-    if(this.signupUserForm.valid){
+  submitSignUpForm() {
+    if (this.signupUserForm.valid && !this.passwordMissMatch) {
       console.log(this.signupUserForm.value)
+
+      const data = new FormData();
+      data.append("email", this.signupUserForm.value.email);
+      data.append("password", this.signupUserForm.value.password);
+      data.append("name", this.signupUserForm.value.first_name + " " + this.signupUserForm.value.last_name);
+      data.append("contact_no", this.signupUserForm.value.contact_no);
+
+      this.api.getSignUp(data).subscribe((res: any) => {
+        if (res.success == "true"){
+          this.helpers.autoHideSweetAlert("success", "New User Added Successfully !")
+          console.log(res);
+        }
+      })
     }
   }
 
