@@ -29,6 +29,7 @@ import { BookingPaymentComponent } from './booking-payment/booking-payment.compo
 
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     CollapseModule.forRoot(),
     ModalModule.forRoot(),
     MatCheckboxModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatRadioModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

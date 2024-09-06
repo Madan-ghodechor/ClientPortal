@@ -4,6 +4,12 @@ import { HelpersService } from '../../services/helpers.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
+import { RazorpayService } from '../../services/razorpay.service';
+
+
+declare const CallMaps: any;
+declare const MapsReturn: any;
+
 
 @Component({
   selector: 'app-booking-payment',
@@ -141,6 +147,8 @@ export class BookingPaymentComponent implements OnInit {
   signupUserForm: FormGroup;
 
   userDetailsForm: FormGroup;
+  pickupGstDetailsForm: FormGroup;
+  paymentInfoForm: FormGroup;
 
   userDetails: any = null;
   
@@ -174,14 +182,38 @@ export class BookingPaymentComponent implements OnInit {
       confirm: ['', [Validators.required, Validators.pattern(passwordPattern)]],
       check: ['', [Validators.required]],
     })
+
     this.userDetailsForm = this.fb.group({
       full_name: ['Madan Ghodechor', Validators.required],
       phone: ['9309804106', Validators.required],
       email: ['madan.ghodechor@taxivaxi.com', Validators.required],
     })
+    this.pickupGstDetailsForm = this.fb.group({
+      pickupCity : ['', [Validators.required]],
+      pickupLocation : ['', [Validators.required]],
+    })
+    this.paymentInfoForm = this.fb.group({
+      paymentOption : ['', Validators.required],
+      terms_and_cond : ['', Validators.required],
+    })
 
   }
 
+    //------------------------ Google Places AutoComple ------------------------//
+    pickupLocation
+    callExternalFunction(da: any) {
+      CallMaps(da);
+    }
+    getResponse(id:string) {
+      setTimeout(() => {
+        this.pickupLocation = MapsReturn(id)
+        console.log(this.pickupLocation)
+        this.pickupGstDetailsForm.controls['pickupLocation'].setValue(this.pickupLocation.formatted_address)
+      }, 500)
+    }
+    //------------------------ Google Places AutoComple ------------------------//
+
+    
   // ------------------ Password Match ------------------ //
   passwordMissMatch = false;
   getPasswordMatched() {
@@ -279,6 +311,11 @@ export class BookingPaymentComponent implements OnInit {
         }
       })
     }
+  }
+
+  razorpay = inject(RazorpayService)
+  OpenRazorModal(){
+    this.razorpay.openCheckout();
   }
 
 }

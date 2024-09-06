@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class NavBarComponent implements OnInit {
   ngOnInit(): void {
     const userCheck = localStorage.getItem('user_details')
-    console.log(userCheck)
+    // console.log(userCheck)
     if(userCheck==null){
       let obj = { "user" : null }
       localStorage.setItem("user_details", JSON.stringify(obj) );

@@ -433,49 +433,57 @@
                 </div>
                 <div *ngSwitchCase="divs[2].show">
                     <div class="row pt-md-2 w-100 userDetailsPaymentBooking" *ngIf="userDetails">
-                        <form [formGroup]="userDetailsForm">
+                        <form [formGroup]="pickupGstDetailsForm">
                             <div class="w-100 px-5">
                                 <div class="row px-4 pt-2">
-                                    <div class="col-md-6 mt-3">
+                                    <div class="col-md-12 mt-3">
                                         <mat-label class="input-labels" style="font-size: 15px;">Pickup City</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="full_name" required>
+                                            <input matInput formControlName="pickupCity" required>
                                             <mat-icon matPrefix class="fa fa-map-marker"> </mat-icon>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-6 mt-3">
-                                        <mat-label class="input-labels" style="font-size: 15px;">Pickup Location</mat-label>
+                                    <div class="col-md-12 mt-0 gstDetailsLocation">
+                                        <mat-label class="input-labels" style="font-size: 15px;">Pickup
+                                            Location</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="phone" required>
+                                            <input matInput formControlName="pickupLocation" placeholder="Return City"
+                                                required id="gstDetailsPickupLocation" #gstDetailsPickupLocation
+                                                (keypress)="callExternalFunction(gstDetailsPickupLocation)"
+                                                (blur)="getResponse('gstDetailsPickupLocation')">
                                             <mat-icon matPrefix class="fa fa-location"> </mat-icon>
                                         </mat-form-field>
                                     </div>
-                                    <div class="col-md-12 mt-0">
-                                        <mat-label class="input-labels" style="font-size: 15px;">GST</mat-label> <br>
+                                    <div class="col-md-12 mt-0 ">
+                                        <mat-label class="input-labels" style="font-size: 15px;">GST</mat-label>
+                                        &nbsp;&nbsp;
                                         <mat-slide-toggle class="m-2" labelPosition="before"> </mat-slide-toggle>
                                     </div>
 
                                     <div class="col-md-12 mt-2">
-                                        <mat-label class="input-labels" style="font-size: 15px;">Pickup Location</mat-label>
+                                        <mat-label class="input-labels" style="font-size: 15px;">User GST
+                                            Number</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="phone" required>
-                                            <mat-icon matPrefix class="fa fa-location"> </mat-icon>
+                                            <input matInput required>
+                                            <mat-icon matPrefix class="fa fa-hashtag"> </mat-icon>
                                         </mat-form-field>
                                     </div>
 
                                     <div class="col-md-12 mt-0">
-                                        <mat-label class="input-labels" style="font-size: 15px;">Pickup Location</mat-label>
+                                        <mat-label class="input-labels" style="font-size: 15px;">Registered Business
+                                            Name</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="phone" required>
-                                            <mat-icon matPrefix class="fa fa-location"> </mat-icon>
+                                            <input matInput required>
+                                            <mat-icon matPrefix class="fa fa-hashtag"> </mat-icon>
                                         </mat-form-field>
                                     </div>
 
                                     <div class="col-md-12 mt-0">
-                                        <mat-label class="input-labels" style="font-size: 15px;">Pickup Location</mat-label>
+                                        <mat-label class="input-labels" style="font-size: 15px;">Registered Business
+                                            Address</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="phone" required>
-                                            <mat-icon matPrefix class="fa fa-location"> </mat-icon>
+                                            <input matInput required>
+                                            <mat-icon matPrefix class="fa fa-building"> </mat-icon>
                                         </mat-form-field>
                                     </div>
 
@@ -487,13 +495,51 @@
                                         <button class="btn login-btn" type="button"> Next Step &nbsp;&nbsp; <i
                                                 class="fa fa-caret-right"></i> </button>
                                     </div>
+                                    <div class="col-md-12">
+                                        <h6> &nbsp; </h6>
+                                    </div>
                                 </div>
                             </div>
                         </form>
                     </div>
                 </div>
                 <div *ngSwitchCase="divs[3].show">
-                    <h3>Payment Information</h3>
+
+                    <div class="row pt-md-2 w-100 userDetailsPaymentBooking" *ngIf="userDetails">
+                        <form [formGroup]="paymentInfoForm">
+                            <div class="w-100 px-5">
+                                <div class="row px-4 pt-4">
+                                    <div class="col-md-12 mt-4">
+                                        <mat-label class="input-labels" style="font-size: 15px;">Payment Option</mat-label> <br>
+                                            <mat-radio-button class="example-radio-button mt-2" [value]="500" formControlName="paymentOption" > <b style="color: rgb(109, 109, 109);"> 25% ( &#8377; 551.25 ) </b> </mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mat-radio-button class="example-radio-button" [value]="500" formControlName="paymentOption" > <b style="color: rgb(109, 109, 109);"> 100% ( &#8377; 2205 ) </b> </mat-radio-button>
+                                    </div>
+
+                                    <div class="col-md-12 mt-3 mb-0 d-flex">
+                                        <mat-checkbox class="example-margin" formControlName="terms_and_cond"
+                                            required></mat-checkbox>
+                                        <p style="font-size: 14px; margin-top: 10px;">I Accept All The <a
+                                                class="links" routerLink="/terms-and-condition"
+                                                target="_blank">Terms
+                                                and Conditions</a> and <a class="links"
+                                                routerLink="/cancellation-policy" target="_blank">Cancellation
+                                                Policy.</a></p>
+                                    </div>
+
+                                    <div class="col-md-6 mt-md-3">
+                                        <button class="btn login-btn" type="button"> <i
+                                                class="fa fa-caret-left "></i>&nbsp;&nbsp; Go Back </button>
+                                    </div>
+                                    <div class="col-md-6 mt-md-3">
+                                        <button class="btn login-btn" type="button" (click)="OpenRazorModal()" > Proceed To Payment &nbsp;&nbsp; <i
+                                                class="fa fa-caret-right"></i> </button>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <h6> &nbsp; </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
             </div>
