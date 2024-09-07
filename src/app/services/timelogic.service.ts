@@ -28,137 +28,135 @@ export class TimelogicService {
     NextDayBookingTime.setHours(10);
     NextDayBookingTime.setMinutes(0);
 
-    switch ("localRentalForm") {
-      case 'localRentalForm':
-        if (this.TodaysDate.toLocaleDateString() === data.pickupDate) {
+    // if (this.TodaysDate.toLocaleDateString() === data.pickupDate) {
 
-          if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '00:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '07:00:00') {
-            for (let i = 0; i < 96; i++) {
-              BookingTime.setMinutes(BookingTime.getMinutes() + 15);
-              let Time = BookingTime.toLocaleTimeString();
+    //   if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '00:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '07:00:00') {
+    //     for (let i = 0; i < 96; i++) {
+    //       BookingTime.setMinutes(BookingTime.getMinutes() + 15);
+    //       let Time = BookingTime.toLocaleTimeString();
 
-              if (BookingTime.getHours() == 0)
-                break;
-              this.timesData.push(Time)
+    //       if (BookingTime.getHours() == 0)
+    //         break;
+    //       this.timesData.push(Time)
 
-            }
-          } else if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) >= '20:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '23:59:59') {
+    //     }
+    //   } else if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) >= '20:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '23:59:59') {
 
-          } else {
+    //   } else {
 
-            for (let i = 0; i < 96; i++) {
+    //     for (let i = 0; i < 96; i++) {
 
 
-              if (BookingTime.getHours() == 0)
-                break;
-              let Time = BookingTime.toLocaleTimeString();
+    //       if (BookingTime.getHours() == 0)
+    //         break;
+    //       let Time = BookingTime.toLocaleTimeString();
 
-              BookingTime.setMinutes(BookingTime.getMinutes() + 15);
-              this.timesData.push(Time)
-              console.log
-            }
-          }
+    //       BookingTime.setMinutes(BookingTime.getMinutes() + 15);
+    //       this.timesData.push(Time)
+    //       console.log
+    //     }
+    //   }
 
 
-        } else {
-          let NdayDate = new Date();
-          NdayDate.setDate(NdayDate.getDate() + 1);
-          let selectedDate = this.getPreviousDate(data.pickupDate)
-          let currentDate = this.getPreviousDateCheck(this.TodaysDate.toLocaleDateString())
+    // } else {
+    //   let NdayDate = new Date();
+    //   NdayDate.setDate(NdayDate.getDate() + 1);
+    //   let selectedDate = this.getPreviousDate(data.pickupDate)
+    //   let currentDate = this.getPreviousDateCheck(this.TodaysDate.toLocaleDateString())
 
-          if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '20:00:00' && currentDate == selectedDate) {
-            for (let i = 0; i < 68; i++) {
+    //   if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '20:00:00' && currentDate == selectedDate) {
+    //     for (let i = 0; i < 68; i++) {
 
-              if (this.timesData > '11:45:00 PM' && this.timesData < '07:00:00 AM')
-                break;
+    //       if (this.timesData > '11:45:00 PM' && this.timesData < '07:00:00 AM')
+    //         break;
 
-              let Time = NextDayBookingTime1stCond.toLocaleTimeString();
-              NextDayBookingTime1stCond.setMinutes(NextDayBookingTime1stCond.getMinutes() + 15);
-              this.timesData.push(Time)
-            }
+    //       let Time = NextDayBookingTime1stCond.toLocaleTimeString();
+    //       NextDayBookingTime1stCond.setMinutes(NextDayBookingTime1stCond.getMinutes() + 15);
+    //       this.timesData.push(Time)
+    //     }
 
-          } else {
-            NextDayBookingTime1stCond.setHours(0);
-            NextDayBookingTime1stCond.setMinutes(0);
-            for (let i = 0; i < 96; i++) {
+    //   } else {
+    //     NextDayBookingTime1stCond.setHours(0);
+    //     NextDayBookingTime1stCond.setMinutes(0);
+    //     for (let i = 0; i < 96; i++) {
 
-              let Time = NextDayBookingTime1stCond.toLocaleTimeString();
-              NextDayBookingTime1stCond.setMinutes(NextDayBookingTime1stCond.getMinutes() + 15);
-              this.timesData.push(Time)
-            }
-          }
+    //       let Time = NextDayBookingTime1stCond.toLocaleTimeString();
+    //       NextDayBookingTime1stCond.setMinutes(NextDayBookingTime1stCond.getMinutes() + 15);
+    //       this.timesData.push(Time)
+    //     }
+    //   }
 
+    // }
+
+    if (this.TodaysDate.toLocaleDateString() === data.pickupDate) {
+
+      if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '00:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '07:00:00') {
+        for (let i = 0; i < 96; i++) {
+          BookingTime.setUTCMinutes(BookingTime.getUTCMinutes() + 15);
+          let Time = BookingTime.toISOString().substring(11, 19); // Extract time part in UTC
+
+          if (BookingTime.getUTCHours() == 0)
+            break;
+          this.timesData.push(Time);
         }
-        break;
-      // case 'outstationForm':
-      //   this.outstationForm.controls['returnDate'].reset();
-      //   // this.outstationForm.value.pickupDate.reset();
-      //   if (this.TodaysDate.toLocaleDateString() === this.outstationForm.value.pickupDate.toLocaleDateString()) {
+      } else if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) >= '20:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '23:59:59') {
+        // Your existing logic for this condition
+      } else {
+        for (let i = 0; i < 96; i++) {
+          if (BookingTime.getUTCHours() == 0)
+            break;
+          let Time = BookingTime.toISOString().substring(11, 19);
+          BookingTime.setUTCMinutes(BookingTime.getUTCMinutes() + 15);
+          this.timesData.push(Time);
+        }
+      }
 
-      //     if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '00:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '07:00:00') {
-      //       for (let i = 0; i < 96; i++) {
-      //         BookingTime.setMinutes(BookingTime.getMinutes() + 15);
-      //         let Time = BookingTime.toLocaleTimeString();
+    } else {
+      let NdayDate = new Date();
+      NdayDate.setUTCDate(NdayDate.getUTCDate() + 1);
+      let selectedDate = this.getPreviousDate(data.pickupDate);
+      let currentDate = this.getPreviousDateCheck(this.TodaysDate.toLocaleDateString());
 
-      //         if (BookingTime.getHours() == 0)
-      //           break;
-      //         this.timesData.push(Time)
-
-      //       }
-      //     } else if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) >= '20:00:00' && this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) < '23:59:59') {
-      //       console.log("time not avl")
-      //     } else {
-
-      //       for (let i = 0; i < 96; i++) {
-
-
-      //         if (BookingTime.getHours() == 0)
-      //           break;
-      //         let Time = BookingTime.toLocaleTimeString();
-
-      //         BookingTime.setMinutes(BookingTime.getMinutes() + 15);
-      //         this.timesData.push(Time)
-      //         console.log
-      //       }
-      //     }
-
-
-      //   } else {
-      //     let NdayDate = new Date();
-      //     NdayDate.setDate(NdayDate.getDate() + 1);
-      //     let selectedDate = this.getPreviousDate(this.outstationForm.value.pickupDate.toLocaleDateString())
-      //     let currentDate = this.getPreviousDateCheck(this.TodaysDate.toLocaleDateString())
-
-      //     if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '20:00:00' && currentDate == selectedDate) {
-      //       for (let i = 0; i < 68; i++) {
-
-      //         if (this.timesData > '11:45:00 PM' && this.timesData < '07:00:00 AM')
-      //           break;
-
-      //         let Time = NextDayBookingTime1stCond.toLocaleTimeString();
-      //         NextDayBookingTime1stCond.setMinutes(NextDayBookingTime1stCond.getMinutes() + 15);
-      //         this.timesData.push(Time)
-      //       }
-
-      //     } else {
-      //       NextDayBookingTime1stCond.setHours(0);
-      //       NextDayBookingTime1stCond.setMinutes(0);
-      //       for (let i = 0; i < 96; i++) {
-
-      //         let Time = NextDayBookingTime1stCond.toLocaleTimeString();
-      //         NextDayBookingTime1stCond.setMinutes(NextDayBookingTime1stCond.getMinutes() + 15);
-      //         this.timesData.push(Time)
-      //       }
-      //     }
-
-      //   }
-      //   break;
-      // case 'multicityForm':
-      //   break;
+      if (this.formatDateTimeToYYYYMMDDHHMMSS(this.TodaysDate) > '20:00:00' && currentDate == selectedDate) {
+        for (let i = 0; i < 68; i++) {
+          let Time = NextDayBookingTime1stCond.toISOString().substring(11, 19);
+          if (Time > '23:45:00' && Time < '07:00:00')
+            break;
+          NextDayBookingTime1stCond.setUTCMinutes(NextDayBookingTime1stCond.getUTCMinutes() + 15);
+          this.timesData.push(Time);
+        }
+      } else {
+        NextDayBookingTime1stCond.setUTCHours(0);
+        NextDayBookingTime1stCond.setUTCMinutes(0);
+        for (let i = 0; i < 96; i++) {
+          let Time = NextDayBookingTime1stCond.toISOString().substring(11, 19);
+          NextDayBookingTime1stCond.setUTCMinutes(NextDayBookingTime1stCond.getUTCMinutes() + 15);
+          this.timesData.push(Time);
+        }
+      }
     }
-    return this.timesData
+    let newGenTime = [];
+    for (let i = 0; i <= this.timesData.length; i++) {
+      if (this.timesData[i] != undefined)
+        newGenTime.push(this.convertTo12HourFormat(this.timesData[i]))
+    }
+    return newGenTime
 
   }
+  // Logic For Multi-Device
+  convertTo12HourFormat(time: string): string {
+    let [hours, minutes, seconds] = time.split(':').map(Number);
+    const period = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    return `${this.padToTwoDigits(hours)}:${this.padToTwoDigits(minutes)}:${this.padToTwoDigits(seconds)} ${period}`;
+  }
+  padToTwoDigits(num: number): string {
+    return num.toString().padStart(2, '0');
+  }
+  // Logic For Multi-Device
+
+
+
   convertDateString(inputDate: string): string {
     // Split the input date by the hyphen (-)
     const [year, month, day] = inputDate.split('-');

@@ -9,6 +9,7 @@ import { ApiService } from '../../services/api.service';
 import moment from 'moment';
 import { HelpersService } from '../../services/helpers.service';
 import { Router } from '@angular/router';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 declare const CallMaps: any;
 declare const MapsReturn: any;
@@ -68,6 +69,10 @@ export class HomeComponent implements AfterViewInit {
   api = inject(ApiService)
   helper = inject(HelpersService)
   router = inject(Router)
+  modalRef?: BsModalRef;
+  modalService = inject(BsModalService);
+
+
   // End Dependency Injection 
 
   constructor() { }
@@ -244,6 +249,10 @@ export class HomeComponent implements AfterViewInit {
 
   }
 
+
+  openFareDetails(modalName: any) {
+    this.modalRef = this.modalService.show(modalName, { class: 'modal-lg' });
+  }
 
   //------------------------ Google Places AutoComple ------------------------//
   roundTripReturnCity

@@ -169,7 +169,7 @@ export class SearchResultsComponent implements OnInit {
     }
 
   }
-
+ 
   //------------------------ Fare Details Modal ------------------------//
   FareDetails: any;
   openFareDetails(modalName: any, data: any) {
