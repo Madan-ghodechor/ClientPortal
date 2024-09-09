@@ -201,7 +201,7 @@
                                         <input matInput formControlName="returnCity" placeholder="Return City" required
                                             id="HomeRoundReturnCity" #HomeRoundReturnCity
                                             (keypress)="callExternalFunction(HomeRoundReturnCity)"
-                                            (blur)="getResponse('HomeRoundReturnCity')">
+                                            (blur)="getResponse('HomeRoundReturnCity', 'round_trip')">
                                         <mat-error>please select return city</mat-error>
                                     </mat-form-field>
                                 </div>
@@ -224,7 +224,7 @@
                         </form>
                     </div>
                     <div *ngSwitchCase="outstationTabs[2].show">
-                        <form [formGroup]="multicityForm" (submit)="submitMultiCity()">
+                        <form [formGroup]="multicityForm" (submit)="submitMultiCity(AddMultiCityModal)">
                             <div class="row px-md-4 pt-md-1">
                                 <div class="col-md-4">
                                     <mat-label class="input-labels">Pickup Date</mat-label>
@@ -267,7 +267,7 @@
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4"></div>
                                 <div class="col-md-4 mt-md-4 text-end" style="margin-bottom: 20px;">
-                                    <button type="submit" class="btn btn-search-cab w-100">Search Cabs</button>
+                                    <button type="submit" class="btn btn-search-cab w-100">Add City</button>
                                 </div>
                             </div>
                         </form>
@@ -352,7 +352,7 @@
             </div>
             <div class="footer-link pb-md-2">
                 <div class="row px-md-4">
-                    <a (click)="openFareDetails(fareDetails)" >Can't find what you need ? </a>
+                    <a (click)="openFareDetails(fareDetails)">Can't find what you need ? </a>
                 </div>
             </div>
         </div>
@@ -500,7 +500,7 @@
 <!-- Special Form Modal -->
 <ng-template #fareDetails let-modal>
     <div class="modal-header p-2 ps-4 pe-4">
-        <h6 class="modal-title" id="myLargeModalLabel"> Fare Details </h6>
+        <h6 class="modal-title" id="myLargeModalLabel"> Query Form </h6>
         <h6 type="button" (click)="modalRef?.hide()" class="btn-close"></h6>
     </div>
     <div class="modal-body fareDetails">
@@ -560,4 +560,53 @@
                 </div>
             </div>
         </div> -->
+</ng-template>
+
+<!-- Multi City Modal -->
+<ng-template #AddMultiCityModal let-modal>
+    <form [formGroup]="multipleCityForm" (submit)="submitMultiCityForm()">
+        <div class="modal-header p-2 ps-4 pe-4">
+            <h6 class="modal-title" id="myLargeModalLabel"> Add Cities </h6>
+            <h6 type="button" (click)="modalRef?.hide()" class="btn-close"></h6>
+        </div>
+        <div class="modal-body fareDetails">
+            <div class="row">
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width w-100 ">
+                        <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                            [matAutocomplete]="multicityPickupAuto" required
+                            (blur)="validate_selected_city($event, 'multi_city')">
+                        <!-- <mat-icon matSuffix class="fa fa-search"> </mat-icon> -->
+                        <mat-autocomplete #multicityPickupAuto="matAutocomplete" style="z-index: 99999 !important;">
+                            <mat-option *ngFor="let city of multiCityTripCities | async" [value]="city.city"
+                                (click)="select_city_by_click(city, 'multi_city')">
+                                {{ city.city }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error>please select pickup city</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width w-100 foe">
+                        <input matInput formControlName="toCity" placeholder="To City" required
+                            id="nextMultiCity" #nextMultiCity
+                            (keypress)="callExternalFunction(nextMultiCity)"
+                            (blur)="getResponse('nextMultiCity', 'multi_city_tocity')">
+                        <mat-error>please select to city</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn grad-btn w-100" (click)="addNewInput()">Add</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="row w-100">
+                <div class="col-12 text-end">
+                    <button class="btn grad-btn" type="submit" (click)="modalRef?.hide()">Search</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
 </ng-template>

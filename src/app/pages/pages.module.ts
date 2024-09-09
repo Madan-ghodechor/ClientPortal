@@ -8,8 +8,6 @@ import { FooterComponent } from './footer/footer.component';
 import { ContentComponent } from './content/content.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -30,6 +28,7 @@ import { BookingPaymentComponent } from './booking-payment/booking-payment.compo
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatRadioModule} from '@angular/material/radio';
+import { TicketPageComponent } from './ticket-page/ticket-page.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +37,8 @@ import {MatRadioModule} from '@angular/material/radio';
     FooterComponent,
     ContentComponent,
     SearchResultsComponent,
-    BookingPaymentComponent
+    BookingPaymentComponent,
+    TicketPageComponent,
   ],
   imports: [
     CommonModule,

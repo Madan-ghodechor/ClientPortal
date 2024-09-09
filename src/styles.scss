@@ -52,3 +52,13 @@ body {
     box-shadow: 1px 2px 0px rgb(211, 211, 211) !important;
     width: 360px !important;
 }
+
+
+// Modal Overlay Done Sorted
+.md-autocomplete-suggestions-container {
+    z-index: 100000 !important;
+}
+
+.cdk-overlay-container {
+    z-index: 999999 !important;
+}

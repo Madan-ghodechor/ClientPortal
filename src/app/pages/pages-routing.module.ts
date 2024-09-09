@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { PageNotFoundComponent } from '../shared/page-not-found/page-not-found.component';
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { BookingPaymentComponent } from './booking-payment/booking-payment.component';
+import { TicketPageComponent } from './ticket-page/ticket-page.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
   {
     path:'booking-payment',
     component: BookingPaymentComponent
+  },
+  {
+    path:'booking-ticket',
+    component: TicketPageComponent
   },
   {
     path:'**',

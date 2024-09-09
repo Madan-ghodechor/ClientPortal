@@ -96,6 +96,7 @@ export class HomeComponent implements AfterViewInit {
   oneWayDropCities: Observable<any[]> | undefined;
   RoundTripPickupCities: Observable<any[]> | undefined;
   RoundTripDropCities: Observable<any[]> | undefined;
+  multiCityTripCities: Observable<any[]> | undefined;
 
 
   localRentalForm: FormGroup;
@@ -103,6 +104,7 @@ export class HomeComponent implements AfterViewInit {
   roundtripForm: FormGroup;
   multicityForm: FormGroup;
   airportForm: FormGroup;
+  multipleCityForm: FormGroup;
 
   ngOnInit() {
     const local = new FormData(); local.append("tour_type_id", "0");
@@ -110,10 +112,10 @@ export class HomeComponent implements AfterViewInit {
     const round = new FormData(); round.append("tour_type_id", "2");
     // const multi = new FormData(); multi.append("tour_type_id", "2");
     const airport = new FormData(); airport.append("tour_type_id", "4");
-    
+
     this.api.getCityForSearch(local).subscribe((res: any) => { this.LocalCitiesData = res.data; })
     this.api.getCityForSearch(oneway).subscribe((res: any) => { this.onewayCitiesData = res.data; })
-    this.api.getCityForSearch(round).subscribe((res: any) => { this.roundCitiesData = res.data; this.multiCitiesData = res.data; })
+    this.api.getCityForSearch(round).subscribe((res: any) => { this.roundCitiesData = res.data; this.multiCitiesData = res.data; console.log(res.data) })
     // this.api.getCityForSearch(multi).subscribe((res: any) => { this.multiCitiesData = res.data; })
     this.api.getCityForSearch(airport).subscribe((res: any) => { this.airportCitiesData = res.data; this.afterApiHits() })
 
@@ -148,6 +150,10 @@ export class HomeComponent implements AfterViewInit {
       drop_location: ['', Validators.required],
       pickupDate: ['', Validators.required],
       pickupTime: ['', Validators.required],
+    });
+    this.multipleCityForm = this.formBuilder.group({
+      pickupCity: ['', Validators.required],
+      toCity: ['', Validators.required]
     })
 
   }
@@ -176,9 +182,13 @@ export class HomeComponent implements AfterViewInit {
       startWith(''),
       map(value => this._filterRoundCity(value || ''))
     );
-    this.RoundTripDropCities = this.roundtripForm.get('returnCity')!.valueChanges.pipe(
+    // this.RoundTripDropCities = this.roundtripForm.get('returnCity')!.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filterAirportCity(value || ''))
+    // );
+    this.multiCityTripCities = this.multipleCityForm.get('pickupCity')!.valueChanges.pipe(
       startWith(''),
-      map(value => this._filterAirportCity(value || ''))
+      map(value => this._filterMultiCity(value || ''))
     );
   }
 
@@ -253,18 +263,31 @@ export class HomeComponent implements AfterViewInit {
   openFareDetails(modalName: any) {
     this.modalRef = this.modalService.show(modalName, { class: 'modal-lg' });
   }
+  // openMultiCityModal(modalName: any){
+  //   this.modalRef = this.modalService.show(modalName, { class: 'modal-lg' });
+  // }
 
   //------------------------ Google Places AutoComple ------------------------//
-  roundTripReturnCity
+  roundTripReturnCity;
+  multicity_toCity;
   callExternalFunction(da: any) {
     CallMaps(da);
   }
-  getResponse(id:string) {
-    setTimeout(() => {
-      this.roundTripReturnCity = MapsReturn(id)
-      console.log(this.roundTripReturnCity)
-      this.roundtripForm.controls['returnCity'].setValue(this.roundTripReturnCity.formatted_address)
-    }, 500)
+  getResponse(id: string, toForm: any) {
+    if (toForm == 'round_trip') {
+      setTimeout(() => {
+        this.roundTripReturnCity = MapsReturn(id)
+        console.log(this.roundTripReturnCity)
+        this.roundtripForm.controls['returnCity'].setValue(this.roundTripReturnCity.formatted_address)
+      }, 500)
+    }
+    if (toForm == 'multi_city_tocity') {
+      setTimeout(() => {
+        this.multicity_toCity = MapsReturn(id)
+        console.log(this.multicity_toCity)
+        this.multipleCityForm.controls['toCity'].setValue(this.multicity_toCity.formatted_address)
+      }, 500)
+    }
   }
   //------------------------ Google Places AutoComple ------------------------//
 
@@ -392,6 +415,7 @@ export class HomeComponent implements AfterViewInit {
   selected_oneway_dropCity: string;
   selected_round_pickupCity: string;
   selected_round_dropCity: string;
+  selected_multi_pickCity: string;
 
   select_city_by_click(evt: any, name: string) {
     if (name == 'local') {
@@ -413,6 +437,10 @@ export class HomeComponent implements AfterViewInit {
     if (name == 'round_return') {
       this.selected_round_dropCity = evt.city;
       this.roundtripForm.controls['returnCity'].setValue(evt.city)
+    }
+    if (name == 'multi_city') {
+      this.selected_multi_pickCity = evt.city;
+      this.multipleCityForm.controls['pickupCity'].setValue(evt.city)
     }
   }
   validate_selected_city(evt, name: string) {
@@ -451,8 +479,23 @@ export class HomeComponent implements AfterViewInit {
         }
       }, 200)
     }
+    if (name == "multi_city") {
+      setTimeout(() => {
+        if (this.selected_multi_pickCity != evt.target.value) {
+          this.multipleCityForm.controls['pickupCity'].setValue("")
+        }
+      }, 200)
+    }
   }
   // ------------------ End Selected City Logic ------------------ //
+
+
+// ------------------ Multicity Add One By One City Logic ------------------ //
+addNewInput(){
+  this.multipleCityForm.addControl('city2', ['', Validators.required]);
+}
+// ------------------ Multicity Add One By One City Logic ------------------ //
+
 
 
   // ------------------ Submit Forms ------------------ //
@@ -517,7 +560,7 @@ export class HomeComponent implements AfterViewInit {
     }
     // console.log(this.roundtripForm.value)
   }
-  submitMultiCity() {
+  submitMultiCity(modal: any) {
     if (this.multicityForm.valid) {
       const data = new FormData();
       data.append("pickupDate", moment(this.multicityForm.value.pickupDate).format("YYYY-MM-DD"));
@@ -530,10 +573,16 @@ export class HomeComponent implements AfterViewInit {
         obj[index] = val;  // Use the index as the key
       });
 
-      localStorage.setItem("SearchForm", JSON.stringify(obj));
-      this.router.navigate(['/search-result'])
+      this.openFareDetails(modal)
+
+      // localStorage.setItem("SearchForm", JSON.stringify(obj));
+      // this.router.navigate(['/search-result'])
     }
     // console.log(this.multicityForm.value)
+  }
+  submitMultiCityForm() {
+    console.log(this.multicityForm.value)
+    console.log(this.multipleCityForm.value)
   }
   submitAirport() {
     const obj = {

@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 declare var Razorpay: any;
 
@@ -8,7 +9,7 @@ declare var Razorpay: any;
 export class RazorpayService {
 
   options: any;
-
+  router = inject(Router)
   constructor() {
     const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
 
@@ -77,7 +78,9 @@ export class RazorpayService {
 
   // Handle payment success
   paymentHandler(response: any) {
-    alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
+    // alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
+    this.router.navigate(['/booking-ticket'])
+    
   }
 
 
