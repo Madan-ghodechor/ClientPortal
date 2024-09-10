@@ -665,5 +665,7 @@ export class HomeComponent implements AfterViewInit {
 
 
 
+  // Make LIFO In multicity UI. Remove last input first and first in last
+
 }
 
