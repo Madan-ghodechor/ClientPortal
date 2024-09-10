@@ -12,7 +12,16 @@ import { Router } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 declare const CallMaps: any;
+declare const CallMaps_city2: any;
+declare const CallMaps_city3: any;
+declare const CallMaps_city4: any;
+declare const CallMaps_city5: any;
+
 declare const MapsReturn: any;
+declare const multicity_city2: any;
+declare const multicity_city3: any;
+declare const multicity_city4: any;
+declare const multicity_city5: any;
 
 declare var $: any;
 
@@ -270,8 +279,19 @@ export class HomeComponent implements AfterViewInit {
   //------------------------ Google Places AutoComple ------------------------//
   roundTripReturnCity;
   multicity_toCity;
-  callExternalFunction(da: any) {
-    CallMaps(da);
+  multicity_city2;
+  multicity_city3;
+  multicity_city4;
+  multicity_city5;
+
+  callExternalFunction(id: any) {
+    CallMaps(id);
+  }
+  getGooglePlaceForMulticity(id: any, cond:string) {
+    if(cond=='city2')
+      CallMaps_city2(id);
+    if(cond=='city3')
+      CallMaps_city3(id);
   }
   getResponse(id: string, toForm: any) {
     if (toForm == 'round_trip') {
@@ -286,6 +306,34 @@ export class HomeComponent implements AfterViewInit {
         this.multicity_toCity = MapsReturn(id)
         console.log(this.multicity_toCity)
         this.multipleCityForm.controls['toCity'].setValue(this.multicity_toCity.formatted_address)
+      }, 500)
+    }
+    if (toForm == 'city2') {
+      setTimeout(() => {
+        this.multicity_city2 = multicity_city2(id)
+        console.log(this.multicity_city2)
+        this.multipleCityForm.controls['city2'].setValue(this.multicity_city2.formatted_address)
+      }, 500)
+    }
+    if (toForm == 'city3') {
+      setTimeout(() => {
+        this.multicity_city3 = multicity_city3(id)
+        console.log(this.multicity_city3)
+        this.multipleCityForm.controls['city3'].setValue(this.multicity_city3.formatted_address)
+      }, 500)
+    }
+    if (toForm == 'city4') {
+      setTimeout(() => {
+        this.multicity_city4 = multicity_city4(id)
+        console.log(this.multicity_city4)
+        this.multipleCityForm.controls['city4'].setValue(this.multicity_city4.formatted_address)
+      }, 500)
+    }
+    if (toForm == 'city5') {
+      setTimeout(() => {
+        this.multicity_city5 = multicity_city5(id)
+        console.log(this.multicity_city5)
+        this.multipleCityForm.controls['city5'].setValue(this.multicity_city5.formatted_address)
       }, 500)
     }
   }
@@ -490,11 +538,34 @@ export class HomeComponent implements AfterViewInit {
   // ------------------ End Selected City Logic ------------------ //
 
 
-// ------------------ Multicity Add One By One City Logic ------------------ //
-addNewInput(){
-  this.multipleCityForm.addControl('city2', ['', Validators.required]);
-}
-// ------------------ Multicity Add One By One City Logic ------------------ //
+  // ------------------ Multicity Add One By One City Logic ------------------ //
+  addNewInput() {
+    if (this.multipleCityForm.contains('toCity') && !this.multipleCityForm.contains('city2') && this.multipleCityForm.value.toCity!='') {
+      this.multipleCityForm.addControl('city2', this.formBuilder.control('', Validators.required));
+    } else if (this.multipleCityForm.contains('city2') && !this.multipleCityForm.contains('city3')) {
+      this.multipleCityForm.addControl('city3', this.formBuilder.control('', Validators.required));
+    } else if (this.multipleCityForm.contains('city3') && !this.multipleCityForm.contains('city4')) {
+      this.multipleCityForm.addControl('city4', this.formBuilder.control('', Validators.required));
+    } else if (this.multipleCityForm.contains('city4') && !this.multipleCityForm.contains('city5')) {
+      this.multipleCityForm.addControl('city5', this.formBuilder.control('', Validators.required));
+    } else {
+      console.log("All city controls are already added.");
+    }
+  }
+  removeInput(da:string) {
+    if (da=='city2') {
+      this.multipleCityForm.removeControl('city2');
+    } else if (da=='city3') {
+      this.multipleCityForm.removeControl('city3');
+    } else if (da=='city4') {
+      this.multipleCityForm.removeControl('city4');
+    } else if (da=='city5') {
+      this.multipleCityForm.removeControl('city5');
+    } else {
+      console.log("All Removed.");
+    }
+  }
+  // ------------------ Multicity Add One By One City Logic ------------------ //
 
 
 
@@ -591,6 +662,7 @@ addNewInput(){
     }
     console.log(this.airportForm.value)
   }
+
 
 
 }

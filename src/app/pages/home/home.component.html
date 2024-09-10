@@ -564,14 +564,17 @@
 
 <!-- Multi City Modal -->
 <ng-template #AddMultiCityModal let-modal>
-    <form [formGroup]="multipleCityForm" (submit)="submitMultiCityForm()">
+    <form [formGroup]="multipleCityForm" (submit)="submitMultiCityForm()" autocomplete="off">
         <div class="modal-header p-2 ps-4 pe-4">
             <h6 class="modal-title" id="myLargeModalLabel"> Add Cities </h6>
             <h6 type="button" (click)="modalRef?.hide()" class="btn-close"></h6>
         </div>
         <div class="modal-body fareDetails">
             <div class="row">
-                <div class="col-md-4">
+
+                <!-- To City Starts -->
+                <div class="col-md-5">
+                    <mat-label class="input-labels">Pickup City</mat-label>
                     <mat-form-field class="example-full-width w-100 ">
                         <input matInput formControlName="pickupCity" placeholder="Pickup City"
                             [matAutocomplete]="multicityPickupAuto" required
@@ -586,18 +589,90 @@
                         <mat-error>please select pickup city</mat-error>
                     </mat-form-field>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
+                    <mat-label class="input-labels">To City</mat-label>
                     <mat-form-field class="example-full-width w-100 foe">
                         <input matInput formControlName="toCity" placeholder="To City" required
-                            id="nextMultiCity" #nextMultiCity
-                            (keypress)="callExternalFunction(nextMultiCity)"
-                            (blur)="getResponse('nextMultiCity', 'multi_city_tocity')">
+                            id="multicity_toCity" #multicity_toCity
+                            (keypress)="callExternalFunction(multicity_toCity)"
+                            (blur)="getResponse('multicity_toCity', 'multi_city_tocity')">
                         <mat-error>please select to city</mat-error>
                     </mat-form-field>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn grad-btn w-100" (click)="addNewInput()">Add</button>
+                    <button class="btn grad-btn" (click)="addNewInput()" *ngIf="!multipleCityForm.contains('city2') || !multipleCityForm.contains('city3') || !multipleCityForm.contains('city3') || !multipleCityForm.contains('city4') || !multipleCityForm.contains('city5')"><i class="fa fa-plus"></i></button>
                 </div>
+                <!-- To City Ends -->
+            
+
+                <!-- City 2 -->
+                <div class="col-md-5" *ngIf="multipleCityForm.contains('city2') || multipleCityForm.contains('city3') || multipleCityForm.contains('city3') || multipleCityForm.contains('city4') || multipleCityForm.contains('city5')">
+                    <mat-label class="input-labels">Next Intermediate City ( To City Readonly )</mat-label>
+                    <mat-form-field class="example-full-width w-100 foe">
+                        <input matInput formControlName="toCity" placeholder="To City" required readonly>
+                        <mat-error>please select to city</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-5" *ngIf="multipleCityForm.contains('city2')">
+                    <mat-label class="input-labels">Next Intermediate City ( City 2 )</mat-label>   
+                    <mat-form-field class="example-full-width w-100 foe">
+                        <input matInput formControlName="city2" placeholder="To City" required
+                            id="multicity_city2" #multicity_city2
+                            (keypress)="getGooglePlaceForMulticity(multicity_city2, 'city2')"
+                            (blur)="getResponse('multicity_city2', 'city2')">
+                        <mat-error>please select to city</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2" *ngIf="multipleCityForm.contains('city2')">
+                    <button *ngIf="multipleCityForm.contains('city2')"  class="btn btn-danger" (click)="removeInput('city2')" > <i class="fa fa-times"></i> </button>&nbsp;&nbsp;<button *ngIf="multipleCityForm.contains('city2') && !multipleCityForm.contains('city3')" class="btn grad-btn " (click)="addNewInput()" > <i class="fa fa-plus"></i> </button>
+                </div>
+                <!-- City 2 Ends -->
+
+                <!-- City 3 Starts -->
+
+                <div class="col-md-5" *ngIf="multipleCityForm.contains('city2') && multipleCityForm.contains('city3')">
+                    <mat-label class="input-labels">Next Intermediate City ( City 2 readonly )</mat-label>
+                    <mat-form-field class="example-full-width w-100 foe">
+                        <input matInput formControlName="city2" placeholder="City 3 Readonly" required readonly>
+                        <mat-error>please select to city</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-5" *ngIf="multipleCityForm.contains('city3')">
+                    <mat-label class="input-labels">Next Intermediate City ( City 3 )</mat-label>
+                    <mat-form-field class="example-full-width w-100 foe">
+                        <input matInput formControlName="city3" placeholder="To City" required
+                            id="multicity_city3" #multicity_city3
+                            (keypress)="getGooglePlaceForMulticity(multicity_city3, 'city3')"
+                            (blur)="getResponse('multicity_city3', 'city3')">
+                        <mat-error>please select to city</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <button *ngIf="multipleCityForm.contains('city3')" class="btn btn-danger" (click)="removeInput('city3')" > <i class="fa fa-times"></i> </button>&nbsp;&nbsp;<button *ngIf="multipleCityForm.contains('city3') && !multipleCityForm.contains('city4')" class="btn grad-btn " (click)="addNewInput()" > <i class="fa fa-plus"></i> </button>
+                </div>
+
+                
+                <div class="col-md-5" *ngIf="multipleCityForm.contains('city4') || multipleCityForm.contains('city5')">
+                    <mat-label class="input-labels">Next Intermediate City ( City 3 readonly )</mat-label>
+                    <mat-form-field class="example-full-width w-100 foe">
+                        <input matInput formControlName="city2" placeholder="To City" required readonly>
+                        <mat-error>please select to city</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-5" *ngIf="multipleCityForm.contains('city4')">
+                    <mat-label class="input-labels">Next Intermediate City ( City 4 )</mat-label>
+                    <mat-form-field class="example-full-width w-100 foe">
+                        <input matInput formControlName="city4" placeholder="To City" required
+                            id="multicity_city4" #multicity_city4
+                            (keypress)="getGooglePlaceForMulticity(multicity_city4, 'city4')"
+                            (blur)="getResponse('multicity_city4', 'city4')">
+                        <mat-error>please select to city</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2" >
+                    <button *ngIf="multipleCityForm.contains('city4')" class="btn btn-danger" (click)="removeInput('city4')" > <i class="fa fa-times"></i> </button>&nbsp;&nbsp;<button *ngIf="multipleCityForm.contains('city4') && !multipleCityForm.contains('city5')" class="btn grad-btn " (click)="addNewInput()" > <i class="fa fa-plus"></i> </button>
+                </div>
+
             </div>
         </div>
         <div class="modal-footer">
