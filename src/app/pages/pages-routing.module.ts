@@ -5,6 +5,8 @@ import { PageNotFoundComponent } from '../shared/page-not-found/page-not-found.c
 import { SearchResultsComponent } from './search-results/search-results.component';
 import { BookingPaymentComponent } from './booking-payment/booking-payment.component';
 import { TicketPageComponent } from './ticket-page/ticket-page.component';
+import { PdfConvertorComponent } from './pdf-convertor/pdf-convertor.component';
+import { MulticityComponent } from './multicity/multicity.component';
 
 const routes: Routes = [
   {
@@ -22,6 +24,14 @@ const routes: Routes = [
   {
     path:'booking-ticket',
     component: TicketPageComponent
+  },
+  {
+    path: 'pdf-generator',
+    component: PdfConvertorComponent
+  },
+  {
+    path: 'multi-city',
+    component: MulticityComponent
   },
   {
     path:'**',

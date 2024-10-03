@@ -7,8 +7,8 @@ import { Router } from '@angular/router';
 import { RazorpayService } from '../../services/razorpay.service';
 
 
-declare const CallMaps: any;
-declare const MapsReturn: any;
+declare const _callPickupLocation: any;
+declare const _returnPickupLocation: any;
 
 
 @Component({
@@ -151,10 +151,16 @@ export class BookingPaymentComponent implements OnInit {
   paymentInfoForm: FormGroup;
 
   userDetails: any = null;
-  
+  loggedIn = true;
+
   ngOnInit() {
     const da = JSON.parse(localStorage.getItem('user_details'));
     this.userDetails = da.user
+    console.log(da.user)
+    // if (da.user=='' || da.user==null) {
+    // } else {
+    //   this.userDetailsSkip = false;
+    // }
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@!$%^&*()_+[\]{}|;:,.<>?])(?!.*\s).{8,}$/;
     const contactNoPattern = /^[0-9]{10}$/;
 
@@ -189,31 +195,37 @@ export class BookingPaymentComponent implements OnInit {
       email: ['madan.ghodechor@taxivaxi.com', Validators.required],
     })
     this.pickupGstDetailsForm = this.fb.group({
-      pickupCity : ['', [Validators.required]],
-      pickupLocation : ['', [Validators.required]],
+      pickupCity: ['', [Validators.required]],
+      pickupLocation: ['', [Validators.required]],
     })
     this.paymentInfoForm = this.fb.group({
-      paymentOption : ['', Validators.required],
-      terms_and_cond : ['', Validators.required],
+      paymentOption: ['', Validators.required],
+      terms_and_cond: ['', Validators.required],
     })
 
+    this.setResponse()
+
+  }
+  setResponse(){
+    let data = JSON.parse(localStorage.getItem('SearchForm'))
+    this.pickupGstDetailsForm.controls['pickupCity'].setValue(data.pickupCity)
   }
 
-    //------------------------ Google Places AutoComple ------------------------//
-    pickupLocation
-    callExternalFunction(da: any) {
-      CallMaps(da);
-    }
-    getResponse(id:string) {
-      setTimeout(() => {
-        this.pickupLocation = MapsReturn(id)
-        console.log(this.pickupLocation)
-        this.pickupGstDetailsForm.controls['pickupLocation'].setValue(this.pickupLocation.formatted_address)
-      }, 500)
-    }
-    //------------------------ Google Places AutoComple ------------------------//
+  //------------------------ Google Places AutoComple ------------------------//
+  pickupLocation
+  callExternalFunction(da: any) {
+    _callPickupLocation(da, 'Pune'); 
+  }
+  getResponse(id: string) {
+    setTimeout(() => {
+      this.pickupLocation = _returnPickupLocation(id)
+      console.log(this.pickupLocation)
+      this.pickupGstDetailsForm.controls['pickupLocation'].setValue(this.pickupLocation)
+    }, 200)
+  }
+  //------------------------ Google Places AutoComple ------------------------//
 
-    
+
   // ------------------ Password Match ------------------ //
   passwordMissMatch = false;
   getPasswordMatched() {
@@ -305,7 +317,7 @@ export class BookingPaymentComponent implements OnInit {
       data.append("contact_no", this.signupUserForm.value.contact_no);
 
       this.api.getSignUp(data).subscribe((res: any) => {
-        if (res.success == "true"){
+        if (res.success == "true") {
           this.helpers.autoHideSweetAlert("success", "New User Added Successfully !")
           console.log(res);
         }
@@ -314,8 +326,9 @@ export class BookingPaymentComponent implements OnInit {
   }
 
   razorpay = inject(RazorpayService)
-  OpenRazorModal(){
+  OpenRazorModal() {
     this.razorpay.openCheckout();
   }
+
 
 }

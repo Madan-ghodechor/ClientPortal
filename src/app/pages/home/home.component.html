@@ -223,8 +223,8 @@
                             </div>
                         </form>
                     </div>
-                    <div *ngSwitchCase="outstationTabs[2].show">
-                        <form [formGroup]="multicityForm" (submit)="submitMultiCity(AddMultiCityModal)">
+                    <!-- <div *ngSwitchCase="outstationTabs[2].show">
+                        <form [formGroup]="multicityForm" (submit)="submitMultiCity(AddMultiCityModal2)">
                             <div class="row px-md-4 pt-md-1">
                                 <div class="col-md-4">
                                     <mat-label class="input-labels">Pickup Date</mat-label>
@@ -271,7 +271,7 @@
                                 </div>
                             </div>
                         </form>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div *ngSwitchCase="divs[2].show">
@@ -671,6 +671,62 @@
                 </div>
                 <div class="col-md-2" >
                     <button *ngIf="multipleCityForm.contains('city4')" class="btn btn-danger" (click)="removeInput('city4')" > <i class="fa fa-times"></i> </button>&nbsp;&nbsp;<button *ngIf="multipleCityForm.contains('city4') && !multipleCityForm.contains('city5')" class="btn grad-btn " (click)="addNewInput()" > <i class="fa fa-plus"></i> </button>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="row w-100">
+                <div class="col-12 text-end">
+                    <button class="btn grad-btn" type="submit" (click)="modalRef?.hide()">Search</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</ng-template>
+
+<ng-template #AddMultiCityModal2 let-modal>
+    <form [formGroup]="multipleCityForm" (submit)="submitMultiCityForm()" autocomplete="off">
+        <div class="modal-header p-2 ps-4 pe-4">
+            <h6 class="modal-title" id="myLargeModalLabel"> Add Cities 2 </h6>
+            <h6 type="button" (click)="modalRef?.hide()" class="btn-close"></h6>
+        </div>
+        <div class="modal-body fareDetails">
+            <div class="row">
+                <div class="col-md-12">
+                    <p>From City</p> To @for (item of $multicityArray; track $index) {
+                        {{ item + " > " }}
+                    }
+                </div>
+                <div class="col-md-5">
+                    <mat-label class="input-labels">Pickup City</mat-label>
+                    <mat-form-field class="example-full-width w-100 ">
+                        <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                            [matAutocomplete]="multicityPickupAuto" required
+                            (blur)="validate_selected_city($event, 'multi_city')">
+                        <!-- <mat-icon matSuffix class="fa fa-search"> </mat-icon> -->
+                        <mat-autocomplete #multicityPickupAuto="matAutocomplete" style="z-index: 99999 !important;">
+                            <mat-option *ngFor="let city of multiCityTripCities | async" [value]="city.city"
+                                (click)="select_city_by_click(city, 'multi_city')">
+                                {{ city.city }}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-error>please select pickup city</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                    <mat-label class="input-labels">To City</mat-label>
+                    <mat-form-field class="example-full-width w-100 foe">
+                        <input matInput formControlName="toCity" placeholder="To City" required
+                            id="multicity_toCity" #multicity_toCity
+                            (keypress)="callExternalFunction(multicity_toCity)"
+                            (blur)="getResponse('multicity_toCity', 'multi_city_tocity')">
+                        <mat-error>please select to city</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn grad-btn" (click)="addNewMulticity()"><i class="fa fa-plus"></i></button>
                 </div>
 
             </div>

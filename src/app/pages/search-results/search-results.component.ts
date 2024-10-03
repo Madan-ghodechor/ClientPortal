@@ -5,6 +5,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TimelogicService } from '../../services/timelogic.service';
 import { map, Observable, startWith } from 'rxjs';
 import { ApiService } from '../../services/api.service';
+import { Router } from '@angular/router';
+import moment from 'moment';
+
 
 declare const CallMaps: any;
 declare const MapsReturn: any;
@@ -17,6 +20,7 @@ declare const MapsReturn: any;
 export class SearchResultsComponent implements OnInit {
 
 
+  
   //------------------------ Dependency's And Services ------------------------//
   modalRef?: BsModalRef;
   modalService = inject(BsModalService);
@@ -24,6 +28,7 @@ export class SearchResultsComponent implements OnInit {
   fb = inject(FormBuilder);
   timeLogic = inject(TimelogicService);
   api = inject(ApiService)
+  router = inject(Router)
 
 
   //------------------------ Static Data's And Variables ------------------------//
@@ -157,9 +162,9 @@ export class SearchResultsComponent implements OnInit {
       data.append("return_date", this.modifyRoundForm.value.returnDate);
       data.append("type_of_tour", this.modifyRoundForm.value.tourType);
 
-      data.forEach((val, key) => {
-        console.log(key + ":" + val)
-      })
+      // data.forEach((val, key) => {
+      //   console.log(key + ":" + val)
+      // })
 
       this.api.getTaxis(data).subscribe((res: any) => {
         console.log(res)
@@ -169,12 +174,18 @@ export class SearchResultsComponent implements OnInit {
     }
 
   }
- 
+
   //------------------------ Fare Details Modal ------------------------//
   FareDetails: any;
   openFareDetails(modalName: any, data: any) {
     this.FareDetails = data;
     console.log(data)
+    this.modalRef = this.modalService.show(modalName, { class: 'modal-lg' });
+  }
+
+  //------------------------ Modify Search Form Logic ------------------------//
+  modifySearchModal(modalName){
+    this.setFormData()
     this.modalRef = this.modalService.show(modalName, { class: 'modal-lg' });
   }
 
@@ -278,20 +289,20 @@ export class SearchResultsComponent implements OnInit {
         }
       }, 200)
     }
-  //   if (name == "round_pickup") {
-  //     setTimeout(() => {
-  //       if (this.selected_round_pickupCity != evt.target.value) {
-  //         this.roundtripForm.controls['pickupCity'].setValue("")
-  //       }
-  //     }, 200)
-  //   }
-  //   if (name == "round_return") {
-  //     setTimeout(() => {
-  //       if (this.selected_round_dropCity != evt.target.value) {
-  //         this.roundtripForm.controls['returnCity'].setValue("")
-  //       }
-  //     }, 200)
-  //   }
+    //   if (name == "round_pickup") {
+    //     setTimeout(() => {
+    //       if (this.selected_round_pickupCity != evt.target.value) {
+    //         this.roundtripForm.controls['pickupCity'].setValue("")
+    //       }
+    //     }, 200)
+    //   }
+    //   if (name == "round_return") {
+    //     setTimeout(() => {
+    //       if (this.selected_round_dropCity != evt.target.value) {
+    //         this.roundtripForm.controls['returnCity'].setValue("")
+    //       }
+    //     }, 200)
+    //   }
   }
   // ------------------ End Selected City Logic ------------------ //
 
@@ -361,6 +372,61 @@ export class SearchResultsComponent implements OnInit {
 
 
 
+
+
+
+
+
+
+
+  SubmitLocalRentalForm(){
+    console.log(this.modifyLocalRentalForm.value)
+    let obj = {
+      pickupCity : this.modifyLocalRentalForm.value.pickupCity,
+      pickupDate : moment(this.modifyLocalRentalForm.value.pickupDate).format("YYYY-MM-DD"),
+      pickupTime :  this.modifyLocalRentalForm.value.pickupTime,
+      type_of_tour : "0"
+    }
+    localStorage.setItem("SearchForm", JSON.stringify(obj))
+    this.modalRef.hide()
+    this.ngOnInit()
+     
+  }
+  SubmiOnewayRentalForm(){
+    
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // ------------------ Select Cab ------------------ //
+  setCabDetails(cab){
+    localStorage.setItem('selectedCabDetails', JSON.stringify(cab))
+    this.router.navigate(['/booking-payment'])
+  }
 
 
 }

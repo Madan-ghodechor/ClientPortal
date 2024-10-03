@@ -1,7 +1,7 @@
 @import "./theme_variables.scss";
 
 .grad-btn {
-    height: 40px;
+    height: 35px;
     width: auto;
     max-width: 150px;
     display: grid;
@@ -9,8 +9,14 @@
     background-image: linear-gradient(28deg, $gradient-color1 35%, $gradient-color2);
     color: white !important;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 10px;
     font-weight: 550;
+}
+.close-modal-btn {
+    height: 35px !important;
+}
+.input-labels{
+    font-size: 13px !important;
 }
 .grad-btn:hover{
     color: white;
@@ -45,6 +51,7 @@
     float: left;
     width: 100%;
     border-radius: 4px;
+    
 
     .search-form {
         float: left;
@@ -52,17 +59,24 @@
         width: 88%;
         font-size: 13px;
         color: rgb(255, 255, 255);
+        transition: visibility 0s linear 0.33s, opacity 0.33s linear;
 
         mat-label, mat-form-field, .mat-mdc-form-field-input-control, .mat-mdc-select-value, .mat-icon, .mat-mdc-select-arrow svg{
             color: rgb(0, 0, 0) !important;
         }
+        .content:first-child{
+            border: none !important;
+        }
         .content {
             height: auto;
             float: left;
-            min-width: 20%;
+            min-width: auto;
             width: auto;
             margin-right: 14px;
-            margin-top: 5px;
+            padding-left: 10px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-left: 1px solid white;
 
             b {
                 font-weight: 700;

@@ -1,0 +1,44 @@
+
+<div class="container m-4 p-5">
+    <div class="row">
+        <div class="col-md-10">
+            <form [formGroup]="multipleCityForm" (submit)="submitMultiCityForm()" autocomplete="off">
+
+                    <div class="row">
+            
+                        <!-- To City Starts -->
+                        <div class="col-md-5">
+                            <mat-label class="input-labels">Pickup City</mat-label>
+                            <mat-form-field class="example-full-width w-100 ">
+                                <input matInput formControlName="pickupCity" placeholder="Pickup City"
+                                    [matAutocomplete]="multicityPickupAuto" required
+                                    (blur)="validate_selected_city($event, 'multi_city')">
+                                <!-- <mat-icon matSuffix class="fa fa-search"> </mat-icon> -->
+                                <mat-autocomplete #multicityPickupAuto="matAutocomplete" style="z-index: 99999 !important;">
+                                    <mat-option *ngFor="let city of multiCityTripCities | async" [value]="city.city"
+                                        (click)="select_city_by_click(city, 'multi_city')">
+                                        {{ city.city }}
+                                    </mat-option>
+                                </mat-autocomplete>
+                                <mat-error>please select pickup city</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-5">
+                            <mat-label class="input-labels">To City</mat-label>
+                            <mat-form-field class="example-full-width w-100 foe">
+                                <input matInput formControlName="toCity" placeholder="To City" required
+                                    id="multicity_toCity" #multicity_toCity
+                                    (keypress)="callExternalFunction(multicity_toCity)"
+                                    (blur)="getResponse('multicity_toCity', 'multi_city_tocity')">
+                                <mat-error>please select to city</mat-error>
+                            </mat-form-field>
+                            <button class="btn grad-btn" (click)="addNewInput()"><i class="fa fa-plus"></i></button>
+                        </div>
+                        <!-- To City Ends -->
+            
+                    </div>
+        
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,3 +1,4 @@
+
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Observable, startWith, map } from 'rxjs';
@@ -24,11 +25,11 @@ declare const multicity_city5: any;
 declare var $: any;
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
+  selector: 'app-multicity',
+  templateUrl: './multicity.component.html',
+  styleUrl: './multicity.component.scss'
 })
-export class HomeComponent implements AfterViewInit {
+export class MulticityComponent implements AfterViewInit {
   // Static Code 
   TodaysDate: Date = new Date();
 
@@ -53,6 +54,7 @@ export class HomeComponent implements AfterViewInit {
   outstationTabs = [
     { id: 1, show: true, name: 'One Way', active: true },
     { id: 2, show: false, name: 'Round Trip', active: false },
+    { id: 3, show: false, name: 'Multi City', active: false },
   ];
 
   toggleForms(id: number) {
@@ -662,17 +664,7 @@ export class HomeComponent implements AfterViewInit {
 
 
 
-
-
-
-
-
-  // ------------------ Multi-city new Logic ------------------ //
-  $multicityArray = []
-  addNewMulticity(){
-    this.$multicityArray.push(this.multicity_toCity.formatted_address)
-  }
-
+  // Make LIFO In multicity UI. Remove last input first and first in last
 
 }
 

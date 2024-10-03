@@ -17,6 +17,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+
 import {MatSelectModule} from '@angular/material/select';
 import { SearchResultsComponent } from './search-results/search-results.component';
 
@@ -29,6 +30,12 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatRadioModule} from '@angular/material/radio';
 import { TicketPageComponent } from './ticket-page/ticket-page.component';
+import { PdfConvertorComponent } from './pdf-convertor/pdf-convertor.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MulticityComponent } from './multicity/multicity.component';
+
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -39,6 +46,8 @@ import { TicketPageComponent } from './ticket-page/ticket-page.component';
     SearchResultsComponent,
     BookingPaymentComponent,
     TicketPageComponent,
+    PdfConvertorComponent,
+    MulticityComponent,
   ],
   imports: [
     CommonModule,
@@ -58,11 +67,18 @@ import { TicketPageComponent } from './ticket-page/ticket-page.component';
     ModalModule.forRoot(),
     MatCheckboxModule,
     MatSlideToggleModule,
-    MatRadioModule
+    MatRadioModule,
+    MatExpansionModule,
+    MatStepperModule
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     provideNativeDateAdapter(),
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: {showError: true},
+    },
+
   ],
 
   exports: [
