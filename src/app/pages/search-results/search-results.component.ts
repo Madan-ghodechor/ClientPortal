@@ -133,6 +133,7 @@ export class SearchResultsComponent implements OnInit {
 
       this.api.getTaxis(data).subscribe((res: any) => {
         console.log(res.data)
+        localStorage.setItem('search_id',res.data.search_id)
         this.cabs = res.data.taxis
         this.cabsFullData = res.data;
       })

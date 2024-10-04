@@ -1,0 +1,127 @@
+.owl-carousel-container {
+  height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.owl-pre i{
+  padding-right: 2px !important;
+}
+
+.owl-next i{
+  padding-left: 2px !important;
+}
+
+.owl-nav .owl-prev,
+.owl-nav .owl-next {
+  position: relative;
+  top: -136px !important;
+  font-size: 16px !important;
+  border-radius: 50% !important;
+  width: 40px;
+  background-color: rgba(255, 0, 0, 0) !important;
+  border: 2px solid $theme-color;
+  color: $theme-color !important;
+  box-sizing: border-box;
+  height: 38px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 15px !important;
+  padding: 0px !important;
+  top: 0px;
+  text-decoration: none !important;
+  font-weight: 800 !important;
+}
+
+
+.owl-theme .owl-nav {
+  height: 0px;
+  display: flex;
+  place-content: space-between;
+}
+
+
+.owl-carousel {
+  width: 84%;
+  position: unset !important;
+}
+
+.owl-dot {
+  display: none !important;
+}
+
+.carousel-heading {
+  color: black !important;
+  text-align: center;
+  font-weight: 600;
+  font-size: 16px !important;
+  margin-top: 10px;
+}
+
+.item {
+  // background-color: rgb(186, 247, 255) !important;
+  min-height: 280px;
+  height: auto !important;
+  padding-top: 12%;
+}
+
+.item img {
+  min-height: 140px !important;
+  max-height: 140px;
+  height: auto;
+}
+
+// .item:hover .hoveredtext
+// {
+//   position: relative;
+//   top: 0px ;
+//   height: 200px;
+//   width: 300px;
+//   display: contents !important;
+// }
+.item .hoveredtext{
+  visibility: hidden;
+  transition: 0.3s ease-in-out;
+  height: 0px !important;
+  width: 300px !important;
+  bottom: 0px;
+  position: absolute !important;
+  height: 0% !important;
+  width: 100% !important;
+  background-color: white;
+  color: white;
+}
+.item:hover .hoveredtext
+{
+  position: absolute !important;
+  bottom: 0px ;
+  height: 100% !important;
+  width: 100% !important;
+  background-image: linear-gradient(170deg, rgba(70, 70, 70, 0.174) 10%, rgba(0, 0, 0, 0.429) 60%, rgba(221, 55, 80, 0) 100%);
+  background-color: $theme-color;
+  // background-color: white;
+  color: $footerTextColor;
+  padding: 16px;
+  border: 1px solid $theme-color;
+  border-radius: 5px;
+  visibility: visible;
+  transition: 0.3s ease-in-out;
+  display: flex;
+}
+.goToBtn
+{
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  border: 1px solid whitesmoke;
+  outline: 1px solid whitesmoke;
+  color: white;
+  background-color: rgba(255, 255, 255, 0.205);
+}
+
+@media (max-width:767px) {
+  .hoveredtext{
+    font-size: 14px;
+  }
+}

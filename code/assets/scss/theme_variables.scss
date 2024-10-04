@@ -1,0 +1,74 @@
+:root {
+    --theme-color: rgb(39,160,165); // Red color
+}
+$theme-color: rgb(39,160,165);
+
+$gradient-color1: rgb(28,121,172);
+$gradient-color2: rgb(50,202,155);
+
+$gradient-color-faint1: rgba(28, 122, 172);
+$gradient-color-faint2: rgba(50, 202, 154);
+
+// $theme-color: rgb(250, 235, 38);
+// $theCabYello: rgb(250, 235, 38);
+
+$footerTextColor: white;
+$footerTextShadowColor: rgb(0, 0, 0);
+
+$footerTextHoverColor: rgb(255, 197, 234);
+$footerTextHoverShadowColor: rgba(255, 255, 255, 0.518);
+
+
+
+
+// Input Feild Variables
+$MatInputFontSize: 13px;
+
+// Check Box Color Change
+.mdc-checkbox .mdc-checkbox__native-control:enabled:checked~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control:enabled:indeterminate~.mdc-checkbox__background,
+.mdc-checkbox .mdc-checkbox__native-control[data-indeterminate=true]:enabled~.mdc-checkbox__background {
+    border-color: $theme-color !important;
+    background-color: $theme-color !important;
+}
+
+.mdc-checkbox__ripple{
+    background-color: transparent !important;
+}
+.mdc-checkbox .mdc-checkbox__native-control:focus:checked~.mdc-checkbox__ripple{
+    background-color: transparent !important;
+}
+
+//  Slide Toggle Color Change
+.mdc-switch:enabled .mdc-switch__track::after {
+    background: $theme-color !important;
+}
+.mdc-switch__icons{
+    background-color: $theme-color !important;
+    border-radius: 50% !important;
+}
+
+//  Radio Color Change
+.mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background .mdc-radio__outer-circle {
+    border-color: $theme-color !important;
+}
+.mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled+.mdc-radio__background .mdc-radio__inner-circle {
+    border-color: $theme-color !important;
+}
+.mat-ripple mat-radio-ripple mat-mdc-focus-indicator{
+    background-color: blue !important;
+}
+.mat-mdc-radio-button.mat-accent {
+    --mdc-radio-disabled-selected-icon-color: black;
+    --mdc-radio-disabled-unselected-icon-color: black;
+    --mdc-radio-unselected-hover-icon-color: #212121;
+    --mdc-radio-unselected-icon-color: rgba(0, 0, 0, 0.54);
+    --mdc-radio-unselected-pressed-icon-color: rgba(0, 0, 0, 0.54);
+    --mdc-radio-selected-focus-icon-color: $theme-color !important;
+    --mdc-radio-selected-hover-icon-color: $theme-color !important;
+    --mdc-radio-selected-icon-color: $theme-color !important;
+    --mdc-radio-selected-pressed-icon-color: $theme-color !important;
+    --mat-radio-ripple-color: black;
+    --mat-radio-checked-ripple-color: $theme-color !important;
+    --mat-radio-disabled-label-color: rgba(0, 0, 0, 0.38);
+}

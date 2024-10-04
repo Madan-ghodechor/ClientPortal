@@ -1,5 +1,7 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 declare var Razorpay: any;
 
@@ -10,6 +12,7 @@ export class RazorpayService {
 
   options: any;
   router = inject(Router)
+  http = inject(HttpClient)
   constructor() {
     const themeColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
 
@@ -20,11 +23,11 @@ export class RazorpayService {
 
     const gstAmount = (baseFare * gstPercentage) / 100;
     const totalAmount = baseFare + gstAmount + convenienceFee;
-    
+
     this.options = {
       key: 'rzp_test_5V2dfV0DMydP0L',
-      SECRETE_KEY :"Php0ypQ3WiiFJbByPH9urxYT",
-      amount: 551.25*100,
+      SECRETE_KEY: "Php0ypQ3WiiFJbByPH9urxYT",
+      amount: 551.25 * 100,
       currency: 'INR',
       name: 'Fleet24x7',
       description: 'Acme Corp',
@@ -80,7 +83,7 @@ export class RazorpayService {
   paymentHandler(response: any) {
     // alert(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
     this.router.navigate(['/booking-ticket'])
-    
+
   }
 
 
@@ -88,6 +91,28 @@ export class RazorpayService {
   openCheckout() {
     const rzp = new Razorpay(this.options);
     rzp.open();
+  }
+
+
+  private apiKey = 'rzp_test_5V2dfV0DMydP0L';
+  private secretKey = 'Php0ypQ3WiiFJbByPH9urxYT';
+
+
+  createOrder(amount: number, receipt: string = 'receipt#1'): Observable<any> {
+    const orderData = {
+      amount: amount * 100, // Amount in paise (1 INR = 100 paise)
+      currency: 'INR',
+      receipt: receipt,
+    };
+
+    const authHeader = btoa(`${this.apiKey}:${this.secretKey}`);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Basic ${authHeader}`
+    });
+
+    return this.http.post('https://api.razorpay.com/v1/orders', orderData, { headers });
   }
 
 

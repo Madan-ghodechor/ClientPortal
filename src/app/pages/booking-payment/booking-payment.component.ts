@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { HelpersService } from '../../services/helpers.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { RazorpayService } from '../../services/razorpay.service';
@@ -9,6 +9,8 @@ import { RazorpayService } from '../../services/razorpay.service';
 
 declare const _callPickupLocation: any;
 declare const _returnPickupLocation: any;
+
+declare var Razorpay: any;
 
 
 @Component({
@@ -148,12 +150,19 @@ export class BookingPaymentComponent implements OnInit {
 
   userDetailsForm: FormGroup;
   pickupGstDetailsForm: FormGroup;
-  paymentInfoForm: FormGroup;
+  paymentStatusForm: FormGroup;
 
   userDetails: any = null;
+  cabDetails: any;
+  search_form: any = null;
   loggedIn = true;
 
+  constructor() {}
+
   ngOnInit() {
+    this.search_form = JSON.parse(localStorage.getItem("SearchForm"));
+    this.cabDetails = JSON.parse(localStorage.getItem('selectedCabDetails'));
+
     const da = JSON.parse(localStorage.getItem('user_details'));
     this.userDetails = da.user
     console.log(da.user)
@@ -190,37 +199,48 @@ export class BookingPaymentComponent implements OnInit {
     })
 
     this.userDetailsForm = this.fb.group({
-      full_name: ['Madan Ghodechor', Validators.required],
-      phone: ['9309804106', Validators.required],
-      email: ['madan.ghodechor@taxivaxi.com', Validators.required],
+      full_name: ['', [Validators.required, Validators.pattern('^[A-Za-z ]*$')]],
+      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      phone2: ['', [Validators.pattern('^[0-9]{10}$')]],
+      email: ['', [Validators.required, Validators.pattern('^[a-z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')]],
+      special_request: ['']
     })
     this.pickupGstDetailsForm = this.fb.group({
       pickupCity: ['', [Validators.required]],
       pickupLocation: ['', [Validators.required]],
     })
-    this.paymentInfoForm = this.fb.group({
-      paymentOption: ['', Validators.required],
+
+    this.paymentStatusForm = this.fb.group({
+      paymentOption: [ ( (this.cabDetails.base_fare * 25) / 100 ) * 1.05, Validators.required],
       terms_and_cond: ['', Validators.required],
     })
 
     this.setResponse()
 
+    this.initializeOptions();
+
   }
-  setResponse(){
+  setResponse() {
     let data = JSON.parse(localStorage.getItem('SearchForm'))
     this.pickupGstDetailsForm.controls['pickupCity'].setValue(data.pickupCity)
+
+    this.userDetailsForm.patchValue({
+      full_name: [this.userDetails.name],
+      phone: [this.userDetails.contact_no],
+      email: [this.userDetails.email],
+    })
   }
 
   //------------------------ Google Places AutoComple ------------------------//
   pickupLocation
   callExternalFunction(da: any) {
-    _callPickupLocation(da, 'Pune'); 
+    _callPickupLocation(da, 'Pune');
   }
   getResponse(id: string) {
     setTimeout(() => {
       this.pickupLocation = _returnPickupLocation(id)
-      console.log(this.pickupLocation)
-      this.pickupGstDetailsForm.controls['pickupLocation'].setValue(this.pickupLocation)
+      console.log(this.pickupLocation.formatted_address)
+      this.pickupGstDetailsForm.controls['pickupLocation'].setValue(this.pickupLocation.formatted_address)
     }, 200)
   }
   //------------------------ Google Places AutoComple ------------------------//
@@ -326,8 +346,145 @@ export class BookingPaymentComponent implements OnInit {
   }
 
   razorpay = inject(RazorpayService)
-  OpenRazorModal() {
-    this.razorpay.openCheckout();
+
+
+  isGST: boolean = false;
+
+  gstToggle(evt: any): void {
+    this.isGST = evt.checked;
+
+    if (this.isGST) {
+      this.pickupGstDetailsForm.addControl('userGstNumber', new FormControl('', [Validators.required, Validators.pattern('^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$')]));
+      this.pickupGstDetailsForm.addControl('bussiness_name', new FormControl('', Validators.required));
+      this.pickupGstDetailsForm.addControl('bussiness_address', new FormControl('', Validators.required));
+    } else {
+      this.pickupGstDetailsForm.removeControl('userGstNumber');
+      this.pickupGstDetailsForm.removeControl('bussiness_name');
+      this.pickupGstDetailsForm.removeControl('bussiness_address');
+    }
+    this.pickupGstDetailsForm.updateValueAndValidity();
+  }
+
+
+
+
+
+  options: any;
+  themeColor: string;
+
+
+
+  // Open Razorpay checkout
+  paymentGatewayValid= false;
+  openPaymentGateway() {
+    if(this.paymentStatusForm.valid){
+      this.paymentGatewayValid = false
+      const rzp = new Razorpay(this.options);
+      rzp.open();
+    }else{
+      this.paymentGatewayValid = true;
+    }
+  }
+
+  // Initialize Razorpay options
+  initializeOptions() {
+    this.themeColor = getComputedStyle(document.documentElement).getPropertyValue('--theme-color').trim();
+
+    const userEmail = this.userDetails.name
+    const userContact = this.userDetails.contact_no
+    console.log(this.cabDetails.base_fare)
+    const baseFare = this.paymentStatusForm.value.paymentOption ;
+    const gstPercentage = 18;
+    const convenienceFee = 50;
+
+    const gstAmount = (baseFare * gstPercentage) / 100;
+    const totalAmount = baseFare + gstAmount + convenienceFee;
+
+    // Set options for Razorpay
+    this.options = {
+      key: 'rzp_test_5V2dfV0DMydP0L',
+      SECRETE_KEY :"Php0ypQ3WiiFJbByPH9urxYT",
+      amount: totalAmount * 100,
+      currency: 'INR',
+      name: 'Fleet24x7',
+      description: 'Acme Corp',
+      image: 'https://testretail.fleet247.in/favicon.svg', // Ensure to use a valid image URL
+      prefill: {
+        email: userEmail,
+        contact: "+91"+userContact,
+      },
+      theme: {
+        color: this.themeColor
+      },
+      config: {
+        display: {
+          blocks: {
+            other: {
+              name: "Netbanking",
+              instruments: [
+                {
+                  method: "netbanking",
+                  banks: ["ICIC", "HDFC", "SBI"]
+                }
+              ]
+            }
+          },
+          hide: [
+            {
+              method: "paylater",
+            },
+            {
+              method: "emi"
+            }
+          ],
+          sequence: ["block.recommended", "block.other"],
+          preferences: {
+            show_default_blocks: true
+          },
+        }
+      },
+      handler: this.AfterSucceedPayment.bind(this),
+      modal: {
+        ondismiss: () => {
+          if (confirm("Are you sure you want to close the form?")) {
+            console.log("Checkout form closed by the user");
+          } else {
+            console.log("Complete the Payment");
+          }
+        }
+      }
+    };
+  }
+  // Handle payment success
+  AfterSucceedPayment(response: any) {
+
+    const data = new FormData();
+    data.append("Access-Token", localStorage.getItem('Access_Token'));
+    data.append("pickup_location", this.pickupGstDetailsForm.value.pickupCity);
+    data.append("pickup_location_detail", this.pickupGstDetailsForm.value.pickup_location);
+    data.append("type_of_tour", '0');     // Local only
+    data.append("search_id", localStorage.getItem("search_id"))
+    data.append("pickup_date", this.search_form.pickupDate)
+    data.append("pickup_time", this.search_form.pickupTime)
+    data.append("taxi_type_id", this.cabDetails.type_id)
+    data.append("chargable_km", this.cabDetails.chargable_km)
+    data.append("base_fare", this.cabDetails.base_fare)
+    data.append("advance_paid", '557')                                      // Static data
+    data.append("estimated_total_trip_cost", this.cabDetails.estimated_total_trip_cost)
+    data.append("passenger_name", this.userDetailsForm.value.full_name)
+    data.append("passenger_email", this.userDetailsForm.value.email)
+    data.append("passenger_phone", this.userDetailsForm.value.passenger_phone)
+    data.append("rate_id", this.cabDetails.rate_id)
+    data.append("requested_special_request", this.userDetailsForm.value.special_request)
+    data.append("no_of_seats", this.cabDetails.no_of_seats)
+
+
+    data.forEach((val, key) => {
+      console.log(key + " : " + val)
+    })
+
+    console.log(`Payment successful! Payment ID: ${response.razorpay_payment_id}`);
+    this.router.navigate(['/booking-ticket']);
   }
 
 

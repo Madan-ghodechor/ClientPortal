@@ -1,5 +1,5 @@
 <div class="container-fluid p-0 m-0">
-<br>
+    <br>
     <div class="row p-3 pe-2 m-0 main-content shadow ">
         <div class="content">
             <div class="row loginDesign" *ngIf="!userDetails">
@@ -57,11 +57,10 @@
                                 <div class="col-md-12 mt-0 mb-0 d-flex">
                                     <mat-checkbox class="example-margin" formControlName="terms_and_cond"
                                         required></mat-checkbox>
-                                    <p style="font-size: 13px; margin-top: 9px;">I accept all the <a
-                                            class="links" routerLink="/terms-and-condition"
-                                            target="_blank">Terms
-                                            and Conditions</a> and <a class="links"
-                                            routerLink="/cancellation-policy" target="_blank">Cancellation
+                                    <p style="font-size: 13px; margin-top: 9px;">I accept all the <a class="links"
+                                            routerLink="/terms-and-condition" target="_blank">Terms
+                                            and Conditions</a> and <a class="links" routerLink="/cancellation-policy"
+                                            target="_blank">Cancellation
                                             Policy.</a></p>
                                 </div>
                                 <div class="col-md-12 mt-0 mb-0 pt-0">
@@ -83,15 +82,13 @@
 
                     <!------------------------- Login With OTP Form -------------------------->
                     <div *ngSwitchCase="loginMethods[1].show">
-                        <form [formGroup]="LoginWithOtp" (submit)="submitLoginWithOtp()"
-                            *ngIf="!hideShowOtpForm">
+                        <form [formGroup]="LoginWithOtp" (submit)="submitLoginWithOtp()" *ngIf="!hideShowOtpForm">
                             <div class="row">
                                 <div class="col-md-12 mb-2">
                                     <mat-form-field class="example-full-width w-100 mt-4 pt-1">
                                         <span matTextPrefix style="cursor: pointer; font-size: 13px;"
                                             (click)="toggleDropdown()">
-                                            <i [class]="selectedOption.flag"
-                                                style="width: 21px !important;"></i>{{
+                                            <i [class]="selectedOption.flag" style="width: 21px !important;"></i>{{
                                             selectedOption.code }} <i class="fa fa-caret-down"></i> &nbsp;
                                         </span>
                                         <input matInput placeholder="Enter Your Contact No"
@@ -119,8 +116,7 @@
                                 </div>
                             </div>
                         </form>
-                        <form [formGroup]="ConfirmOtpForm" (submit)="submitConfirmOtp()"
-                            *ngIf="hideShowOtpForm">
+                        <form [formGroup]="ConfirmOtpForm" (submit)="submitConfirmOtp()" *ngIf="hideShowOtpForm">
                             <div class="row">
                                 <div class="col-md-12 mb-2">
                                     <mat-form-field class="example-full-width w-100 mt-4 pt-1">
@@ -179,8 +175,7 @@
                                     <button class="btn login-btn">Send Link</button>
                                 </div>
                                 <div class="col-md-12 mt-0 mb-0 pt-2 text-center">
-                                    <p style="font-size: 14px;"><a class="links"
-                                            (click)="manageLinks('login')">Sign
+                                    <p style="font-size: 14px;"><a class="links" (click)="manageLinks('login')">Sign
                                             In</a></p>
                                 </div>
                             </div>
@@ -194,8 +189,7 @@
                             <div class="row pt-3">
                                 <div class="col-md-12">
                                     <mat-form-field class="example-full-width w-100 mt-1">
-                                        <input matInput placeholder="FIRST NAME" formControlName="first_name"
-                                            required>
+                                        <input matInput placeholder="FIRST NAME" formControlName="first_name" required>
                                         <mat-icon matPrefix class="fa fa-user"> </mat-icon>
                                         <mat-error
                                             *ngIf="signupUserForm.get('first_name').hasError('required') || signupUserForm.get('first_name').touched">
@@ -205,8 +199,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <mat-form-field class="example-full-width w-100 mt-1">
-                                        <input matInput placeholder="LAST NAME" formControlName="last_name"
-                                            required>
+                                        <input matInput placeholder="LAST NAME" formControlName="last_name" required>
                                         <mat-icon matPrefix class="fa fa-user"> </mat-icon>
                                         <mat-error
                                             *ngIf="signupUserForm.get('last_name').hasError('required') || signupUserForm.get('last_name').touched">
@@ -239,8 +232,7 @@
                                             selectedOptionNewUser.code }} <i class="fa fa-caret-down"></i>
                                             &nbsp;
                                         </span>
-                                        <input matInput placeholder="CONTACT NO" formControlName="contact_no"
-                                            required>
+                                        <input matInput placeholder="CONTACT NO" formControlName="contact_no" required>
                                         <mat-error
                                             *ngIf="signupUserForm.get('contact_no').hasError('required') || signupUserForm.get('contact_no').touched && signupUserForm.get('contact_no').valid">
                                             Please enter contact no.
@@ -264,12 +256,10 @@
                                         <input [type]="newUser_input" matInput placeholder="PASSWORD"
                                             formControlName="password" required>
                                         <mat-icon matPrefix class="fa fa-lock"> </mat-icon>
-                                        <mat-icon *ngIf="newUserPassShow"
-                                            (click)="showPassword('new_user_pass')" style="cursor: pointer;"
-                                            matSuffix class="fa fa-eye"> </mat-icon>
-                                        <mat-icon *ngIf="!newUserPassShow"
-                                            (click)="showPassword('new_user_pass')" style="cursor: pointer;"
-                                            matSuffix class="fa fa-eye-slash"> </mat-icon>
+                                        <mat-icon *ngIf="newUserPassShow" (click)="showPassword('new_user_pass')"
+                                            style="cursor: pointer;" matSuffix class="fa fa-eye"> </mat-icon>
+                                        <mat-icon *ngIf="!newUserPassShow" (click)="showPassword('new_user_pass')"
+                                            style="cursor: pointer;" matSuffix class="fa fa-eye-slash"> </mat-icon>
                                         <mat-error
                                             *ngIf="signupUserForm.get('password').hasError('required') || signupUserForm.get('password').touched && signupUserForm.get('password').valid">
                                             Please enter password
@@ -287,12 +277,12 @@
                                             formControlName="confirm" required (keyup)="getPasswordMatched()">
                                         <mat-icon matPrefix class="fa fa-lock"> </mat-icon>
                                         <mat-icon *ngIf="newConfirmPassShow"
-                                            (click)="showPassword('new_user_pass_confirm')"
-                                            style="cursor: pointer;" matSuffix class="fa fa-eye">
+                                            (click)="showPassword('new_user_pass_confirm')" style="cursor: pointer;"
+                                            matSuffix class="fa fa-eye">
                                         </mat-icon>
                                         <mat-icon *ngIf="!newConfirmPassShow"
-                                            (click)="showPassword('new_user_pass_confirm')"
-                                            style="cursor: pointer;" matSuffix class="fa fa-eye-slash">
+                                            (click)="showPassword('new_user_pass_confirm')" style="cursor: pointer;"
+                                            matSuffix class="fa fa-eye-slash">
                                         </mat-icon>
                                         <mat-error
                                             *ngIf="signupUserForm.get('confirm').hasError('required') || signupUserForm.get('confirm').touched && signupUserForm.get('confirm').valid">
@@ -311,19 +301,18 @@
                                 </div>
                                 <div class="col-md-12 mt-0 mb-0 d-flex">
                                     <mat-checkbox class="example-margin" formControlName="check"></mat-checkbox>
-                                    <p style="font-size: 13px; margin-top: 9px;">I accept all the <a
-                                            class="links" routerLink="/terms-and-condition"
-                                            target="_blank">Terms
-                                            and Conditions</a> and <a class="links"
-                                            routerLink="/cancellation-policy" target="_blank">Cancellation
+                                    <p style="font-size: 13px; margin-top: 9px;">I accept all the <a class="links"
+                                            routerLink="/terms-and-condition" target="_blank">Terms
+                                            and Conditions</a> and <a class="links" routerLink="/cancellation-policy"
+                                            target="_blank">Cancellation
                                             Policy.</a></p>
                                 </div>
                                 <div class="col-md-12">
                                     <button class="btn login-btn">Sign Up</button>
                                 </div>
                                 <div class="col-md-12 mt-0 mb-0 pt-2 text-center">
-                                    <p style="font-size: 14px;"><a class="links"
-                                            (click)="manageLinks('login')">Already Signed</a></p>
+                                    <p style="font-size: 14px;"><a class="links" (click)="manageLinks('login')">Already
+                                            Signed</a></p>
                                 </div>
                             </div>
                         </form>
@@ -335,45 +324,43 @@
             <mat-stepper #stepper [linear]="loggedIn" *ngIf="userDetails">
                 <mat-step>
                     <ng-template matStepLabel>User Details</ng-template>
-                    
-                    <div class="row pt-md-2 w-100 userDetailsPaymentBooking" *ngIf="userDetails">
-                        <form [formGroup]="userDetailsForm">
-                            <div class="w-100 px-5">
-                                <div class="row px-4 pt-2">
-                                    <div class="col-md-12 mt-3">
-                                        <mat-label class="input-labels" style="font-size: 15px;">Full
-                                            Name</mat-label>
-                                        <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="full_name" required readonly>
-                                            <mat-icon matPrefix class="fa fa-user"> </mat-icon>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-12 mt-0">
-                                        <mat-label class="input-labels" style="font-size: 15px;">Phone</mat-label>
-                                        <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="phone" required readonly>
-                                            <mat-icon matPrefix class="fa fa-phone"> </mat-icon>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-12 mt-0">
-                                        <mat-label class="input-labels" style="font-size: 15px;">Email</mat-label>
-                                        <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="email" required readonly>
-                                            <mat-icon matPrefix class="fa fa-envelope"> </mat-icon>
-                                        </mat-form-field>
-                                    </div>
-                                    <div class="col-md-6 mt-md-3">
-                                        <!-- <button class="btn login-btn" type="button"> <i
-                                                    class="fa fa-caret-left "></i>&nbsp;&nbsp; Go Back </button> -->
-                                    </div>
-                                    <div class="col-md-6 mt-md-3">
-                                        <button class="btn login-btn" type="button" mat-button matStepperNext> Next Step
-                                            &nbsp;&nbsp; <i class="fa fa-caret-right"></i> </button>
 
-                                    </div>
+                    <div class="row pt-md-2 w-100 userDetailsPaymentBooking" *ngIf="userDetails">
+                        <div class="w-100 px-5">
+                            <div class="row px-4 pt-2">
+                                <div class="col-md-12 mt-3">
+                                    <mat-label class="input-labels" style="font-size: 15px;">Full
+                                        Name</mat-label>
+                                    <mat-form-field class="example-full-width w-100 ">
+                                        <input matInput [value]="userDetails.name" required readonly>
+                                        <mat-icon matPrefix class="fa fa-user"> </mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-12 mt-0">
+                                    <mat-label class="input-labels" style="font-size: 15px;">Phone</mat-label>
+                                    <mat-form-field class="example-full-width w-100 ">
+                                        <input matInput [value]="userDetails.contact_no" required readonly>
+                                        <mat-icon matPrefix class="fa fa-phone"> </mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-12 mt-0">
+                                    <mat-label class="input-labels" style="font-size: 15px;">Email</mat-label>
+                                    <mat-form-field class="example-full-width w-100 ">
+                                        <input matInput [value]="userDetails.email" required readonly>
+                                        <mat-icon matPrefix class="fa fa-envelope"> </mat-icon>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6 mt-md-3">
+                                    <!-- <button class="btn login-btn" type="button"> <i
+                                                    class="fa fa-caret-left "></i>&nbsp;&nbsp; Go Back </button> -->
+                                </div>
+                                <div class="col-md-6 mt-md-3">
+                                    <button class="btn login-btn" type="button" mat-button matStepperNext> Next Step
+                                        &nbsp;&nbsp; <i class="fa fa-caret-right"></i> </button>
+
                                 </div>
                             </div>
-                        </form>
+                        </div>
                     </div>
                 </mat-step>
                 <mat-step [stepControl]="userDetailsForm" errorMessage="is required.">
@@ -388,6 +375,14 @@
                                         <mat-form-field class="example-full-width w-100 ">
                                             <input matInput formControlName="full_name" required>
                                             <mat-icon matPrefix class="fa fa-user"> </mat-icon>
+                                            <mat-error
+                                                *ngIf="userDetailsForm.get('full_name').hasError('required') && userDetailsForm.get('full_name').touched">
+                                                Full Name is required.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="userDetailsForm.get('full_name').invalid && !userDetailsForm.get('full_name').hasError('required') && userDetailsForm.get('full_name').touched">
+                                                enter a valid Full Name.
+                                            </mat-error>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-6 mt-0">
@@ -395,14 +390,30 @@
                                         <mat-form-field class="example-full-width w-100 ">
                                             <input matInput formControlName="phone" required>
                                             <mat-icon matPrefix class="fa fa-phone"> </mat-icon>
+                                            <mat-error
+                                                *ngIf="userDetailsForm.get('phone').hasError('required') && userDetailsForm.get('phone').touched">
+                                                phone number is required.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="userDetailsForm.get('phone').invalid && !userDetailsForm.get('phone').hasError('required') && userDetailsForm.get('phone').touched">
+                                                enter a valid phone no.
+                                            </mat-error>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-6 mt-0">
                                         <mat-label class="input-labels" style="font-size: 15px;">Alternate
                                             Number</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="phone">
+                                            <input matInput formControlName="phone2">
                                             <mat-icon matPrefix class="fa fa-phone"> </mat-icon>
+                                            <mat-error
+                                                *ngIf="userDetailsForm.get('phone2').hasError('required') && userDetailsForm.get('phone2').touched">
+                                                alternate number is required.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="userDetailsForm.get('phone2').invalid && !userDetailsForm.get('phone2').hasError('required') && userDetailsForm.get('phone2').touched">
+                                                enter a valid phone no.
+                                            </mat-error>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-6 mt-0">
@@ -410,12 +421,20 @@
                                         <mat-form-field class="example-full-width w-100 ">
                                             <input matInput formControlName="email" required>
                                             <mat-icon matPrefix class="fa fa-envelope"> </mat-icon>
+                                            <mat-error
+                                                *ngIf="userDetailsForm.get('email').hasError('required') && userDetailsForm.get('email').touched">
+                                                email is required.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="userDetailsForm.get('email').invalid && !userDetailsForm.get('email').hasError('required') && userDetailsForm.get('email').touched">
+                                                enter a valid email.
+                                            </mat-error>
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-6 mt-0">
                                         <mat-label class="input-labels" style="font-size: 15px;">Special
                                             Request</mat-label>
-                                        <textarea matInput class="w-100" style="    border: none;
+                                        <textarea matInput class="w-100" formControlName="special_request" style="border: none;
                                             border-bottom: 1px solid #9b9b9b;
                                             outline: none;
                                             font-weight: 360;
@@ -447,7 +466,7 @@
                                     <div class="col-md-12 mt-3">
                                         <mat-label class="input-labels" style="font-size: 15px;">Pickup City</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="pickupCity" required>
+                                            <input matInput formControlName="pickupCity" required readonly>
                                             <mat-icon matPrefix class="fa fa-map-marker"> </mat-icon>
                                         </mat-form-field>
                                     </div>
@@ -455,34 +474,57 @@
                                         <mat-label class="input-labels" style="font-size: 15px;">Pickup
                                             Location</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput formControlName="pickupLocation" placeholder="Return City"
-                                                required id="gstDetailsPickupLocation" #gstDetailsPickupLocation
+                                            <input matInput formControlName="pickupLocation"
+                                                placeholder="pickup location" required id="gstDetailsPickupLocation"
+                                                #gstDetailsPickupLocation
                                                 (keypress)="callExternalFunction(gstDetailsPickupLocation)"
                                                 (blur)="getResponse('gstDetailsPickupLocation')">
-                                            <mat-icon matPrefix class="fa fa-location"> </mat-icon>
+                                            <mat-icon matPrefix class="fa fa-map-marker"> </mat-icon>
+                                            <mat-error>pickup location is required</mat-error>
+
                                         </mat-form-field>
                                     </div>
                                     <div class="col-md-12 mt-0 ">
                                         <mat-label class="input-labels" style="font-size: 15px;">GST</mat-label>
                                         &nbsp;&nbsp;
-                                        <mat-slide-toggle class="m-2" labelPosition="before"> </mat-slide-toggle>
+                                        <mat-slide-toggle class="m-2" labelPosition="before"
+                                            (change)="gstToggle($event)"> </mat-slide-toggle>
                                     </div>
+
+                                    @if (isGST) {
 
                                     <div class="col-md-12 mt-2">
                                         <mat-label class="input-labels" style="font-size: 15px;">User GST
                                             Number</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput required>
+                                            <input matInput required formControlName="userGstNumber">
                                             <mat-icon matPrefix class="fa fa-hashtag"> </mat-icon>
+                                            <mat-error
+                                                *ngIf="pickupGstDetailsForm.get('userGstNumber').hasError('required') && pickupGstDetailsForm.get('userGstNumber').touched">
+                                                GST number is required.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="pickupGstDetailsForm.get('userGstNumber').invalid && !pickupGstDetailsForm.get('userGstNumber').hasError('required') && pickupGstDetailsForm.get('userGstNumber').touched">
+                                                enter a valid GST no.
+                                            </mat-error>
                                         </mat-form-field>
+
                                     </div>
 
                                     <div class="col-md-12 mt-0">
                                         <mat-label class="input-labels" style="font-size: 15px;">Registered Business
                                             Name</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput required>
+                                            <input matInput required formControlName="bussiness_name">
                                             <mat-icon matPrefix class="fa fa-hashtag"> </mat-icon>
+                                            <mat-error
+                                                *ngIf="pickupGstDetailsForm.get('bussiness_name').hasError('required') && pickupGstDetailsForm.get('bussiness_name').touched">
+                                                Bussiness name is required.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="pickupGstDetailsForm.get('bussiness_name').invalid && !pickupGstDetailsForm.get('bussiness_name').hasError('required') && pickupGstDetailsForm.get('bussiness_name').touched">
+                                                enter a valid bussiness name.
+                                            </mat-error>
                                         </mat-form-field>
                                     </div>
 
@@ -490,10 +532,21 @@
                                         <mat-label class="input-labels" style="font-size: 15px;">Registered Business
                                             Address</mat-label>
                                         <mat-form-field class="example-full-width w-100 ">
-                                            <input matInput required>
+                                            <input matInput required formControlName="bussiness_address">
                                             <mat-icon matPrefix class="fa fa-building"> </mat-icon>
+                                            <mat-error
+                                                *ngIf="pickupGstDetailsForm.get('bussiness_address').hasError('required') && pickupGstDetailsForm.get('bussiness_address').touched">
+                                                bussiness address is required.
+                                            </mat-error>
+                                            <mat-error
+                                                *ngIf="pickupGstDetailsForm.get('bussiness_address').invalid && !pickupGstDetailsForm.get('bussiness_address').hasError('required') && pickupGstDetailsForm.get('bussiness_address').touched">
+                                                enter a valid bussiness address.
+                                            </mat-error>
                                         </mat-form-field>
                                     </div>
+
+                                    }
+
 
                                     <div class="col-md-6 mt-md-3">
                                         <button class="btn login-btn" type="button" matStepperPrevious> <i
@@ -516,19 +569,35 @@
                     <ng-template matStepLabel>Payment Information</ng-template>
 
                     <div class="row pt-md-2 w-100 userDetailsPaymentBooking" *ngIf="userDetails">
-                        <form [formGroup]="paymentInfoForm">
+                        <form [formGroup]="paymentStatusForm">
                             <div class="w-100 px-5">
                                 <div class="row px-4 pt-4">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-danger" role="alert"
+                                            style="font-size: 12px; margin: 0px; padding: 7px;"
+                                            *ngIf="paymentStatusForm.invalid && paymentGatewayValid">
+                                            Accept Terms and Conditions
+                                        </div>
+                                    </div>
                                     <div class="col-md-12 mt-4">
                                         <mat-label class="input-labels" style="font-size: 15px;">Payment
                                             Option</mat-label> <br>
-                                        <mat-radio-button class="example-radio-button mt-2" [value]="500"
-                                            formControlName="paymentOption"> <b style="color: rgb(109, 109, 109);"> 25%
-                                                ( &#8377; 551.25 ) </b>
-                                        </mat-radio-button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mat-radio-button
-                                            class="example-radio-button" [value]="500" formControlName="paymentOption">
-                                            <b style="color: rgb(109, 109, 109);"> 100% ( &#8377; 2205 ) </b>
-                                        </mat-radio-button>
+                                        <mat-radio-group formControlName="paymentOption">
+                                            <mat-radio-button class="example-radio-button mt-2"
+                                                [value]="((cabDetails.base_fare * 25) / 100 ) * 1.05">
+                                                <p style="margin-top:15px; color: rgb(109, 109, 109);"> 
+                                                    25% [ {{ ( (cabDetails.base_fare * 25) / 100 ) * 1.05 | currency : 'INR' }} ]
+                                                </p>
+                                            </mat-radio-button>
+                                            &nbsp;
+                                            &nbsp;
+                                            &nbsp;
+                                            <mat-radio-button class="example-radio-button"
+                                                [value]="( (cabDetails.base_fare * 100) / 100 ) * 1.05">
+                                                <p style="margin-top:15px; color: rgb(109, 109, 109);"> 100% [ {{
+                                                    ((cabDetails.base_fare * 100) / 100 ) * 1.05 | currency : 'INR' }} ] </p>
+                                            </mat-radio-button>
+                                        </mat-radio-group>
                                     </div>
 
                                     <div class="col-md-12 mt-3 mb-0 d-flex">
@@ -546,7 +615,8 @@
                                                 class="fa fa-caret-left "></i>&nbsp;&nbsp; Go Back </button>
                                     </div>
                                     <div class="col-md-6 mt-md-3">
-                                        <button class="btn login-btn" type="button" (click)="OpenRazorModal()"> Proceed
+                                        <button class="btn login-btn" type="button" (click)="openPaymentGateway()">
+                                            Proceed
                                             To Payment &nbsp;&nbsp; <i class="fa fa-caret-right"></i> </button>
                                     </div>
                                     <div class="col-md-12">

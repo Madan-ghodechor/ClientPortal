@@ -1,0 +1,5 @@
+@import "./theme_variables.scss";
+
+.mat-calendar-body-selected {
+    background-color: $theme-color !important;
+}

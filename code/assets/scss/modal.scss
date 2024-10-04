@@ -1,0 +1,36 @@
+@import "./theme_variables.scss";
+
+.modal-header{
+    background-image: linear-gradient(28deg, $gradient-color1 35%, $gradient-color2);
+    color: white;
+
+    button{
+        color: white !important;
+    }
+    .btn-close{
+        color: white !important;
+    }
+}
+
+
+.fareDetails{
+    padding: 30px;
+    // .modal-body{
+    //     .card{
+    //         .card-body{
+
+                p{
+                    padding: 0px !important;
+                    font-size: 14px !important;
+                    margin-top: 2px;
+                    margin-bottom: 2px;
+
+                    b{
+                        font-size: 13px;
+                        color: rgb(110, 110, 110);
+                    }
+                }
+            // }
+    //     }
+    // }
+}

@@ -47,4 +47,9 @@ export class ApiService {
   getSignUp(da:any){
     return this.http.post(this.base_url+"/addUser", da);
   }
+
+
+  recordTrip(da: any){
+    return this.http.post(this.base_url+"/recordTrip", da)
+  }
 }

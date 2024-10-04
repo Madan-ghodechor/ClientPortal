@@ -119,10 +119,9 @@ var pickupLocation;
 function _callPickupLocation(input, allowedDistrict) {
     const validations = {
         componentRestrictions: { 
-            country: 'in',
-            administrativeArea: allowedDistrict
+            country: 'in'
         }, 
-        language: 'en' 
+        language: 'EN' 
     };
 
     var autocomplete = new google.maps.places.Autocomplete(input, validations);
@@ -131,33 +130,9 @@ function _callPickupLocation(input, allowedDistrict) {
     autocomplete.addListener('place_changed', function () {
         var place = autocomplete.getPlace();
 
-        console.log()
+        pickupLocation = place
 
-
-        if (!place || !place.address_components) {
-            console.warn('No place details available');
-            return;
-        }
-
-        // Get the district name from the address components (administrative_area_level_2)
-        let district = '';
-        for (var i = 0; i < place.address_components.length; i++) {
-            if (place.address_components[i].types.includes("administrative_area_level_3")) {
-                district = place.address_components[i].long_name;
-                break;
-            }
-        }
-
-        // Check if the selected place belongs to the allowed district
-        console.log(place.address_components)
-        console.log(district)
-        if (district.toLowerCase() === allowedDistrict.toLowerCase()) {
-            console.log('Valid location in ' + allowedDistrict + ':', place);
-            pickupLocation = input.value; // Capture the exact value in input
-        } else {
-            console.warn('Selected place is not in ' + allowedDistrict);
-            input.value = ''; // Clear the input if the place is not from the desired district
-        }
+        console.log(place)
     });
 }
 
