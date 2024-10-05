@@ -1,0 +1,180 @@
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-md-3 m-0 p-2 ">
+            <div class="content w-100">
+                <div class="type-tabs w-100 m-0 p-0">
+                    <div class="tabs text-center" *ngFor="let div of divs"
+                        (click)="toggleDiv(div.id); setActiveButton(div.id)" [class.active]="div.active">
+                        <i [class]="div.icon"></i>&nbsp;&nbsp;&nbsp;{{ div.name }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 m-0 p-2 ">
+            <div class="content w-100">
+                <div class=" w-100 m-0 p-0">
+                    <div [ngSwitch]="true">
+                        <div *ngSwitchCase="divs[0].show">
+                            <form [formGroup]="ProfileForm" (submit)="saveProfille()">
+                                <div class="row">
+                                    <div class="col-md-5 p-4 pt-2 make-h-center">
+                                        <div class="profile-image">
+                                            <div class="profile-image">
+                                                <img src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
+                                                    alt="">
+                                            </div>
+                                            <input type="file" class="pt-3">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-7 p-4 pb-0">
+                                        <div class="row">
+                                            <div class="col-md-12 mt-2">
+                                                <div class="input-box">
+                                                    <span class="prefix">Name</span>
+                                                    <input type="text" class="form-control" formControlName="name" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-2">
+                                                <div class="input-box">
+                                                    <span class="prefix">City</span>
+                                                    <select class="form-control" formControlName="city">
+                                                        <option value=""> Select City </option>
+                                                        <option value="1">Pune</option>
+                                                        <option value="2">Ahmednagar</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-12 mt-2">
+                                                <div class="input-box">
+                                                    <span class="prefix">Phone</span>
+                                                    <input type="text" class="form-control" formControlName="phone">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-2">
+                                                <div class="input-box">
+                                                    <span class="prefix">Email</span>
+                                                    <input type="text" class="form-control" formControlName="email">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-2">
+                                                <div class="input-box">
+                                                    <span class="prefix">DOB</span>
+                                                    <input type="text" class="form-control" formControlName="dob">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 mt-2">
+                                                <div class="input-box">
+                                                    <span class="prefix">Gender</span>
+                                                    <select class="form-control" formControlName="gender">
+                                                        <option disabled value=""> Select Gender </option>
+                                                        <option value="male">Male</option>
+                                                        <option value="female">Female</option>
+                                                        <option value="other">Other</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12 m-0 text-end">
+                                        <button class="grad-btn btn m-3 mt-2">Update</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div *ngSwitchCase="divs[1].show">
+                            <div class="outstation-tabs">
+                                <div class="tabs" *ngFor="let div of outstationTabs"
+                                    (click)="toggleForms(div.id); setActiveForm(div.id)" [class.active]="div.active">
+                                    {{ div.name }}
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="outstationTabs[0].show" class="p-3">
+
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                        <div class="searchdiv">
+                                            <div class="icon">
+                                                <i class="bx bx-search-alt-2"></i>
+                                            </div>
+                                            <div class="searchinput">
+                                                <input class="searchbar" (keyup)="applyFilter($event)"
+                                                placeholder="Search . . ." #input>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="scrolltable small zoomOutBookingsTable">
+                                        <table mat-table [dataSource]="dataSource" matSort>
+                                            <ng-container matColumnDef="booking_id">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Booking ID </th>
+                                                <td mat-cell *matCellDef="let row"> 12 </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="trip_type">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Trip Type </th>
+                                                <td mat-cell *matCellDef="let row"> {{ row.trip_type }} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="package">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Package </th>
+                                                <td mat-cell *matCellDef="let row"> {{ row.package }} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="booking_date">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Booking Datetime
+                                                </th>
+                                                <td mat-cell *matCellDef="let row"> </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="pickup_datetime">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Pickup Datetime
+                                                </th>
+                                                <td mat-cell *matCellDef="let row"> 12 baje </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="pickup_location">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Pickup City </th>
+                                                <td mat-cell *matCellDef="let row"> {{ row.pickup_location }} </td>
+                                            </ng-container>
+
+                                            <ng-container matColumnDef="internal_status">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Booking Status
+                                                </th>
+                                                <td mat-cell *matCellDef="let row"> {{ row.internal_status }} </td>
+                                            </ng-container>
+
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                            <!-- Row shown when there is no matching data. -->
+                                            <tr class="mat-row" *matNoDataRow>
+                                                <td class="mat-cell text-center p-3" colspan="7">
+                                                    <h4>
+                                                        No data. {{input.value}}
+                                                    </h4>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-12 w-100 m-0 p-0">
+                                        <mat-paginator class="" [pageSizeOptions]="[5,10,25,50,100]"
+                                            aria-label="Select page of users"></mat-paginator>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

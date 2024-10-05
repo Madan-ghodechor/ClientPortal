@@ -36,6 +36,11 @@ import { MulticityComponent } from './multicity/multicity.component';
 
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {MatStepperModule} from '@angular/material/stepper';
+import { ProfileComponent } from './profile/profile.component';
+
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -48,6 +53,7 @@ import {MatStepperModule} from '@angular/material/stepper';
     TicketPageComponent,
     PdfConvertorComponent,
     MulticityComponent,
+    ProfileComponent,
   ],
   imports: [
     CommonModule,
@@ -69,7 +75,10 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatSlideToggleModule,
     MatRadioModule,
     MatExpansionModule,
-    MatStepperModule
+    MatStepperModule,
+    MatTableModule,
+    MatSortModule,
+    MatPaginatorModule,
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },

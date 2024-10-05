@@ -584,7 +584,7 @@
                                             Option</mat-label> <br>
                                         <mat-radio-group formControlName="paymentOption">
                                             <mat-radio-button class="example-radio-button mt-2"
-                                                [value]="((cabDetails.base_fare * 25) / 100 ) * 1.05">
+                                                [value]="((cabDetails.base_fare * 25) / 100 ) * 1.05" (change)="changeRadioMoneyOption($event)">
                                                 <p style="margin-top:15px; color: rgb(109, 109, 109);"> 
                                                     25% [ {{ ( (cabDetails.base_fare * 25) / 100 ) * 1.05 | currency : 'INR' }} ]
                                                 </p>
@@ -593,7 +593,7 @@
                                             &nbsp;
                                             &nbsp;
                                             <mat-radio-button class="example-radio-button"
-                                                [value]="( (cabDetails.base_fare * 100) / 100 ) * 1.05">
+                                                [value]="( (cabDetails.base_fare * 100) / 100 ) * 1.05" (change)="changeRadioMoneyOption($event)" >
                                                 <p style="margin-top:15px; color: rgb(109, 109, 109);"> 100% [ {{
                                                     ((cabDetails.base_fare * 100) / 100 ) * 1.05 | currency : 'INR' }} ] </p>
                                             </mat-radio-button>

@@ -1,0 +1,160 @@
+@import '../../../assets/scss/theme_variables.scss';
+
+
+
+.content {
+    width: 100%;
+    height: auto;
+    background-color: rgb(255, 255, 255);
+    border-radius: 8px;
+    padding: 0px !important;
+    border: 1px solid rgb(85, 185, 185, 0.694);
+    // box-shadow: rgba(0, 0, 0, 0.263) 1.95px 1.95px 2.6px;
+    // border: 1px solid rgb(223, 223, 223);
+}
+
+.type-tabs {
+    margin: 0px;
+    padding: 0px;
+    height: auto;
+    width: 100%;
+    border-radius: 9px;
+    box-sizing: border-box;
+    border: 1px solid rgb(85, 185, 185, 0.694);
+}
+
+.type-tabs .tabs {
+    font-size: 14px;
+    font-weight: 600;
+    flex-grow: 1;
+    min-width: 0;
+    box-sizing: border-box;
+    height: 60px;
+    width: 100%;
+    cursor: pointer;
+    border-left: 1px solid rgba(185, 185, 185, 0.694);
+    border-bottom: 1px solid rgb(85, 185, 185, 0.694);
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding-left: 20px;
+
+    i {
+        font-size: 17px;
+    }
+}
+
+.type-tabs .active {
+    background-color: $theme-color;
+    color: white;
+}
+
+.type-tabs .tabs:first-child {
+    border-radius: 7px 7px 0px 0px;
+    border-bottom: 1px solid rgb(85, 185, 185, 0.694);
+}
+
+.type-tabs .tabs:last-child {
+    border-radius: 0px 0px 7px 7px;
+    border-left: 1px solid rgb(85, 185, 185, 0.694);
+}
+
+.input-labels {
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.btn-search-cab {
+    background-color: $theme-color;
+    color: white;
+    font-size: 12px !important;
+}
+
+mat-error {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+.make-h-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.form-control{
+    box-shadow: none !important;
+}
+.profile-image {
+    height: 140px;
+    width: 140px;
+    border-radius: 50%;
+    background-color: silver;
+
+    img {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        border-radius: 50%;
+    }
+}
+
+.input-box {
+    display: flex;
+    align-items: center;
+    max-width: 100%;
+    background: #fff;
+    border: 1px solid #a0a0a0;
+    border-radius: 4px;
+    padding-left: 0.5rem;
+    overflow: hidden;
+    font-family: sans-serif;
+  }
+  
+  .input-box .prefix {
+    font-weight: 300;
+    font-size: 15px;
+    color: #999;
+    width: 50px;
+  }
+  
+  .input-box input, .input-box select {
+    flex-grow: 1;
+    font-size: 15px;
+    background: #fff;
+    border: none;
+    outline: none;
+    padding: 0.5rem;
+    color: rgb(56, 56, 56);
+  }
+  
+  .outstation-tabs{
+    width: 100%;
+    float: left;
+    border: 1px solid rgb(228, 228, 228);
+    border-radius: 3px;
+    padding: 0px !important;
+    box-sizing: border-box;
+    .tabs{
+        float: left;
+        font-size: 12px;
+        padding: 2px;
+        height: 35px;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 13px;
+        color: rgb(77, 77, 77);
+        border-radius: 0px;
+        box-sizing: border-box;
+        min-width: 20%;
+        border: 1px solid $theme-color;
+    }
+}
+.outstation-tabs .active {
+    box-sizing: border-box;
+    background-color: $theme-color;
+    color: white;
+    border-radius: 0px;
+}

@@ -157,7 +157,7 @@ export class BookingPaymentComponent implements OnInit {
   search_form: any = null;
   loggedIn = true;
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     this.search_form = JSON.parse(localStorage.getItem("SearchForm"));
@@ -211,13 +211,12 @@ export class BookingPaymentComponent implements OnInit {
     })
 
     this.paymentStatusForm = this.fb.group({
-      paymentOption: [ ( (this.cabDetails.base_fare * 25) / 100 ) * 1.05, Validators.required],
+      paymentOption: [((this.cabDetails.base_fare * 25) / 100) * 1.05, Validators.required],
       terms_and_cond: ['', Validators.required],
     })
 
     this.setResponse()
 
-    this.initializeOptions();
 
   }
   setResponse() {
@@ -375,13 +374,20 @@ export class BookingPaymentComponent implements OnInit {
 
 
   // Open Razorpay checkout
-  paymentGatewayValid= false;
+  paymentGatewayValid = false;
+  payMoneyValue: number;
+  changeRadioMoneyOption(evt: any) {
+    this.payMoneyValue = evt.value
+
+    this.initializeOptions();
+  }
+
   openPaymentGateway() {
-    if(this.paymentStatusForm.valid){
+    if (this.paymentStatusForm.valid) {
       this.paymentGatewayValid = false
       const rzp = new Razorpay(this.options);
       rzp.open();
-    }else{
+    } else {
       this.paymentGatewayValid = true;
     }
   }
@@ -392,26 +398,21 @@ export class BookingPaymentComponent implements OnInit {
 
     const userEmail = this.userDetails.name
     const userContact = this.userDetails.contact_no
-    console.log(this.cabDetails.base_fare)
-    const baseFare = this.paymentStatusForm.value.paymentOption ;
-    const gstPercentage = 18;
-    const convenienceFee = 50;
+    const baseFare = Number(this.payMoneyValue);
 
-    const gstAmount = (baseFare * gstPercentage) / 100;
-    const totalAmount = baseFare + gstAmount + convenienceFee;
 
     // Set options for Razorpay
     this.options = {
       key: 'rzp_test_5V2dfV0DMydP0L',
-      SECRETE_KEY :"Php0ypQ3WiiFJbByPH9urxYT",
-      amount: totalAmount * 100,
+      SECRETE_KEY: "Php0ypQ3WiiFJbByPH9urxYT",
+      amount: baseFare * 100,
       currency: 'INR',
       name: 'Fleet24x7',
       description: 'Acme Corp',
       image: 'https://testretail.fleet247.in/favicon.svg', // Ensure to use a valid image URL
       prefill: {
         email: userEmail,
-        contact: "+91"+userContact,
+        contact: "+91" + userContact,
       },
       theme: {
         color: this.themeColor

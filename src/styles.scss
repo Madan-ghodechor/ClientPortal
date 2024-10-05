@@ -58,3 +58,191 @@ body {
 .cdk-overlay-container {
     z-index: 999999 !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+.mat-mdc-form-feild-infix,
+.mat-mdc-paginator .mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+  min-height: 21px !important;
+}
+
+.mat-mdc-text-field-wrapper.mdc-text-field--outlined .mat-mdc-form-field-infix {
+  padding-top: 3px !important;
+}
+
+.mat-mdc-paginator-container {
+  justify-content: space-between !important;
+  padding: 0px 8px !important;
+  max-height: 48px !important;
+  min-height: 21px !important;
+  color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
+  font-family: "Poppins", sans-serif !important;
+}
+
+.mat-mdc-option {
+  min-height: 25px !important;
+  font-size: 12px !important;
+}
+
+@media only screen and (max-width: 767px) {
+
+  .mat-mdc-paginator-container {
+    justify-content: start !important;
+    padding: auto 8px !important;
+    max-height: auto !important;
+    min-height: 21px !important;
+    color: var(--bs-table-color-state, var(--bs-table-color-type, var(--bs-table-color)));
+    font-family: "Poppins", sans-serif !important;
+  }
+
+  .mat-mdc-paginator-container {
+    display: inline !important;
+    height: auto !important;
+  }
+
+  .footer-pagination {
+    height: 70px;
+    margin-top: 10px;
+  }
+
+  .searchdiv {
+    width: 100% !important;
+    height: 40px;
+    border-radius: 9px;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+    padding: 0px !important;
+    margin-left: 0px !important;
+    border: 1px solid rgb(211, 211, 211);
+  }
+
+  .scrolltable th {
+    border: 1px solid rgb(240, 240, 240) !important;
+    min-width: 200px !important;
+    width: auto;
+  }
+
+  h5 {
+    font-size: 15px;
+    margin-top: 14px;
+  }
+
+  .mat-mdc-paginator-page-size-label {
+    font-size: 12px;
+  }
+
+  .mat-mdc-paginator-page-size {
+    width: 100% !important;
+    height: 35px;
+    margin-left: 18%;
+  }
+
+  .mat-mdc-paginator-range-actions {
+    width: 100%;
+    height: 35px;
+    margin-left: 8%;
+  }
+
+}
+
+
+
+.mat-mdc-paginator-page-size-label {
+  font-size: 12px;
+}
+
+.mat-mdc-paginator-page-size {
+  height: 35px;
+}
+
+.mat-mdc-paginator-range-actions {
+  height: 35px;
+}
+
+
+
+
+.searchdiv {
+  width: 200px;
+  height: 30px;
+  font-size: 12px !important;
+  border-radius: 3px;
+  margin: 3px !important;
+  padding: 0px !important;
+  border: 1px solid rgb(211, 211, 211);
+  margin-left: 0px !important;
+}
+
+.icon {
+  float: left;
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: larger;
+}
+
+.searchinput {
+  float: left;
+  width: 80% !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  padding-left: 10px !important;
+  height: 100% !important;
+}
+
+.searchbar {
+  height: 100% !important;
+  width: 100% !important;
+  margin: 0px !important;
+  padding: 0px !important;
+  border: none;
+  background-color: transparent;
+  box-sizing: border-box;
+  outline: none;
+}
+
+td,
+tr,
+th {
+  border: 1px solid rgb(240, 240, 240) !important;
+}
+
+tr {
+  height: 40px !important;
+  font-family: "Poppins", sans-serif !important;
+  font-size: 11px !important;
+}
+
+.scrolltable i {
+  cursor: pointer;
+}
+
+.scrolltable {
+  max-width: 100%;
+  overflow-x: scroll;
+  margin-bottom: 10px;
+}
+
+.scrolltable::-webkit-scrollbar,
+.ig-scrollbar::-webkit-scrollbar {
+  width: 100% !important;
+  height: 10px !important;
+}
+
+.scrolltable::-webkit-scrollbar-thumb {
+  background: rgba(30, 30, 255, 0.331);
+  border-radius: 10px;
+}

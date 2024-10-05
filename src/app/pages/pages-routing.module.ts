@@ -7,6 +7,7 @@ import { BookingPaymentComponent } from './booking-payment/booking-payment.compo
 import { TicketPageComponent } from './ticket-page/ticket-page.component';
 import { PdfConvertorComponent } from './pdf-convertor/pdf-convertor.component';
 import { MulticityComponent } from './multicity/multicity.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path:'booking-ticket',
     component: TicketPageComponent
+  },
+  {
+    path: 'profile',
+    component: ProfileComponent
   },
   {
     path: 'pdf-generator',
