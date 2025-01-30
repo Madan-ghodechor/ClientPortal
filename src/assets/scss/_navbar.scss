@@ -165,7 +165,22 @@
 .navItem {
     height: 40px;
     min-width: 170px;
+    transition: 0.15s linear;
+    cursor: pointer;
+    margin: 3px;
 }
+// .navItem:hover{
+//     min-width: 190px;
+//     transform: scale(1.1);
+//     position: static;
+//     z-index: 9;
+//     cursor: pointer;
+
+//     .logo .circle {
+//         height: 100%;
+//         width: 56%;
+//     }
+// }
 
 .navItem .logo {
     height: 100%;
@@ -178,23 +193,26 @@
 
 .navItem .logo .circle {
     height: 100%;
-    width: 60%;
+    width: 63%;
     border-radius: 50%;
-    border: 1px solid white;
+    border: 2px solid white;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 1px 1px 5px black;
 }
 
 .navItem i {
     color: white;
-    font-size: 18px !important;
+    font-size: 16px !important;
+    filter: drop-shadow(2px 1px 1px black)
 }
 
 .navItem .tab {
     float: left;
     height: 100%;
     width: 60%;
+    margin-left: -6px;
 }
 
 .navItem .upper,
@@ -204,13 +222,18 @@
 }
 
 .navItem .upper p {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 700;
     color: white;
+    letter-spacing: 1.1px;
+    filter: drop-shadow(1px 1px 1px black);
+    margin-top: 2px;
 }
 
 .navItem .lower p {
     font-size: 11px;
+    filter: drop-shadow(1px 1px 1px black);
+    margin-top: -3px;
 }
 
 .navItem .middle {
@@ -222,9 +245,11 @@
 
 .navItem .middle p {
     margin: 0px;
-    font-size: 14px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 600;
     color: white;
+    filter: drop-shadow(2px 1px 1px black);
+    letter-spacing: 1.1px;
 }
 
 // Media queries for mobile devices

@@ -49,13 +49,16 @@
 
 
     <div class="packages pt-3 w-100" *ngIf="cabsFullData.package">
-        <div class="package px-3">
-            {{ cabsFullData.package[0] }}
+        <div class="package  px-3 m-1" *ngFor="let tab of tabs" 
+        (click)="selectTab(tab)" 
+        [class.active]="tab === activeTab" >
+            {{ tab }}
         </div>
     </div>
+      
 
-    <!-- <div class="row w-100">
-        <div class="col-md-6 p-2" *ngFor="let cab of cabs">
+    <div class="row w-100">
+        <div class="col-md-6 p-2" *ngFor="let cab of filteredCabsData">
             <div class="cabs1 mb-4">
                 <div class="cab-card mt-2 pt-3 mt-0">
                     <div class="car-and-name">
@@ -66,7 +69,7 @@
                         <div class="content">
                             <span>
                                 <p> <i class="fa fa-user-circle"> </i> {{cab.no_of_seats}} Passengers</p>
-                                <p> <i><img src="https://testretail.fleet247.in/retail_assets/images/fleet-assets/resultpageicon-asets/ac.png"
+                                <p> <i><img src=""
                                             width="14px"></i> AC</p>
                                 <p> <i class="fa fa-gas-pump"> </i> {{ cab.fuel_type }} </p>
                                 <p> <i class="fa fa-suitcase"> </i> {{ cab.luggage_no }} </p>
@@ -85,11 +88,11 @@
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
 
-    <div class="row m-0 p-0 w-100">
-        <div class="col-md-12 p-2" *ngFor="let cab of cabs">
+    <div class="row m-0 p-0 w-100 d-md">
+        <div class="col-md-12 p-2" *ngFor="let cab of filteredCabsData">
             <div class="cabs2 mb-4">
                 <div class="cab-card mt-2 pt-3 mt-0">
                     <div class="car-and-name">
@@ -104,9 +107,7 @@
                                         Passengers</p>
                                 </li>
                                 <li>
-                                    <p class="m-0"> | <i class="ps-1"><img
-                                                src="https://testretail.fleet247.in/retail_assets/images/fleet-assets/resultpageicon-asets/ac.png"
-                                                width="14px"></i> AC</p>
+                                    <p class="m-0"> | <i class="ps-1"><img src="" width="14px"></i> AC</p>
                                 </li>
                                 <li>
                                     <p class="m-0"> | <i class="ps-1 fa fa-gas-pump"> </i> {{ cab.fuel_type }} </p>
@@ -129,7 +130,7 @@
                         </div>
                     </div>
                     <div class="book-btn">
-                        <button class="btn btn-info" (click)="setCabDetails(cab)" >Book Now</button>
+                        <button class="btn btn-info" (click)="setCabDetails(cab)">Book Now</button>
                     </div>
                 </div>
             </div>

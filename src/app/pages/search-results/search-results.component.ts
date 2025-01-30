@@ -3,7 +3,7 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { HelpersService } from '../../services/helpers.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TimelogicService } from '../../services/timelogic.service';
-import { map, Observable, startWith } from 'rxjs';
+import { filter, map, Observable, startWith } from 'rxjs';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import moment from 'moment';
@@ -20,7 +20,7 @@ declare const MapsReturn: any;
 export class SearchResultsComponent implements OnInit {
 
 
-  
+
   //------------------------ Dependency's And Services ------------------------//
   modalRef?: BsModalRef;
   modalService = inject(BsModalService);
@@ -133,9 +133,20 @@ export class SearchResultsComponent implements OnInit {
 
       this.api.getTaxis(data).subscribe((res: any) => {
         console.log(res.data)
-        localStorage.setItem('search_id',res.data.search_id)
+        localStorage.setItem('search_id', res.data.search_id)
         this.cabs = res.data.taxis
         this.cabsFullData = res.data;
+
+        this.tabs = res.data.package;
+        let cond = JSON.parse(localStorage.getItem('SearchForm'));
+        if (cond.type_of_tour == 0) {
+          if (this.tabs.length > 0) {
+            this.activeTab = this.tabs[0];
+            this.onTabClick(this.tabs[0])
+          }
+        } else {
+          this.filteredCabsData = this.cabs
+        }
       })
     }
     if (this.formData.type_of_tour == 1) {
@@ -149,8 +160,9 @@ export class SearchResultsComponent implements OnInit {
 
       this.api.getTaxisOneWay(data).subscribe((res: any) => {
         console.log(res)
-        this.cabs = res.data.taxis;
+        this.filteredCabsData = res.data.taxis;
         this.cabsFullData = res.data;
+        
       })
     }
     if (this.formData.type_of_tour == 2) {
@@ -169,11 +181,30 @@ export class SearchResultsComponent implements OnInit {
 
       this.api.getTaxis(data).subscribe((res: any) => {
         console.log(res)
-        this.cabs = res.data.taxis;
+        this.filteredCabsData = res.data.taxis;
         this.cabsFullData = res.data;
       })
     }
 
+  }
+
+  //------------------------ Package Selection ------------------------//
+  tabs: any;
+  activeTab: string = '';
+  filteredCabsData: any = [];
+
+  selectTab(tab: string) {
+    this.activeTab = tab;
+    this.onTabClick(tab);
+  }
+
+  onTabClick(tab: string) {
+    console.log(tab);
+    this.filteredCabsData = [];
+    for (let da of this.cabs) {
+      if (da.package === tab)
+        this.filteredCabsData.push(da)
+    }
   }
 
   //------------------------ Fare Details Modal ------------------------//
@@ -185,7 +216,7 @@ export class SearchResultsComponent implements OnInit {
   }
 
   //------------------------ Modify Search Form Logic ------------------------//
-  modifySearchModal(modalName){
+  modifySearchModal(modalName) {
     this.setFormData()
     this.modalRef = this.modalService.show(modalName, { class: 'modal-lg' });
   }
@@ -380,21 +411,21 @@ export class SearchResultsComponent implements OnInit {
 
 
 
-  SubmitLocalRentalForm(){
+  SubmitLocalRentalForm() {
     console.log(this.modifyLocalRentalForm.value)
     let obj = {
-      pickupCity : this.modifyLocalRentalForm.value.pickupCity,
-      pickupDate : moment(this.modifyLocalRentalForm.value.pickupDate).format("YYYY-MM-DD"),
-      pickupTime :  this.modifyLocalRentalForm.value.pickupTime,
-      type_of_tour : "0"
+      pickupCity: this.modifyLocalRentalForm.value.pickupCity,
+      pickupDate: moment(this.modifyLocalRentalForm.value.pickupDate).format("YYYY-MM-DD"),
+      pickupTime: this.modifyLocalRentalForm.value.pickupTime,
+      type_of_tour: "0"
     }
     localStorage.setItem("SearchForm", JSON.stringify(obj))
     this.modalRef.hide()
     this.ngOnInit()
-     
+
   }
-  SubmiOnewayRentalForm(){
-    
+  SubmiOnewayRentalForm() {
+
   }
 
 
@@ -424,7 +455,7 @@ export class SearchResultsComponent implements OnInit {
 
 
   // ------------------ Select Cab ------------------ //
-  setCabDetails(cab){
+  setCabDetails(cab) {
     localStorage.setItem('selectedCabDetails', JSON.stringify(cab))
     this.router.navigate(['/booking-payment'])
   }

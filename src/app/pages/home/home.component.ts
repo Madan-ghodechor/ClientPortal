@@ -341,32 +341,32 @@ export class HomeComponent implements AfterViewInit {
 
   FleetFeatures: any = [
     {
-      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Transparent%20Pricing.png",
+      img: "Transparent%20Pricing.png",
       name: "Transparent",
       name2: "Pricing"
     },
     {
-      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Dedicated%20Relationship%20Manager.png",
+      img: "Dedicated%20Relationship%20Manager.png",
       name: "Dedicated Relationship ",
       name2: "Manager"
     },
     {
-      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Quality%20Vehicles.png",
+      img: "Quality%20Vehicles.png",
       name: "Quality ",
       name2: "Vehicles"
     },
     {
-      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/24x7%20Support.png",
+      img: "24x7%20Support.png",
       name: "24 X 7 ",
       name2: "Support"
     },
     {
-      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/Countrywide%20Reach.png",
+      img: "Countrywide%20Reach.png",
       name: "Countrywide ",
       name2: "Reach"
     },
     {
-      img: "https://www.fleet247.in/retail_assets/images/fleet-assets/features-assets/ProffesionallyTrained%20Drivers.png",
+      img: "ProffesionallyTrained%20Drivers.png",
       name: "Professionally  ",
       name2: "Trained Drivers"
     }
@@ -375,26 +375,27 @@ export class HomeComponent implements AfterViewInit {
   slidesStore: any = [
     {
       id: 1,
-      src: 'https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg',
+      src: 'Round_trip.svg',
       alt: 'local rental',
       title: 'Local Car Rental',
       discription: 'Depending on the needs of the traveler, we provide multiple car rental choices. You may select a package based on your needs, such as 4 hours/40 kilometers, 8 hours/80 kilometers, or 12 hours/120 kilometers, and the vehicle is all yours. Choose the best package for you to ensure a trouble-free trip.',
     },
     {
       id: 2,
-      src: 'https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Round_trip.svg',
+      src: 'Round_trip.svg',
       alt: 'Round Car Rental',
       title: 'Round Car Rental',
       discription: 'Our premium roundtrip cab service lets you enjoy the best of both worlds. With us, you may enjoy everything from a secure classroom setting to an incredibly comfortable trip and back to your front door. With our knowledgeable travel companions, you can have the luckiest of days as we make your trip unique by being perceptive and communicatively astute.',
     },
     {
       id: 3,
-      src: 'https://fleet247.in/retail_assets/images/fleet-assets/Ease_to_travel_assets/Multicity.svg',
+      src: 'Multicity.svg',
       alt: 'Multicity Car Rental',
       title: 'Multicity Car Rental',
       discription: 'We care about your needs as much as you do, and our multicity package will take you everywhere you want to travel in India. We provide numerous alternatives based on your travel preferences: adventure or luxury, beach or desert, modern or traditional, North or South India has you covered.',
     },
   ];
+
   ngAfterViewInit() {
     $('.owl-carousel').owlCarousel({
       items: 3,

@@ -3,19 +3,19 @@
 // @import '../node_modules/ngx-owl-carousel-2/lib/styles/scss/owl.theme.default.scss';
 
 * {
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 /* You can add global styles to this file, and also import other style files */
 .shadow {
-    box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px !important;
-    padding-bottom: 3px;
+  box-shadow: rgba(0, 0, 0, 0.45) 0px 25px 20px -20px !important;
+  padding-bottom: 3px;
 }
 
 
 html,
 body {
-    height: 100%;
+  height: 100%;
 }
 
 
@@ -23,10 +23,10 @@ body {
 
 // Sweet Alert Css
 .swal2-confirm {
-    height: 33px !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
+  height: 33px !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
@@ -34,29 +34,29 @@ body {
 
 /* google autocomplete */
 .pac-container {
-    z-index: 9999 !important;
-    // border: 10px solid red !important;
-    box-sizing: border-box;
-    box-shadow: 1px 2px 0px rgb(211, 211, 211) !important;
+  z-index: 9999 !important;
+  // border: 10px solid red !important;
+  box-sizing: border-box;
+  box-shadow: 1px 2px 0px rgb(211, 211, 211) !important;
 }
 
 /* google autocomplete */
 .gstDetailsLocation .pac-container {
-    z-index: 9999 !important;
-    // border: 10px solid red !important;
-    box-sizing: border-box;
-    box-shadow: 1px 2px 0px rgb(211, 211, 211) !important;
-    width: 360px !important;
+  z-index: 9999 !important;
+  // border: 10px solid red !important;
+  box-sizing: border-box;
+  box-shadow: 1px 2px 0px rgb(211, 211, 211) !important;
+  width: 360px !important;
 }
 
 
 // Modal Overlay Done Sorted
 .md-autocomplete-suggestions-container {
-    z-index: 100000 !important;
+  z-index: 100000 !important;
 }
 
 .cdk-overlay-container {
-    z-index: 999999 !important;
+  z-index: 999999 !important;
 }
 
 
@@ -214,17 +214,7 @@ body {
   outline: none;
 }
 
-td,
-tr,
-th {
-  border: 1px solid rgb(240, 240, 240) !important;
-}
 
-tr {
-  height: 40px !important;
-  font-family: "Poppins", sans-serif !important;
-  font-size: 11px !important;
-}
 
 .scrolltable i {
   cursor: pointer;
@@ -234,6 +224,18 @@ tr {
   max-width: 100%;
   overflow-x: scroll;
   margin-bottom: 10px;
+
+  td,
+  tr,
+  th {
+    border: 1px solid rgb(240, 240, 240) !important;
+  }
+
+  tr {
+    height: 40px !important;
+    font-family: "Poppins", sans-serif !important;
+    font-size: 11px !important;
+  }
 }
 
 .scrolltable::-webkit-scrollbar,

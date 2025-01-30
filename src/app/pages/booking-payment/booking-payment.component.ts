@@ -211,7 +211,8 @@ export class BookingPaymentComponent implements OnInit {
     })
 
     this.paymentStatusForm = this.fb.group({
-      paymentOption: [((this.cabDetails.base_fare * 25) / 100) * 1.05, Validators.required],
+      // paymentOption: [((this.cabDetails.base_fare * 25) / 100) * 1.05, Validators.required],
+      paymentOption: ['', Validators.required],
       terms_and_cond: ['', Validators.required],
     })
 
@@ -219,6 +220,7 @@ export class BookingPaymentComponent implements OnInit {
 
 
   }
+  
   setResponse() {
     let data = JSON.parse(localStorage.getItem('SearchForm'))
     this.pickupGstDetailsForm.controls['pickupCity'].setValue(data.pickupCity)
@@ -381,7 +383,14 @@ export class BookingPaymentComponent implements OnInit {
 
     this.initializeOptions();
   }
-
+  generateOrderId(){
+    const data = new FormData();
+    data.append("amount", this.paymentStatusForm.value.paymentOption);
+    
+    this.http.post(this.api.base_url + "generateRzpOrderId", data).subscribe( (res: any) =>{
+      console.log(res)
+    })
+  }
   openPaymentGateway() {
     if (this.paymentStatusForm.valid) {
       this.paymentGatewayValid = false

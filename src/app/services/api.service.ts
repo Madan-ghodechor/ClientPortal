@@ -8,7 +8,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  base_url: string = "https://testretail.fleet247.in/api/v4/";
+  base_url: string = "https://fleet247.in/api/v4/";
   getCityForSearch(data) {
     return this.http.post(this.base_url + "getCityForSearch", data);
   }
@@ -33,7 +33,7 @@ export class ApiService {
 
   // ------------------    Booking Details Api's    ------------------ //
   getLoggedIn(da:any){
-    return this.http.post(this.base_url+"/login", da);
+    return this.http.post(this.base_url+"login", da);
   }
   getOtp(da:any){
     return this.http.post(this.base_url+"/getOtp", da);

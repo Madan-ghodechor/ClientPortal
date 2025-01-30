@@ -4,11 +4,11 @@
     </div> -->
 
     <div class="row w-100 background-img-home">
-        <div class="content w-md-100 shadow">
-            <div class="type-tabs shadow">
+        <div class="content w-md-100">
+            <div class="type-tabs">
                 <div class="tabs text-center" *ngFor="let div of divs"
                     (click)="toggleDiv(div.id); setActiveButton(div.id)" [class.active]="div.active">
-                    {{ div.name }}
+                     <span> {{ div.name }} </span>
                 </div>
             </div>
             <div [ngSwitch]="true" class="tabs">
@@ -367,7 +367,7 @@
     <div class="owl-carousel owl-theme p-4">
         <div class="item" *ngFor="let data of slidesStore;">
             <div class="contentBox">
-                <img [src]="data.src">
+                <img src="assets/images/{{data.src}}">
                 <p class="carousel-heading "> {{ data.title }} </p>
                 <div class="hoveredtext">
                     <p> {{ data.discription }}
@@ -388,7 +388,7 @@
         <div class="col-md-4">
             <div class="card whToChooseUs">
                 <div class="card-header text-center p-md-4">
-                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/Safety.png">
+                    <img src="assets/images/Safety.png">
                 </div>
                 <div class="card-body text-center">
                     <h3>Safety</h3>
@@ -398,7 +398,7 @@
         <div class="col-md-4">
             <div class="card whToChooseUs">
                 <div class="card-header text-center p-md-4">
-                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/Privacy.png"
+                    <img src="assets/images/Privacy.png"
                         alt="">
                 </div>
                 <div class="card-body text-center">
@@ -409,7 +409,7 @@
         <div class="col-md-4">
             <div class="card whToChooseUs">
                 <div class="card-header text-center p-md-4">
-                    <img src="https://fleet247.in/retail_assets/images/fleet-assets/why_choose_us_assets/budget.png"
+                    <img src="assets/images/budget.png"
                         alt="">
                 </div>
                 <div class="card-body text-center">
@@ -428,7 +428,7 @@
                 <div class="row">
                     <div class="col-md-2 cards" *ngFor="let da of FleetFeatures;">
                         <div class="img w-100 ">
-                            <img [src]="da.img">
+                            <img src="assets/images/{{da.img}}">
                         </div>
                         <div class="text w-100 text-center">
                             <div class="w-100 h-100">
@@ -453,7 +453,7 @@
                 <div class="card-body">
                     <span>Any Questions ? </span>
                     <img
-                        src="https://www.fleet247.in/retail_assets/images/fleet-assets/get-in-touch-assets/Any%20Questions%20SCREEN%203-01.svg">
+                        src="assets/images/Any%20Questions%20SCREEN%203-01.svg">
                 </div>
                 <div class="card-footer">
                     <div class="row m-0 p-0">
@@ -476,7 +476,7 @@
                 <div class="card-body">
                     <span>Lets connect </span>
                     <img
-                        src="https://www.fleet247.in/retail_assets/images/fleet-assets/get-in-touch-assets/Lets%20Connect%20SCREEN%20SVG%203-01.svg">
+                        src="assets/images/Lets%20Connect%20SCREEN%20SVG%203-01.svg">
                 </div>
                 <div class="card-footer">
                     <div class="row m-0 p-0">
