@@ -8,7 +8,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  base_url: string = "https://fleet247.in/api/v4/";
+  base_url: String = "https://fleet247.in/api/v4/";
   getCityForSearch(data) {
     return this.http.post(this.base_url + "getCityForSearch", data);
   }
@@ -25,31 +25,43 @@ export class ApiService {
   getTaxis(data: any) {
     return this.http.post(this.base_url + "searchTaxis", data)
   }
-  getTaxisOneWay(data:any){
-    return this.http.post(this.base_url+"searchOnewayTaxis", data)
+  getTaxisOneWay(data: any) {
+    return this.http.post(this.base_url + "searchOnewayTaxis", data)
   }
 
 
 
   // ------------------    Booking Details Api's    ------------------ //
-  getLoggedIn(da:any){
-    return this.http.post(this.base_url+"login", da);
+  getLoggedIn(da: any) {
+    return this.http.post(this.base_url + "login", da);
   }
-  getOtp(da:any){
-    return this.http.post(this.base_url+"/getOtp", da);
+  getOtp(da: any) {
+    return this.http.post(this.base_url + "getOtp", da);
   }
-  getVerifyOtp(da:any){
-    return this.http.post(this.base_url+"/verifyLoginOtp", da);
+  getVerifyOtp(da: any) {
+    return this.http.post(this.base_url + "verifyLoginOtp", da);
   }
-  getForgetPassword(da:any){
-    return this.http.post(this.base_url+"/forgetPassword", da);
+  getForgetPassword(da: any) {
+    return this.http.post(this.base_url + "forgetPassword", da);
   }
-  getSignUp(da:any){
-    return this.http.post(this.base_url+"/addUser", da);
+  getSignUp(da: any) {
+    return this.http.post(this.base_url + "addUser", da);
+  }
+  sendCodeToVerifyContact(da: any) {
+    return this.http.post(this.base_url + "resendVerificationCode", da);
+  }
+  getContactNumberVerify(da: any) {
+    return this.http.post(this.base_url + "validateContact", da);
+  }
+  sendCodeToVerifyMail(da: any) {
+    return this.http.post(this.base_url + "resendEmailVerificationCode", da);
+  }
+  getMailAddressVerify(da: any) {
+    return this.http.post(this.base_url + "verifyEmail", da);
   }
 
 
-  recordTrip(da: any){
-    return this.http.post(this.base_url+"/recordTrip", da)
+  recordTrip(da: any) {
+    return this.http.post(this.base_url + "recordTrip", da)
   }
 }

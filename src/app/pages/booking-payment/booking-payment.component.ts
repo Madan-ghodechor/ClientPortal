@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, inject, OnInit } from '@angular/core';
 import { HelpersService } from '../../services/helpers.service';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, PatternValidator, Validators } from '@angular/forms';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 import { RazorpayService } from '../../services/razorpay.service';
@@ -149,8 +149,11 @@ export class BookingPaymentComponent implements OnInit {
   signupUserForm: FormGroup;
 
   userDetailsForm: FormGroup;
+  passengerDetailsForm: FormGroup;
   pickupGstDetailsForm: FormGroup;
   paymentStatusForm: FormGroup;
+
+  contactVerifyForm: FormGroup;
 
   userDetails: any = null;
   cabDetails: any;
@@ -164,8 +167,8 @@ export class BookingPaymentComponent implements OnInit {
     this.cabDetails = JSON.parse(localStorage.getItem('selectedCabDetails'));
 
     const da = JSON.parse(localStorage.getItem('user_details'));
-    this.userDetails = da.user
-    console.log(da.user)
+    this.userDetails = da?.user
+    // console.log(da.user)
     // if (da.user=='' || da.user==null) {
     // } else {
     //   this.userDetailsSkip = false;
@@ -197,8 +200,11 @@ export class BookingPaymentComponent implements OnInit {
       confirm: ['', [Validators.required, Validators.pattern(passwordPattern)]],
       check: ['', [Validators.required]],
     })
-
     this.userDetailsForm = this.fb.group({
+      special_request: ['', [Validators.required]]
+    })
+
+    this.passengerDetailsForm = this.fb.group({
       full_name: ['', [Validators.required, Validators.pattern('^[A-Za-z ]*$')]],
       phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
       phone2: ['', [Validators.pattern('^[0-9]{10}$')]],
@@ -217,18 +223,16 @@ export class BookingPaymentComponent implements OnInit {
     })
 
     this.setResponse()
-
-
   }
-  
+
   setResponse() {
     let data = JSON.parse(localStorage.getItem('SearchForm'))
     this.pickupGstDetailsForm.controls['pickupCity'].setValue(data.pickupCity)
 
-    this.userDetailsForm.patchValue({
-      full_name: [this.userDetails.name],
-      phone: [this.userDetails.contact_no],
-      email: [this.userDetails.email],
+    this.passengerDetailsForm.patchValue({
+      full_name: [this.userDetails?.name],
+      phone: [this.userDetails?.contact_no],
+      email: [this.userDetails?.email],
     })
   }
 
@@ -345,6 +349,86 @@ export class BookingPaymentComponent implements OnInit {
       })
     }
   }
+  contVerify: Boolean = false;
+  mailVerify: Boolean = false;
+  detailsVerification(arg: String) {
+    if (arg == 'contact') {
+      this.contactVerifyForm = this.fb.group({
+        contact_number: [this.userDetails?.contact_no, [Validators.required]],
+        otp: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]]
+      })
+      this.contVerify = true;
+      const payload = new FormData();
+      payload.append("access_token", JSON.parse(localStorage.getItem('Access_Token')));
+
+      this.api.sendCodeToVerifyContact(payload).subscribe({
+        next: (res: any) => {
+          console.log(res)
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      })
+    }
+    if (arg == 'mail') {
+
+      this.contactVerifyForm = this.fb.group({
+        mail: [this.userDetails?.email, [Validators.required]],
+        otp: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]]
+      })
+
+      this.mailVerify = true;
+
+      const payload = new FormData();
+      payload.append("access_token", JSON.parse(localStorage.getItem('Access_Token')));
+
+      this.api.sendCodeToVerifyMail(payload).subscribe({
+        next: (res: any) => {
+          console.log(res)
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      })
+
+    }
+  }
+  verifyContact(arg: String) {
+    const payload = new FormData();
+    payload.append("access_token", JSON.parse(localStorage.getItem('Access_Token')));
+    payload.append("validation_code", this.contactVerifyForm.value.otp);
+
+    if (arg == 'contact') {
+      payload.append("contact_no", this.contactVerifyForm.value.contact_number);
+
+      this.api.getContactNumberVerify(payload).subscribe({
+        next: (res: any) => {
+          let data = JSON.parse(localStorage.getItem('user_details'));
+          data.user.is_mobile_validated = res.data.user.is_mobile_validated;
+          localStorage.setItem('user_details', JSON.stringify(data));
+          this.contVerify = false;
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      })
+    }
+    if (arg == 'mail') {
+      this.api.getContactNumberVerify(payload).subscribe({
+        next: (res: any) => {
+          let data = JSON.parse(localStorage.getItem('user_details'));
+          data.user.is_mobile_validated = res.data.user.is_mobile_validated;
+          localStorage.setItem('user_details', JSON.stringify(data));
+          this.mailVerify = false;
+        },
+        error: (err) => {
+          console.log(err)
+        }
+      })
+
+
+    }
+  }
 
   razorpay = inject(RazorpayService)
 
@@ -383,11 +467,11 @@ export class BookingPaymentComponent implements OnInit {
 
     this.initializeOptions();
   }
-  generateOrderId(){
+  generateOrderId() {
     const data = new FormData();
     data.append("amount", this.paymentStatusForm.value.paymentOption);
-    
-    this.http.post(this.api.base_url + "generateRzpOrderId", data).subscribe( (res: any) =>{
+
+    this.http.post(this.api.base_url + "generateRzpOrderId", data).subscribe((res: any) => {
       console.log(res)
     })
   }
@@ -481,11 +565,11 @@ export class BookingPaymentComponent implements OnInit {
     data.append("base_fare", this.cabDetails.base_fare)
     data.append("advance_paid", '557')                                      // Static data
     data.append("estimated_total_trip_cost", this.cabDetails.estimated_total_trip_cost)
-    data.append("passenger_name", this.userDetailsForm.value.full_name)
-    data.append("passenger_email", this.userDetailsForm.value.email)
-    data.append("passenger_phone", this.userDetailsForm.value.passenger_phone)
+    data.append("passenger_name", this.passengerDetailsForm.value.full_name)
+    data.append("passenger_email", this.passengerDetailsForm.value.email)
+    data.append("passenger_phone", this.passengerDetailsForm.value.passenger_phone)
     data.append("rate_id", this.cabDetails.rate_id)
-    data.append("requested_special_request", this.userDetailsForm.value.special_request)
+    data.append("requested_special_request", this.passengerDetailsForm.value.special_request)
     data.append("no_of_seats", this.cabDetails.no_of_seats)
 
 

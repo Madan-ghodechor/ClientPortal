@@ -1,4 +1,4 @@
-$theme-color:  rgb(221, 55, 81);
+$theme-color:  #1E80AC;
 
 .container-fluid {
     background-color: rgb(255, 255, 255);
@@ -10,13 +10,19 @@ $theme-color:  rgb(221, 55, 81);
     box-sizing: border-box;
     margin: 0px !important;
     padding: 0px !important;
-    display: grid;
+    // display: grid;
     place-items: center;
 }
 
 img {
-    height: 150px;
+    height: 450px;
     width: auto;
+}
+.over-contents {
+    position: absolute;
+    top: 66%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .h1Line

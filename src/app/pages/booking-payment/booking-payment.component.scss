@@ -181,9 +181,17 @@
             }
         }
     }
+
+
 }
 
-
+.verify-btns{
+    position: relative;
+    top: -13px;
+    background: #ff0000;
+    border: 1px solid #ff0000;
+    color: white;
+}
 
 .dropdown-container {
     position: relative;
